@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* react-toastify css */
+.toastBody {
+    font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
+    /* color: #10171D; #10171D */
+    font-size: 1.1rem;
+}
+
+.adhar-image{
+    display: flex;
+}
+.custom-image {
+    width: 230px; /* Adjust the width as needed */
+    height: auto; /* Keep aspect ratio */
+    margin-right: 10px;
+  }
