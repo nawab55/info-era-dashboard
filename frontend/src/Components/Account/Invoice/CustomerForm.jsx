@@ -22,8 +22,20 @@ const CustomerForm = () => {
     });
   };
 
+  const validateMobileNumber = (mobile) => {
+    // Regular expression to check if the mobile number is 10 digits, with an optional country code
+    const mobileWithCountryCodePattern = /^(\+\d{1,3})?\d{10}$/;
+    return mobileWithCountryCodePattern.test(mobile);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate the mobile number before submitting the form
+    if (!validateMobileNumber(formData.mobile)) {
+      toast.error("Please enter a valid mobile number. It should be 10 digits long, with an optional country code.");
+      return;
+    }
 
     try {
       // Post customer data to API endpoint
@@ -58,7 +70,6 @@ const CustomerForm = () => {
 
   return (
     <>
-      {/* <InvoiceNav /> */}
       <div className="flex items-center justify-center bg-gray-100 p-10">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-4xl md:ml-48">
           <h2 className="text-2xl font-bold mb-6 text-center uppercase">Customer Form</h2>

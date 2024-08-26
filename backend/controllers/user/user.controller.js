@@ -80,8 +80,22 @@ const getUserById = async (req, res) => {
     res.status(500).send('Server error or User detail retrieval failed');
   }
 };
+// get all users
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    // console.log(users);
+    
+    if(users){
+      return res.status(200).json({ users, success: true, message: "All register user or employee data fetched successfully"});
+    }
+  } catch (error) {
+    console.log("Error fetching register users details", error.message);
+    res.status(500).json({ message: "Failed to get users details", errpr: error.message });
+  }
+}
 
-// Get all employees
+// Get all employees with role employee
 const getAllEmployees = async (req, res) => {
   try {
     const employees = await User.find({ role: 'employee' });
@@ -155,7 +169,7 @@ module.exports = {
   loginUser,
   getUserById,
   getAllEmployees,
-  // getEmployeeDetails,
+  getAllUsers,
   updateEmployeeDetails,
   deleteEmployeeDetails,
 };

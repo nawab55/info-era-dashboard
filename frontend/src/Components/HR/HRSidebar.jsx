@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaHome, FaCircle, FaChartLine } from "react-icons/fa";
+import { FaHome, FaCircle, FaChartLine, FaUsers } from "react-icons/fa";
 import { FaSheetPlastic } from "react-icons/fa6";
 import { GiCalendar } from "react-icons/gi";
 import { SiGoogleforms } from "react-icons/si";
@@ -20,7 +20,7 @@ const HRSidebar = ({ sidebarToggle }) => {
   };
   return (
     <aside
-      className={`w-52 fixed left-0 h-screen bg-custom-dark-blue px-2 transition-transform ${
+      className={`w-52 z-10 fixed left-0 h-screen bg-custom-dark-blue px-2 transition-transform ${
         sidebarToggle ? "translate-x-0" : "-translate-x-full"
       } md:translate-x-0  overflow-y-auto`}
       aria-label="Sidebar"
@@ -78,6 +78,24 @@ const HRSidebar = ({ sidebarToggle }) => {
               <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2 flex items-center">
                 <FaCircle className="inline-block w-2 h-2" />
                 <button
+                  onClick={() => handleNavigate("/hr/report/view_emp-registration")}
+                  className="px-2 text-sm w-full text-left"
+                >
+                  Emp Registration
+                </button>
+              </li>
+              <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2 flex items-center">
+                <FaCircle className="inline-block w-2 h-2" />
+                <button
+                  onClick={() => handleNavigate("/hr/report/view_worksheet")}
+                  className="px-2 text-sm w-full text-left"
+                >
+                  Work Sheet
+                </button>
+              </li>
+              <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2 flex items-center">
+                <FaCircle className="inline-block w-2 h-2" />
+                <button
                   onClick={() => handleNavigate("/hr/report/view_attendance")}
                   className="px-2 text-sm w-full text-left"
                 >
@@ -95,6 +113,16 @@ const HRSidebar = ({ sidebarToggle }) => {
               </li>
             </ul>
           )}
+        </li>
+
+        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+          <button
+            onClick={() => handleNavigate("/hr/employee/type")}
+            className="px-1 w-full text-left"
+          >
+            <FaUsers className="inline-block w-6 h-6 mr-2 -mt-2" />
+            Employee Type
+          </button>
         </li>
       </ul>
     </aside>

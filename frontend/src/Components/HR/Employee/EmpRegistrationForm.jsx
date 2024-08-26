@@ -1,4 +1,4 @@
-import  { useState,  } from "react";
+import  { useEffect, useState } from "react";
 import api from "../../../config/api";
 // import axios from "axios";
 // import API_BASE_URL from "../../../config/api"
@@ -60,6 +60,7 @@ const EmpRegistrationForm = () => {
   const [isDeclarationChecked, setIsDeclarationChecked] = useState(false);
   const [errors, setErrors] = useState({});
   const [showPreview, setShowPreview] = useState(false);
+  const [employeeTypes, setEmployeeTypes] = useState([]);
   const totalPages = 6;
 
   const openPreview = () => setShowPreview(true);
@@ -213,6 +214,19 @@ const EmpRegistrationForm = () => {
       ...prevState,
       employmentDetails: newEmploymentDetails,
     }));
+  };
+
+  useEffect(() => {
+    fetchEmployeeTypes();
+  }, []);
+
+  const fetchEmployeeTypes = async () => {
+    try {
+      const response = await api.get('/api/type/employee-types');
+      setEmployeeTypes(response.data);
+    } catch (error) {
+      console.error('Error fetching employee types:', error);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -508,23 +522,21 @@ const EmpRegistrationForm = () => {
                     >
                       Employee Type <span className="text-red-600">*</span>
                     </label>
-                    <div className="mt-2 ">
-                    <select
+                    <div className="mt-2">
+                      <select
                         name="empType"
                         id="empType"
                         value={formData.empType}
                         onChange={handleChange}
-                        className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none"
+                        className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none"
                         required
                       >
                         <option value="">Select Type</option>
-                        <option value="management">Management</option>
-                        <option value="admin">Admin</option>
-                        <option value="hr">HR</option>
-                        <option value="developer">Developer</option>
-                        <option value="marketing">Marketing</option>
-                        <option value="telecoller">Telecoller</option>
-                        <option value="account">Account</option>
+                        {employeeTypes.map((type) => (
+                          <option key={type._id} value={type.type}>
+                            {type.type}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>

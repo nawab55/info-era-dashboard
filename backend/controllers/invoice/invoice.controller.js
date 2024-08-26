@@ -5,28 +5,38 @@ const createInvoice = async (req, res) => {
     try {
         const invoiceData = req.body;
 
-        // Fetch the latest invoice to get the highest invoice number
-        const latestInvoice = await Invoice.findOne().sort({ invoiceNo: -1}).exec();
-
-        //Determine the next invoice number
-        let count;
-        if(latestInvoice) {
-            const latestInvoiceNo = latestInvoice.invoiceNo;
-            const lastCount = parseInt(latestInvoiceNo.split('/')[1]);
-            count = lastCount + 1;
-        } else {
-            count = 1;   // Initialize count to 1 if no invoices exist
-        }
-        invoiceData.invoiceNo = `IE/${count}`;
-
-        // create new invoice with the incremented invoice number
+        // // Fetch the latest invoice to get the highest invoice number
+        // const latestInvoice = await Invoice.findOne().sort({ $natural: -1 }).exec();
+        // // Determine the next invoice number
+        // let count;
+        // if (latestInvoice) {
+        //     // Extract the number part from the invoiceNo
+        //     const lastCount = parseInt(latestInvoice.invoiceNo.split('/')[1], 10);
+            
+        //     // Increment count or reset to 1 if parsing fails
+        //     count = isNaN(lastCount) ? 1 : lastCount + 1;          
+        // } else {
+        //     count = 1; // Start from 1 if no invoices exist
+        // }     
+        // invoiceData.invoiceNo = `IE/${count}`;
+        
+        // Create a new invoice with the incremented invoice number
         const newInvoice = await Invoice.create(invoiceData);
-        res.status(201).json({invoiceData: newInvoice, message: "Invoice data added in db successfully", success: "true"})
+        res.status(201).json({
+            invoiceData: newInvoice, 
+            message: "Invoice data added in db successfully", 
+            success: "true"
+        });
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Error creating a invoice', error, success: "false"});
+        console.log(error.message);
+        res.status(500).json({ 
+            message: 'Error creating an invoice', 
+            error: error.message, 
+            success: "false"
+        });
     }
-}
+};
+
 
 // Function to get all Invoices
 const getInvoices = async (req, res) => {

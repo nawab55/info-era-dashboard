@@ -86,7 +86,7 @@ const HRNavbar = ({ sidebarToggle, setSidebarToggle }) => {
 
       {/* Profile Modal */}
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 mt-10 rounded shadow-lg w-full max-w-3xl overflow-auto relative">
             <button 
               onClick={() => setIsProfileModalOpen(false)}

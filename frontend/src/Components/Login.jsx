@@ -39,9 +39,9 @@ const Login = () => {
             // navigate("/admin");
             navigate("/employee");
         } else if(response.data.role === "account"){
-          navigate("/account");
+          navigate("/account/dashboard");
         } else if(response.data.role === "admin"){
-            navigate("/admin");
+            navigate("/admin/dashboard_admin");
         } else if(response.data.role === "hr") {
             navigate("/hr");
         } else {

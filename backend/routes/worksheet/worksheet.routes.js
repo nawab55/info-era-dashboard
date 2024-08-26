@@ -4,8 +4,10 @@ const {
     getEmployees,
     getWorksheetByDate,
     updateWorksheet,
-    getWorksheetData
+    getWorksheetData,
+    getAllWorksheets
 } = require("../../controllers/worksheet/worksheet.controller.js");
+const { uploadSingleExcel } = require('../../middleware/upload.js'); // Update path to your multer config
 const { authenticate } = require("../../middleware/auth.js");
 const router = express.Router();
 
@@ -13,7 +15,7 @@ const router = express.Router();
 router.get("/employees", getEmployees);
 
 // Route to create a new worksheet
-router.post("/creatework", createWorksheet);
+router.post("/creatework", uploadSingleExcel, createWorksheet);
 
 // Route to get all worksheet data
 router.get("/allData/:empId", authenticate, getWorksheetData);
@@ -22,6 +24,9 @@ router.get("/allData/:empId", authenticate, getWorksheetData);
 router.get("/view/:empId", getWorksheetByDate);
 
 // Route to update a worksheet
-router.put("/update/:empId", updateWorksheet);
+router.put("/update/:empId", uploadSingleExcel, updateWorksheet);
+
+// Route to get all worksheet reports
+router.get("/reports", getAllWorksheets)
 
 module.exports = router;

@@ -25,7 +25,7 @@ const AccountSidebar = ({ sidebarOpen }) => {
   };
 
   const menus = [
-    { name: "Dashboard", link: "/account", icon: MdDashboard },
+    { name: "Dashboard", link: "/account/dashboard", icon: MdDashboard },
     { name: "Profile", link: "/account/profile", icon: FaUserCircle },
     {
       name: "Product",

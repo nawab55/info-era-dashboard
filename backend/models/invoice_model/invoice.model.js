@@ -60,7 +60,6 @@ const buyerDetailsSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      unique: true,
     },
   },
   { _id: false }

@@ -1,5 +1,21 @@
-// models/Worksheet.js
+// models/worksheet_model/worksheet.model.js
 const mongoose = require('mongoose');
+
+const excelDataSchema = new mongoose.Schema({
+  sNo: String,
+  domainName: String,
+  CreationDate: String,
+  expiryDate: String,
+  clientName: String,
+  clientMobNo: String,
+  emailId: String,
+  state: String,
+  district: String,
+  remark: String,
+  gender: String,
+  age: Number,
+  country: String
+})
 
 const worksheetSchema = new mongoose.Schema({
   empId: {
@@ -12,7 +28,6 @@ const worksheetSchema = new mongoose.Schema({
   },
   designation: {
     type: String,
-    required: true,
   },
   date: {
     type: String,
@@ -20,15 +35,14 @@ const worksheetSchema = new mongoose.Schema({
   },
   projectName: {
     type: String,
-    required: true,
   },
   work: {
     type: String,
-    required: true,
   },
   workDone: {
     type: String,
-  }
+  },
+  excelData: [excelDataSchema],  // Add this field for Excel data
 });
 
 const Worksheet = mongoose.model('Worksheet', worksheetSchema);

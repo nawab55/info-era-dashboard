@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 // const auth = require('../middleware/auth');
-const upload = require('../../middleware/upload');
+const { upload } = require('../../middleware/upload');
 const userController = require('../../controllers/user/user.controller');
 
 // User registration and login
@@ -10,6 +10,8 @@ router.post('/login', userController.loginUser);
 
 // Get user by ID
 router.get('/:userId', userController.getUserById);
+// Get all Users
+router.get('/all/getalluser', userController.getAllUsers);
 
 // Employee-specific routes
 router.post('/register', upload, userController.registerEmployee); // Register a new employee
