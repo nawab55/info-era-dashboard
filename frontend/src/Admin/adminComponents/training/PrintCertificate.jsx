@@ -99,7 +99,7 @@
 
 
 import { useState, useRef } from "react";
-import api from "../../../../config/api";
+import api from "../../../config/api";
 import { toast } from "react-toastify";
 import { useReactToPrint } from "react-to-print";
 import CertificatePage from "./CertificatePage";

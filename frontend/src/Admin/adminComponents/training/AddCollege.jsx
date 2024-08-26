@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import api from "../../../../config/api";
+import api from "../../../config/api";
 
 const AddCollege = () => {
   const [formData, setFormData] = useState({

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../../../config/api";
+import api from "../../../config/api";
 import { toast } from "react-toastify";
 
 const AddActivity = () => {
@@ -23,28 +23,31 @@ const AddActivity = () => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
-    formDataToSend.append('title', formData.title);
-    if(formData.image){
-        formDataToSend.append('image', formData.image);
+    formDataToSend.append("title", formData.title);
+    if (formData.image) {
+      formDataToSend.append("image", formData.image);
     }
     try {
-        const response = await api.post('/api/activities/add-activity', formDataToSend, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-        if (response.status === 201) {
-            // Handle success (e.g., navigate to another page, show a success message)
-            console.log('Activity added:', response.data);
-            toast.success("Data added successfully");
-            navigate('/admin/activity');
-          } else {
-            // Handle errors (e.g., show an error message)
-            console.error('Error adding activity:', response.data);
-          }
+      const response = await api.post(
+        "/api/activities/add-activity",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.status === 201) {
+        // Handle success (e.g., navigate to another page, show a success message)
+        console.log("Activity added:", response.data);
+        toast.success("Data added successfully");
+        navigate("/admin/activity");
+      } else {
+        // Handle errors (e.g., show an error message)
+        console.error("Error adding activity:", response.data);
+      }
     } catch (error) {
-        console.log('Error submitting form:', error);
-        
+      console.log("Error submitting form:", error);
     }
   };
 

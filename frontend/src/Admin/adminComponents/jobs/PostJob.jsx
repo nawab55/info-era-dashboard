@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../../../../config/api";
+import api from "../../../config/api";
 import { toast } from "react-toastify";
 
 const PostJob = () => {
@@ -17,7 +17,7 @@ const PostJob = () => {
     // Fetch all jobs from backend
     const fetchJobs = async () => {
       try {
-        const response = await api.get('/api/jobs/get-allJob');
+        const response = await api.get("/api/jobs/get-allJob");
         setJobs(response.data);
       } catch (error) {
         console.error("Error fetching jobs", error);
@@ -45,8 +45,8 @@ const PostJob = () => {
         toast.warn("Job Data Updated successfully");
       } else {
         // Create a new job
-        await api.post('/api/jobs/post-job', formData);
-        toast.success("Post created successfully for job")
+        await api.post("/api/jobs/post-job", formData);
+        toast.success("Post created successfully for job");
       }
 
       // Reset the form
@@ -57,7 +57,7 @@ const PostJob = () => {
       });
 
       // Fetch the updated jobs list
-      const response = await api.get('/api/jobs/get-allJob');
+      const response = await api.get("/api/jobs/get-allJob");
       setJobs(response.data);
     } catch (error) {
       console.error("Error submitting form", error);
@@ -76,20 +76,25 @@ const PostJob = () => {
 
   const handleDelete = async (jobId) => {
     try {
-        await api.delete(`/api/jobs/${jobId}`);
-        toast.success("Job Deleted Successfully");
-        // Fetch the updated jobs list
-        const response = await api.get('/api/jobs/get-allJob');
-        setJobs(response.data);
+      await api.delete(`/api/jobs/${jobId}`);
+      toast.success("Job Deleted Successfully");
+      // Fetch the updated jobs list
+      const response = await api.get("/api/jobs/get-allJob");
+      setJobs(response.data);
     } catch (error) {
-        console.error("Error deleting job", error);
+      console.error("Error deleting job", error);
     }
-  }
+  };
 
   return (
     <section className="md:ml-60 bg-inherit p-4 pb-8">
-      <div className="max-w-full overflow-y-auto bg-white p-8 mx-4 rounded-lg shadow-md" style={{ height: "600px", color: 'green', border: '1px solid white' }}>
-        <h2 className="text-2xl font-semibold text-gray-500 mb-4">{isEditing ? "Update Job" : "Post Job"}</h2>
+      <div
+        className="max-w-full overflow-y-auto bg-white p-8 mx-4 rounded-lg shadow-md"
+        style={{ height: "600px", color: "green", border: "1px solid white" }}
+      >
+        <h2 className="text-2xl font-semibold text-gray-500 mb-4">
+          {isEditing ? "Update Job" : "Post Job"}
+        </h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
           <div className="flex flex-col">
             <label className="text-gray-700 text-lg mb-2">Job Title</label>
@@ -148,7 +153,10 @@ const PostJob = () => {
             </thead>
             <tbody>
               {jobs.map((job, index) => (
-                <tr key={job._id} className={index % 2 === 0 ? "bg-gray-100" : ""}>
+                <tr
+                  key={job._id}
+                  className={index % 2 === 0 ? "bg-gray-100" : ""}
+                >
                   <td className="px-4 py-2 border">{index + 1}</td>
                   <td className="px-4 py-2 border">{job.jobTitle}</td>
                   <td className="px-4 py-2 border">{job.description}</td>
@@ -166,7 +174,7 @@ const PostJob = () => {
                       onClick={() => handleDelete(job._id)}
                       className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 transform hover:-translate-y-1 transition-transform duration-300"
                     >
-                        Delete
+                      Delete
                     </button>
                   </td>
                 </tr>

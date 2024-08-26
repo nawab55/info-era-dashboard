@@ -26,11 +26,11 @@ import Services from "./Components/Account/Invoice/Services";
 import InvoiceForm from "./Components/Account/Invoice/InvoiceForm";
 import InvoiceReports from "./Components/Account/Invoice/InvoiceReports";
 import CustomerForm from "./Components/Account/Invoice/CustomerForm";
-import CustomerUpdate from "./Components/Account/Invoice/CustomerUpdate"
+import CustomerUpdate from "./Components/Account/Invoice/CustomerUpdate";
 import CustomerReports from "./Components/Account/Invoice/CustomerReports";
 
 // HR Dashboard
-import HRLayout from "./Components/HR/HRLayout"
+import HRLayout from "./Components/HR/HRLayout";
 import HRHome from "./Components/HR/HRHome";
 import EmpRegistrationForm from "./Components/HR/Employee/EmpRegistrationForm";
 import Worksheet from "./Components/HR/worksheet/Worksheet";
@@ -44,19 +44,18 @@ import WorksheetReports from "./Components/HR/Report/WorksheetReports";
 import EmployeeType from "./Components/HR/Employee/EmployeeType";
 
 // Admin Dashboard
-import AdminLayout from "./Components/Admin/AdminLayout";
-import AdminHome from "./Components/Admin/AdminHome";
-import AddCollege from "./Components/Admin/adminComponents/training/AddCollege";
-import AddStudent from "./Components/Admin/adminComponents/training/AddStudent";
-import Certificate from "./Components/Admin/adminComponents/training/Certificate";
-import CollegeReports from "./Components/Admin/adminComponents/reports/CollegeReports";
-import StudentReports from "./Components/Admin/adminComponents/reports/StudentReports";
-import CertificateReports from "./Components/Admin/adminComponents/reports/CertificateReports";
-import PrintCertificate from "./Components/Admin/adminComponents/training/PrintCertificate";
-import PostJob from "./Components/Admin/adminComponents/jobs/PostJob";
-import Activity from "./Components/Admin/adminComponents/activity/Activity";
-import AddActivity from "./Components/Admin/adminComponents/activity/AddActivity";
-
+import AdminLayout from "./Admin/AdminLayout";
+import AdminHome from "./Admin/AdminHome";
+import AddCollege from "./Admin/adminComponents/training/AddCollege";
+import AddStudent from "./Admin/adminComponents/training/AddStudent";
+import Certificate from "./Admin/adminComponents/training/Certificate";
+import CollegeReports from "./Admin/adminComponents/reports/CollegeReports";
+import StudentReports from "./Admin/adminComponents/reports/StudentReports";
+import CertificateReports from "./Admin/adminComponents/reports/CertificateReports";
+import PrintCertificate from "./Admin/adminComponents/training/PrintCertificate";
+import PostJob from "./Admin/adminComponents/jobs/PostJob";
+import Activity from "./Admin/adminComponents/activity/Activity";
+import AddActivity from "./Admin/adminComponents/activity/AddActivity";
 
 function App() {
   return (
@@ -76,21 +75,33 @@ function App() {
             <Route path="print-certificate" element={<PrintCertificate />} />
             <Route path="college-reports" element={<CollegeReports />} />
             <Route path="student-reports" element={<StudentReports />} />
-            <Route path="certificate-reports" element={<CertificateReports />} />
+            <Route
+              path="certificate-reports"
+              element={<CertificateReports />}
+            />
             <Route path="post-job" element={<PostJob />} />
             <Route path="activity" element={<Activity />} />
             <Route path="add-activity" element={<AddActivity />} />
           </Route>
-      
+
           {/* HR Dashboard */}
           <Route path="/hr" element={<HRLayout />}>
             <Route index element={<HRHome />} />
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
             <Route path="attendance" element={<HRAttendance />} />
-            <Route path="report/view_emp-registration" element={<EmpRegReports />} />
-            <Route path="report/view_worksheet" element={<WorksheetReports />} />
-            <Route path="report/view_attendance" element={<AttendanceReport />} />
+            <Route
+              path="report/view_emp-registration"
+              element={<EmpRegReports />}
+            />
+            <Route
+              path="report/view_worksheet"
+              element={<WorksheetReports />}
+            />
+            <Route
+              path="report/view_attendance"
+              element={<AttendanceReport />}
+            />
             <Route path="report/view_project" element={<Project />} />
             <Route path="employee/type" element={<EmployeeType />} />
           </Route>
@@ -109,12 +120,15 @@ function App() {
             <Route path="invoiceReports" element={<InvoiceReports />} />
             <Route path="customer/addCustomer" element={<CustomerForm />} />
             <Route path="updateCustomer/:id" element={<CustomerUpdate />} />
-            <Route path="customer/customerReport" element={<CustomerReports />} />
+            <Route
+              path="customer/customerReport"
+              element={<CustomerReports />}
+            />
             <Route path="domain" element={<Domain />} />
             <Route path="domain/report" element={<DomainReports />} />
           </Route>
 
-           {/* Employee Dashboard  */}
+          {/* Employee Dashboard  */}
           <Route path="/employee" element={<Layout />}>
             <Route index element={<EmpHome />} />
             <Route path="worklist" element={<WorkList />} />

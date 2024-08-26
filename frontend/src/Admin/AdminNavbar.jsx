@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { FaBars, FaSearch, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import api from "../../config/api";
-import ProfileDetails from "../Profile/ProfileDetails";
+import api from "../config/api";
+import ProfileDetails from "../Components/Profile/ProfileDetails";
 
 const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);

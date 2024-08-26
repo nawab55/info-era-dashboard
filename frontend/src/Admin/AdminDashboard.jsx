@@ -11,7 +11,7 @@ const AdminDashboard = () => {
         sidebarToggle={sidebarToggle}
         setSidebarToggle={setSidebarToggle}
       />
-      
+
       <AdminSidebar sidebarToggle={sidebarToggle} />
     </div>
   );

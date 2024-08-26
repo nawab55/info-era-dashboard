@@ -127,13 +127,13 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../../../config/api";
+import api from "../../../config/api";
 import { toast } from "react-toastify";
 import { FaEye, FaEdit, FaTrashAlt } from "react-icons/fa";
 import Modal from "react-modal"; // Import react-modal
 
 // Make sure to set app element for accessibility
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 const Activity = () => {
   const navigate = useNavigate();
@@ -193,11 +193,16 @@ const Activity = () => {
 
   return (
     <section className="md:ml-60 bg-inherit p-4 pb-8">
-      <div className="max-w-full overflow-y-auto bg-white p-8 mx-4 rounded-lg shadow-md" style={{ height: "600px", border: '1px solid white' }}>
+      <div
+        className="max-w-full overflow-y-auto bg-white p-8 mx-4 rounded-lg shadow-md"
+        style={{ height: "600px", border: "1px solid white" }}
+      >
         <div className="flex justify-between items-center pb-8 border-b-2 border-gray-400">
-          <h2 className="text-2xl font-semibold text-gray-500">Activity List</h2>
+          <h2 className="text-2xl font-semibold text-gray-500">
+            Activity List
+          </h2>
           <button
-            onClick={() => navigate('/admin/add-activity')}
+            onClick={() => navigate("/admin/add-activity")}
             className="px-5 py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 transform hover:-translate-y-1 transition-transform duration-300"
           >
             Add New
@@ -220,10 +225,17 @@ const Activity = () => {
             <tbody>
               {activities.length > 0 ? (
                 activities.map((activity, index) => (
-                  <tr key={activity._id} className={index % 2 === 0 ? "bg-gray-100" : ""}>
-                    <td className="px-4 py-2 border text-center">{index + 1}</td>
+                  <tr
+                    key={activity._id}
+                    className={index % 2 === 0 ? "bg-gray-100" : ""}
+                  >
+                    <td className="px-4 py-2 border text-center">
+                      {index + 1}
+                    </td>
                     <td className="px-4 py-2 border">{activity.title}</td>
-                    <td className="px-4 py-2 border text-center">{new Date(activity.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-2 border text-center">
+                      {new Date(activity.createdAt).toLocaleDateString()}
+                    </td>
                     <td className="px-4 py-2 border text-center">
                       {activity.image && (
                         <button
@@ -254,7 +266,10 @@ const Activity = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6" className="px-4 py-2 text-center text-gray-500">
+                  <td
+                    colSpan="6"
+                    className="px-4 py-2 text-center text-gray-500"
+                  >
                     No activities found
                   </td>
                 </tr>
@@ -273,23 +288,31 @@ const Activity = () => {
         overlayClassName="fixed inset-0 bg-black bg-opacity-50"
         shouldCloseOnOverlayClick={true} // Ensure modal closes when clicking outside
       >
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto"> {/* Increased width */}
-          <h2 className="text-2xl font-semibold text-gray-500 mb-4">Edit Activity</h2>
+        <div className="bg-white p-8 rounded-lg shadow-md max-w-6xl mx-auto">
+          {" "}
+          {/* Increased width */}
+          <h2 className="text-2xl font-semibold text-gray-500 mb-4">
+            Edit Activity
+          </h2>
           {selectedActivity && (
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
                 const formDataToSend = new FormData();
-                formDataToSend.append('title', selectedActivity.title);
+                formDataToSend.append("title", selectedActivity.title);
                 if (selectedActivity.image) {
-                  formDataToSend.append('image', selectedActivity.image);
+                  formDataToSend.append("image", selectedActivity.image);
                 }
                 try {
-                  await api.put(`/api/activities/update-activity/${selectedActivity._id}`, formDataToSend, {
-                    headers: {
-                      "Content-Type": "multipart/form-data",
-                    },
-                  });
+                  await api.put(
+                    `/api/activities/update-activity/${selectedActivity._id}`,
+                    formDataToSend,
+                    {
+                      headers: {
+                        "Content-Type": "multipart/form-data",
+                      },
+                    }
+                  );
                   toast.success("Activity updated successfully");
                   fetchActivities(); // Refresh the activities list
                   closeModal(); // Close the modal
@@ -308,16 +331,28 @@ const Activity = () => {
                   name="title"
                   placeholder="Activity Title"
                   value={selectedActivity.title}
-                  onChange={(e) => setSelectedActivity({ ...selectedActivity, title: e.target.value })}
+                  onChange={(e) =>
+                    setSelectedActivity({
+                      ...selectedActivity,
+                      title: e.target.value,
+                    })
+                  }
                   className="px-3 py-2 text-gray-600 bg-white border border-gray-300 rounded-md text-sm font-normal leading-6 focus:outline-none focus:ring-1 focus:ring-blue-700 placeholder:text-gray-400 transition-all duration-150 ease-in-out"
                 />
               </div>
               <div className="flex flex-col">
-                <label className="text-gray-700 text-lg mb-2">Upload Image</label>
+                <label className="text-gray-700 text-lg mb-2">
+                  Upload Image
+                </label>
                 <input
                   type="file"
                   name="image"
-                  onChange={(e) => setSelectedActivity({ ...selectedActivity, image: e.target.files[0] })}
+                  onChange={(e) =>
+                    setSelectedActivity({
+                      ...selectedActivity,
+                      image: e.target.files[0],
+                    })
+                  }
                   className="px-3 py-2 text-gray-600 bg-white border border-gray-300 rounded-md text-sm font-normal leading-6 focus:outline-none focus:ring-1 focus:ring-blue-700 placeholder:text-gray-400 transition-all duration-150 ease-in-out"
                 />
               </div>
@@ -345,4 +380,3 @@ const Activity = () => {
 };
 
 export default Activity;
-
