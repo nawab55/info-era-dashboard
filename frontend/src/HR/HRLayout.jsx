@@ -1,11 +1,10 @@
 import { Outlet, useLocation } from "react-router-dom";
 
-
 import HRDashboard from "./HRDashboard";
 // import Sidebar from "./Sidebar";
 
 function Layout() {
-//   const [sidebarToggle, setSidebarToggle] = useState(false);
+  //   const [sidebarToggle, setSidebarToggle] = useState(false);
   const location = useLocation();
 
   console.log("Layout rendered, current location:", location.pathname);
@@ -14,7 +13,7 @@ function Layout() {
     <div className="">
       <div className="">
         <HRDashboard />
-        
+
         <main className="">
           <Outlet />
         </main>

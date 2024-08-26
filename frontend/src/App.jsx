@@ -30,18 +30,18 @@ import CustomerUpdate from "./Components/Account/Invoice/CustomerUpdate";
 import CustomerReports from "./Components/Account/Invoice/CustomerReports";
 
 // HR Dashboard
-import HRLayout from "./Components/HR/HRLayout";
-import HRHome from "./Components/HR/HRHome";
-import EmpRegistrationForm from "./Components/HR/Employee/EmpRegistrationForm";
-import Worksheet from "./Components/HR/worksheet/Worksheet";
-import HRAttendance from "./Components/HR/HRAttendance";
-import AttendanceReport from "./Components/HR/Report/AttendanceReport";
-import Project from "./Components/HR/Report/Project";
+import HRLayout from "./HR/HRLayout";
+import HRHome from "./HR/HRHome";
+import EmpRegistrationForm from "./HR/Employee/EmpRegistrationForm";
+import Worksheet from "./HR/worksheet/Worksheet";
+import HRAttendance from "./HR/HRAttendance";
+import AttendanceReport from "./HR/Report/AttendanceReport";
+import Project from "./HR/Report/Project";
 import Domain from "./Components/Account/AccountSidebarComponent/Domain";
 import DomainReports from "./Components/Account/AccountSidebarComponent/DomainReports";
-import EmpRegReports from "./Components/HR/Report/EmpRegReports";
-import WorksheetReports from "./Components/HR/Report/WorksheetReports";
-import EmployeeType from "./Components/HR/Employee/EmployeeType";
+import EmpRegReports from "./HR/Report/EmpRegReports";
+import WorksheetReports from "./HR/Report/WorksheetReports";
+import EmployeeType from "./HR/Employee/EmployeeType";
 
 // Admin Dashboard
 import AdminLayout from "./Admin/AdminLayout";

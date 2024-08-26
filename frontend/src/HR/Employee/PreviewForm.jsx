@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 
 import { Image } from "react-bootstrap";
-import "../../../index.css"; // Ensure this path is correct
+import "../../index.css"; // Ensure this path is correct
 
 const PreviewForm = ({ isOpen, onClose, formData }) => {
   if (!isOpen) return null;

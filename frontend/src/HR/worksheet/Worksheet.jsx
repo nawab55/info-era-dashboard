@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../../../config/api";
+import api from "../../config/api";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx"; 
 import { HiX } from "react-icons/hi";

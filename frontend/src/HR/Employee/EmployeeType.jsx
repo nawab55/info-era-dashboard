@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import api from '../../../config/api';
+import api from '../../config/api';
 import { MdDelete } from 'react-icons/md';
 import { toast } from 'react-toastify';
 

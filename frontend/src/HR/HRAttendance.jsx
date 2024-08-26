@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import axios from "axios";
 import { toast } from "react-toastify";
-import api from "../../config/api";
+import api from "../config/api";
 
 
 const HRAttendance = () => {

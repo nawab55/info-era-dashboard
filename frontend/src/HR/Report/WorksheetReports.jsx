@@ -73,7 +73,7 @@
 // export default WorksheetReports;
 
 import { useState, useEffect } from "react";
-import api from "../../../config/api";
+import api from "../../config/api";
 
 const WorksheetReports = () => {
     const [reports, setReports] = useState([]);
