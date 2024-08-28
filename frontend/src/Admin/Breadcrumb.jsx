@@ -20,6 +20,8 @@ const Breadcrumb = () => {
     'post-job' : ' Post Job',
     'activity' : ' Activity',
     'add-activity' : ' Add Activity',
+    'report_ibc' : ' IBC',
+    'report_bbc' : ' BBC',
     // Add more routes here as needed
   };
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaHome, FaCircle, FaChalkboardTeacher, FaFileAlt } from "react-icons/fa";
-import { AiOutlineSolution, } from 'react-icons/ai';
+import { FaHome, FaCircle, FaChalkboardTeacher, FaFileAlt, } from "react-icons/fa";
+import { AiOutlineSolution, AiOutlineTeam, } from 'react-icons/ai';
 import { MdEvent, MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
@@ -139,6 +139,45 @@ const AdminSidebar = ({ sidebarToggle }) => {
           )}
         </li>
 
+        <li className="hover:shadow mb-2">
+          <button
+            onClick={() => toggleDropdown("co-partners")}
+            className="px-2 py-2 w-full text-left flex items-center hover:bg-custom-hover-blue rounded"
+          >
+            {/* <FaHandshake className="inline-block w-5 h-5 mr-4 " /> */}
+            <AiOutlineTeam className="inline-block w-5 h-5 mr-4 " />
+            Co-Partners
+            {activeDropdown === "co-partners" ? (
+              <MdKeyboardArrowDown className="ml-auto" size={20} />
+            ) : (
+              <MdKeyboardArrowRight className="ml-auto" size={20} />
+            )}
+          </button>
+          {activeDropdown === "co-partners" && (
+            <ul className="">
+              <li className="rounded hover:shadow hover:bg-custom-hover-blue py-2 my-1 px-4 flex items-center">
+                <FaCircle className="inline-block w-2 h-2 mr-4" />
+                <button
+                  onClick={() => handleNavigate("/admin/report_ibc")}
+                  className="px-1 text-sm w-full text-left"
+                >
+                  IBC
+                </button>
+              </li>
+              <li className="rounded hover:shadow hover:bg-custom-hover-blue py-2 my-1 px-4 flex items-center">
+                <FaCircle className="inline-block w-2 h-2 mr-4" />
+                <button
+                  onClick={() => handleNavigate("/admin/report_bbc")}
+                  className="px-1 text-sm w-full text-left"
+                >
+                  BBC
+                </button>
+              </li>
+              
+            </ul>
+          )}
+        </li>
+
         <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-1">
           <button
             onClick={() => handleNavigate("/admin/post-job")}
@@ -148,6 +187,16 @@ const AdminSidebar = ({ sidebarToggle }) => {
             Jobs
           </button>
         </li>
+
+        {/* <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-1">
+          <button 
+            onClick={() => handleNavigate("/admin/slider")}
+            className="px-1 w-full text-left"
+          >
+            <FaSlidersH className="inline-block w-5 h-5 mr-4 -mt-2" />
+            Slider
+          </button>
+        </li> */}
 
         <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-1">
           <button

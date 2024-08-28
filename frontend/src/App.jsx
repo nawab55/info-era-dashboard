@@ -56,6 +56,8 @@ import PrintCertificate from "./Admin/adminComponents/training/PrintCertificate"
 import PostJob from "./Admin/adminComponents/jobs/PostJob";
 import Activity from "./Admin/adminComponents/activity/Activity";
 import AddActivity from "./Admin/adminComponents/activity/AddActivity";
+import Ibc from "./Admin/adminComponents/co-partners/Ibc";
+import Bbc from "./Admin/adminComponents/co-partners/Bbc";
 
 function App() {
   return (
@@ -75,10 +77,9 @@ function App() {
             <Route path="print-certificate" element={<PrintCertificate />} />
             <Route path="college-reports" element={<CollegeReports />} />
             <Route path="student-reports" element={<StudentReports />} />
-            <Route
-              path="certificate-reports"
-              element={<CertificateReports />}
-            />
+            <Route path="certificate-reports" element={<CertificateReports />} />
+            <Route path="report_ibc" element={<Ibc />} />
+            <Route path="report_bbc" element={<Bbc />} />
             <Route path="post-job" element={<PostJob />} />
             <Route path="activity" element={<Activity />} />
             <Route path="add-activity" element={<AddActivity />} />
