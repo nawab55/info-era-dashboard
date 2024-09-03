@@ -3,7 +3,20 @@ const Invoice = require('../../models/invoice_model/invoice.model');
 // Function to create a new invoice
 const createInvoice = async (req, res) => {
     try {
-        const invoiceData = req.body;
+        // const invoiceData = req.body;
+        const { customerId, ...invoiceData } = req.body; // Destructure customerId separately
+        if (!customerId) {
+            return res.status(400).json({ message: 'Customer ID is required', success: false });
+        }
+
+        invoiceData.customerId = customerId; // Set customerId explicitly
+
+        const newInvoice = await Invoice.create(invoiceData);
+        res.status(201).json({
+            invoiceData: newInvoice, 
+            message: "Invoice data added in db successfully", 
+            success: "true"
+        });
 
         // // Fetch the latest invoice to get the highest invoice number
         // const latestInvoice = await Invoice.findOne().sort({ $natural: -1 }).exec();
@@ -21,12 +34,7 @@ const createInvoice = async (req, res) => {
         // invoiceData.invoiceNo = `IE/${count}`;
         
         // Create a new invoice with the incremented invoice number
-        const newInvoice = await Invoice.create(invoiceData);
-        res.status(201).json({
-            invoiceData: newInvoice, 
-            message: "Invoice data added in db successfully", 
-            success: "true"
-        });
+        
     } catch (error) {
         console.log(error.message);
         res.status(500).json({ 
@@ -74,6 +82,21 @@ const getInvoiceById = async (req, res) => {
     }
 };
 
+// Function to get all invoices for a specific customer
+const getInvoicesByCustomerId = async (req, res) => {
+    try {
+        const customerId = req.params.customerId;
+        const invoices = await Invoice.find({ customerId }).exec();
+        if (!invoices.length) {
+            return res.status(404).json({ message: 'No invoices found for this customer', success: false });
+        }
+        res.status(200).json({ invoices, success: true, message: "Fetched all invoices for customer" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error fetching invoices for customer', error });
+    }
+};
+
 // function to update an invoice by id
 const updateInvoice = async (req, res) => {
     try {
@@ -95,5 +118,6 @@ module.exports = {
     createInvoice,
     getInvoices,
     getInvoiceById,
+    getInvoicesByCustomerId,
     updateInvoice 
 }

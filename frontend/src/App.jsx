@@ -59,14 +59,27 @@ import AddActivity from "./Admin/adminComponents/activity/AddActivity";
 import Ibc from "./Admin/adminComponents/co-partners/Ibc";
 import Bbc from "./Admin/adminComponents/co-partners/Bbc";
 
+// Client Dashboard
+import ClientLayout from "./client/ClientLayout";
+import ClientHome from "./client/ClientHome";
+import ClientLogin from "./client/login/ClientLogin";
+import ClientAuth from "./client/auth/ClientAuth";
+import CustomerProfile from "./client/clientComponent/profile/CustomerProfile";
+import ResetPassword from "./client/clientComponent/reset_password/ResetPassword";
+import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetails";
+import Complain from "./client/clientComponent/service/Complain";
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
+        <Route path="/client_login" element={<ClientLogin />} />
         {/* <Route path="/register" element={<Register />} /> */}
         <Route path="/" element={<Home />} />
 
+        {/* Protected Routes */}
         <Route element={<AuthGuard />}>
           {/* Admin Dashboard */}
           <Route path="/admin" element={<AdminLayout />}>
@@ -77,7 +90,10 @@ function App() {
             <Route path="print-certificate" element={<PrintCertificate />} />
             <Route path="college-reports" element={<CollegeReports />} />
             <Route path="student-reports" element={<StudentReports />} />
-            <Route path="certificate-reports" element={<CertificateReports />} />
+            <Route
+              path="certificate-reports"
+              element={<CertificateReports />}
+            />
             <Route path="report_ibc" element={<Ibc />} />
             <Route path="report_bbc" element={<Bbc />} />
             <Route path="post-job" element={<PostJob />} />
@@ -139,6 +155,17 @@ function App() {
             <Route path="leave" element={<LeaveHistory />} />
             <Route path="hr/offer-letter" element={<OfferLetter />} />
             <Route path="hr/increment-letter" element={<IncrementLetter />} />
+          </Route>
+        </Route>
+
+        {/* Client Dashboard */}
+        <Route element={<ClientAuth />}>
+          <Route path="/client" element={<ClientLayout />}>
+            <Route path="dashboard_client" element={<ClientHome />} />
+            <Route path="profile" element={<CustomerProfile />} />
+            <Route path="edit_password" element={<ResetPassword />} />
+            <Route path="invoice-details" element={<InvoiceDetails />} />
+            <Route path="request-complain" element={<Complain />} />
           </Route>
         </Route>
       </Routes>

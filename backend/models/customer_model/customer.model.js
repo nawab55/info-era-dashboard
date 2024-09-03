@@ -25,6 +25,14 @@ const customerSchema = new mongoose.Schema({
   gstName: {
     type: String,
     required: true
+  },
+  password: {
+    type: String, // Store the plain generated password
+    required: true
+  },
+  encryptedPassword: {
+    type: String, // Store the encrypted version of the password
+    required: true
   }
 });
 

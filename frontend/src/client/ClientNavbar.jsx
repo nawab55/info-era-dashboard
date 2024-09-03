@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../config/api";
 import ProfileDetails from "../Components/Profile/ProfileDetails";
 
-const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
+const ClientNavbar = ({ sidebarToggle, setSidebarToggle }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [employeeDetails, setEmployeeDetails] = useState(null); // State for employee details
@@ -13,7 +13,7 @@ const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
-    navigate("/login");
+    navigate("/client_login");
   };
 
   const handleProfile = async () => {
@@ -21,7 +21,7 @@ const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
       const token = sessionStorage.getItem("token");
       // const decoded = JSON.parse(atob(token.split(".")[1]));
       // const userId = decoded.user.userId;
-      const userId = sessionStorage.getItem("userId");
+      const userId = sessionStorage.getItem("userId")
       const response = await api.get(`/api/user/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +47,7 @@ const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
         </div>
         <div className="flex-1 flex items-center justify-center">
           <p className=" text-xl text-white font-bold">
-            Admin Dashboard
+            Client Dashboard
           </p>
         </div>
         <div className="flex items-center gap-x-5">
@@ -110,4 +110,4 @@ const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
   );
 };
 
-export default AdminNavbar;
+export default ClientNavbar;

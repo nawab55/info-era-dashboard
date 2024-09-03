@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from "react-router-dom";
-import AdminDashboard from "./AdminDashboard";
+import ClientDashboard from "./ClientDashboard";
 import Breadcrumb from "../Components/breadcrumb/BreadCrumb";
 // import Sidebar from "./Sidebar";
 
-const AdminLayout = () => {
+const ClientLayout = () => {
   //   const [sidebarToggle, setSidebarToggle] = useState(false);
   const location = useLocation();
 
@@ -12,7 +12,7 @@ const AdminLayout = () => {
   return (
     <>
       <div className=" bg-blue-50 ">
-        <AdminDashboard />
+        <ClientDashboard />
 
         <main className="">
           <Breadcrumb />
@@ -23,4 +23,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default ClientLayout;

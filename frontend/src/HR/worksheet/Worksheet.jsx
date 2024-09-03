@@ -54,6 +54,8 @@ const Worksheet = () => {
   useEffect(() => {
     // Filter employees based on selected employee type
     if (selectedType) {
+      console.log(selectedType);
+      
       setFilteredEmployees(
         employees.filter((emp) => emp.empType === selectedType)
       );
@@ -77,7 +79,11 @@ const Worksheet = () => {
 
   const handleEmployeeChange = (e) => {
     const empId = e.target.value;
+    console.log(empId);
+    
     const employee = filteredEmployees.find((emp) => emp.EmpId === empId);
+    console.log(employee);
+    
     if (employee) {
       setFormData({
         ...formData,
@@ -116,6 +122,7 @@ const Worksheet = () => {
       const ws = wb.Sheets[wsname];
 
       const data = XLSX.utils.sheet_to_json(ws);
+      console.log(data);
       setExcelData(data); // Set the extracted data to excelData state
       setShowExcelTable(true); // Show the table
     };
@@ -171,7 +178,7 @@ const Worksheet = () => {
         <div className="p-4 text-center text-2xl bg-emerald-600 rounded-md shadow-lg shadow-emerald-500 text-white">
           Worksheet Form
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-6">
           
           {/* Employee Type */}
           <div>
@@ -276,6 +283,7 @@ const Worksheet = () => {
               </div>
             </>
           )}
+
         </div>
 
         <div className="flex justify-center py-2">
@@ -305,7 +313,7 @@ const Worksheet = () => {
               <thead>
                 <tr>
                   {Object.keys(excelData[0]).map((key) => (
-                    <th key={key} className="border border-gray-300 px-4 py-2 text-left">{key}</th>
+                    <th key={key} className="border border-gray-300 bg-blue-400 px-4 py-2 text-left">{key}</th>
                   ))}
                 </tr>
               </thead>

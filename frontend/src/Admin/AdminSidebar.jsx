@@ -193,7 +193,7 @@ const AdminSidebar = ({ sidebarToggle }) => {
             onClick={() => handleNavigate("/admin/slider")}
             className="px-1 w-full text-left"
           >
-            <FaSlidersH className="inline-block w-5 h-5 mr-4 -mt-2" />
+            <MdEvent className="inline-block w-5 h-5 mr-4 -mt-2" />
             Slider
           </button>
         </li> */}

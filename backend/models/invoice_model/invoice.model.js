@@ -112,10 +112,18 @@ const invoiceSchema = new mongoose.Schema({
   termsOfDelivery: {
     type: String,
   },
+  orderId: {
+    type: String,
+  },
   totalAmount: {
     type: String
   },
   companyInfo: companyInfoSchema,
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Customer',
+    required: true
+  },
 });
 
 // Create a model from the schema

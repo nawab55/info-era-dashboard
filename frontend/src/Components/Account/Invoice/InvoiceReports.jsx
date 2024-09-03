@@ -23,7 +23,7 @@ const InvoiceReports = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await api.get("/apis/v1/invoices");
+        const response = await api.get("/api/invoices/get-invoices");
         setReports(response.data.invoices);
         setFilteredReports(response.data.invoices);
       } catch (error) {

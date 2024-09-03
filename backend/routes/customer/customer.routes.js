@@ -4,12 +4,17 @@ const {
     createCustomer,
     getCustomers,
     getCustomerById,
-    updateCustomer
+    updateCustomer,
+    loginCustomer,
+    resetPassword
 } = require('../../controllers/customer/customer.controller');
+const { authenticate } = require('../../middleware/auth');
 
 router.post('/createCustomer', createCustomer);
+router.post('/login', loginCustomer);
 router.get('/getCustomer', getCustomers);
-router.get('/:id', getCustomerById);
+router.get('/:id', authenticate, getCustomerById);
+router.put('/update/reset-password', authenticate, resetPassword);
 router.put('/:id', updateCustomer);
 
 module.exports = router;

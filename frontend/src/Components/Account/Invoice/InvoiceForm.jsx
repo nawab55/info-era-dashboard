@@ -1,6 +1,6 @@
 import  { useEffect, useState } from "react";
-// import { Outlet } from "react-router-dom";
 import { uid } from "uid";
+import { v4 as uuidv4} from "uuid";
 import InvoiceItem from "./InvoiceItem";
 import api from '../../../config/api';
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ const count = 1;
 const InvoiceForm = () => {
   const [customerData, setCustomerData] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [selectedCustomerId, setSelectedCustomerId] = useState("");  // state to store customerId
   const [invoiceData, setInvoiceData] = useState({
     invoiceNo: `IE/${count}`,
     date: today,
@@ -25,6 +26,7 @@ const InvoiceForm = () => {
       gstName: "",
       address: "",
     },
+    customerId: "",
     cgst: "",
     sgst: "",
     discount: "",
@@ -36,6 +38,7 @@ const InvoiceForm = () => {
     dispatchedThrough: "",
     destination: "",
     termsOfDelivery: "",
+    orderId: uuidv4(),
     items: [
       {
         id: uid(),
@@ -63,7 +66,7 @@ const InvoiceForm = () => {
   useEffect(() => {
     const fetchInvoices = async () => {
       try {
-        const response = await api.get("/apis/v1/invoices");
+        const response = await api.get("/api/invoices/get-invoices");
         setInvoiceData((prevData) => ({
           ...prevData,
           invoiceNo: response.data.latestInvoiceNo,
@@ -83,7 +86,6 @@ const InvoiceForm = () => {
     const fetchCustomer = async () => {
       try {
         const customerResponse = await api.get("/api/customers/getCustomer");
-        console.log("Get customer response:", customerResponse.data);
         setCustomerData(customerResponse.data);
         setFilteredCustomers(customerResponse.data); // Initialize filteredCustomers
       } catch (error) {
@@ -151,8 +153,10 @@ const InvoiceForm = () => {
         gstName: customer.gstName,
         address: customer.address,
       },
+      customerId: customer._id,  // Set the customerId in the state
     }));
     setFilteredCustomers([]);
+    setSelectedCustomerId(customer._id); // Set selectedCustomerId state
   };
 
   // const handleCustomerSelect = (e) => {
@@ -225,10 +229,13 @@ const InvoiceForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(invoiceData);
-      const response = await api.post("/apis/v1/invoices", invoiceData);
+      const invoicePayload = {
+        ...invoiceData,
+        customerId: selectedCustomerId,  //  Include the customerId in the payload
+      }
+      
+      const response = await api.post("/api/invoices/create-invoice", invoicePayload);
       toast.success("Invoice data submitted successfully");
-      console.log(response.data.invoiceData);
       setSavedInvoiceData(response.data.invoiceData);
       setShowModal(true);
 
@@ -245,6 +252,7 @@ const InvoiceForm = () => {
           email: "",
           address: "",
         },
+        customerId: "",
         cgst: "",
         sgst: "",
         discount: "",
@@ -256,6 +264,7 @@ const InvoiceForm = () => {
         dispatchedThrough: "",
         destination: "",
         termsOfDelivery: "",
+        orderId: uuidv4(), 
         items: [
           {
             id: uid(),
@@ -479,7 +488,7 @@ const InvoiceForm = () => {
                 className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/2">
+            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
               <label className="text-gray-800 text-sm font-medium mx-1">
                 Terms of Delivery:
               </label>
@@ -487,6 +496,18 @@ const InvoiceForm = () => {
                 type="text"
                 name="termsOfDelivery"
                 value={invoiceData.termsOfDelivery}
+                onChange={handleChange}
+                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
+              <label className="text-gray-800 text-sm font-medium mx-1">
+                Order Id:
+              </label>
+              <input
+                type="text"
+                name="orderId"
+                value={invoiceData.orderId}
                 onChange={handleChange}
                 className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />

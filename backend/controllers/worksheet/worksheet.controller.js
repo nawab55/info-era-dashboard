@@ -40,8 +40,21 @@ const createWorksheet = async (req, res) => {
       
       // Convert the worksheet to JSON and store it in the excelData field
       const excelData = XLSX.utils.sheet_to_json(worksheet);
-      console.log(excelData);
-      newWorksheet.excelData = excelData; // Store the actual data, not just the object IDs
+      // Map excelData to schema format
+      const formattedData = excelData.slice(0).map((row, index) => {
+        console.log('Row:', row); // Log each row for inspection
+        return {
+          sNo: index + 1,
+          firstName: row['First Name'], // Access properties by their correct keys
+          lastName: row['Last Name'],
+          gender: row['Gender'],
+          country: row['Country'],
+          age: row['Age'],
+          date: row['Date'],
+          id: row['Id'],
+        };
+      });
+      newWorksheet.excelData = formattedData; // Store the actual data, not just the object IDs
     }
 
     // Save the new worksheet to the database
@@ -49,10 +62,9 @@ const createWorksheet = async (req, res) => {
 
     res.status(201).json(savedWorksheet);
   } catch (error) {
-    res.status(500).json({ message: "Error creating worksheet", error });
+    res.status(500).json({ message: "Error creating worksheet", error: error.message });
   }
 };
-
 // Get worksheet by employee ID and date
 const getWorksheetByDate = async (req, res) => {
   try {
