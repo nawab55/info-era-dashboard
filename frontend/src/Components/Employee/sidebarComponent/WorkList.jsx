@@ -45,7 +45,7 @@ function WorkList() {
   });
 
   return (
-    <section className="bg-slate-200 h-full mt-16 md:ml-52">
+    <section className="bg-slate-200 h-full mt-16 md:ml-52 p-4">
       <div className="bg-sky-200 p-4 text-center text-black text-2xl font-bold border-b-2 border-black">Work List</div>
       <div className="p-2 flex justify-between items-center">
         <div>

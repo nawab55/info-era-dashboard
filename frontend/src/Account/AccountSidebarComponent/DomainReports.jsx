@@ -148,7 +148,7 @@
 
 
 import { useState, useEffect } from "react";
-import api from "../../../config/api";
+import api from "../../config/api";
 import { format, startOfMonth, endOfMonth } from "date-fns";
 
 const DomainReports = () => {

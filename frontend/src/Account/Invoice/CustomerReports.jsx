@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import api from '../../../config/api';
+import api from '../../config/api';
 import { toast } from 'react-toastify';
 import Modal from 'react-modal';
 import { PiEyeClosedBold } from "react-icons/pi";
@@ -18,7 +18,7 @@ const CustomerReports = () => {
     // Fetch all customers
     const fetchCustomers = async () => {
       try {
-        const response = await api.get('/api/customers/getCustomer');
+        const response = await api.get('/api/customers/get/allCustomer');
         console.log(response.data);
         setCustomers(response.data);
       } catch (error) {
@@ -31,8 +31,13 @@ const CustomerReports = () => {
   }, []);
 
   const handleViewClick = async (customerId) => {
+    const token = sessionStorage.getItem("token");
     try {
-      const response = await api.get(`/api/customers/${customerId}`);
+      const response = await api.get(`/api/customers/details/${customerId}`, {
+        headers: {
+          Authorization : `Bearer ${token}`,
+        },
+      });
       setSelectedCustomer(response.data);
       setIsModalOpen(true);
     } catch (error) {
@@ -52,7 +57,7 @@ const CustomerReports = () => {
 
   return (
     <div className="p-4 md:ml-48">
-      <div className="bg-blue-gray-50 p-4 text-center text-2xl font-bold mb-6">Customer Reports</div>
+      <p className="bg-blue-gray-50 p-4 text-center text-2xl font-bold mb-6">Customer Reports</p>
       <table className="min-w-full divide-y divide-gray-200 shadow-lg">
         <thead className="bg-blue-200">
           <tr>
@@ -72,7 +77,7 @@ const CustomerReports = () => {
                 <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500">
                     <button 
                     onClick={() => handleViewClick(customer._id)} 
-                    className=" border border-indigo-600 bg-cyan-400 hover:bg-cyan-800 text-white shadow-md hover:shadow-lg transition-all duration-200 px-4 py-2 rounded-md"
+                    className=" border border-indigo-600 bg-cyan-400 hover:bg-cyan-500 text-white shadow-md hover:shadow-lg transition-all duration-200 px-4 py-2 rounded-md"
                     >
                     <PiEyeClosedBold className='font-bold text-xl' />
                     </button>
@@ -80,7 +85,7 @@ const CustomerReports = () => {
                 <td className="px-6 py-2 whitespace-nowrap text-sm text-gray-500">
                     <button 
                     onClick={() => handleUpdateClick(customer._id)} 
-                    className="text-white border border-indigo-600 bg-blue-600 hover:bg-blue-900 shadow-md hover:shadow-lg transition-all duration-200 px-4 py-2 rounded-md"
+                    className="text-white border border-indigo-600 bg-blue-600 hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-200 px-4 py-2 rounded-md"
                     >
                     Update
                     </button>

@@ -2,7 +2,7 @@ import  { useEffect, useState } from "react";
 import { uid } from "uid";
 import { v4 as uuidv4} from "uuid";
 import InvoiceItem from "./InvoiceItem";
-import api from '../../../config/api';
+import api from "../../config/api";
 import { toast } from "react-toastify";
 import InvoiceModal from "./InvoiceModal";
 
@@ -85,7 +85,9 @@ const InvoiceForm = () => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const customerResponse = await api.get("/api/customers/getCustomer");
+        const customerResponse = await api.get("/api/customers/get/allCustomer");
+        console.log(customerResponse.data);
+        
         setCustomerData(customerResponse.data);
         setFilteredCustomers(customerResponse.data); // Initialize filteredCustomers
       } catch (error) {
@@ -282,7 +284,7 @@ const InvoiceForm = () => {
       toast.error("Failed to upload Invoice data");
     }
   };
-  console.log(invoiceData.companyInfo);
+  // console.log(invoiceData.companyInfo);
   return (
     <section className="p-2 md:ml-48 bg-blue-gray-50">
       <div className="p-2">

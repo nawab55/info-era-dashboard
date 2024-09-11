@@ -59,6 +59,13 @@ const uploadSingleImage = multer({
   limits: { fileSize: 2 * 1024 * 1024 } // Limit file size to 2MB
 }).single('image'); // The field name for single image upload
 
+// Middleware to handle image upload
+const uploadImage = multer({
+  storage: storageConfig,
+  fileFilter: imageFilter,
+  limits: { fileSize: 2 * 1024 * 1024 } // Limit file size to 2MB
+});
+
 // Configure multer to handle a single Excel file with memory storage
 const uploadSingleExcel = multer({
   storage: multer.memoryStorage(), // Use memory storage for Excel files
@@ -66,10 +73,19 @@ const uploadSingleExcel = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // Limit file size to 10MB
 }).single('file'); // The field name for Excel file
 
+// Middleware to handle single image upload for complains
+const uploadComplainFile = multer({
+  storage: storageConfig,
+  fileFilter: imageFilter,
+  limits: { fileSize: 2 * 1024 * 1024 } // Limit file size to 2MB
+}).single('complainFile'); // The field name for complain file upload
+
 
 // Export the configured multer instance
 module.exports = {
   upload,
   uploadSingleImage,
+  uploadImage,
   uploadSingleExcel,
+  uploadComplainFile,
 } 

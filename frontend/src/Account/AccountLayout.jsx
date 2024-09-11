@@ -5,7 +5,7 @@ function AccountLayout() {
   return (
     <div className="">
       <AccountDashboard />
-      <main className="mt-20">
+      <main className="mt-16">
         <Outlet />
       </main>
     </div>

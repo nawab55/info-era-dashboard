@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaEye } from "react-icons/fa"; // Import icon from react-icons
 import api from "../../../config/api";
-import InvoiceModal from "../../../Components/Account/Invoice/InvoiceModal"; // Import the modal
+import InvoiceModal from "../../../Account/Invoice/InvoiceModal"; // Import the modal
 
 const InvoiceDetails = () => {
   const [invoices, setInvoices] = useState([]);

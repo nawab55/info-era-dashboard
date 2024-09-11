@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import api from '../../../config/api';
+import api from '../../config/api';
 
 const AddHsnCode = () => {
   const [hsnFormData, setHsnFormData] = useState({

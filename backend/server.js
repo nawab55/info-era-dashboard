@@ -20,6 +20,7 @@ const jobRoutes = require('./routes/jobs/job.routes');
 const activityRoutes = require('./routes/activity/activity.routes');
 const ibcRoutes = require('./routes/co-partners/ibc.routes');
 const bbcRoutes = require('./routes/co-partners/bbc.routes');
+const complainRoutes = require('./routes/customer/complain.routes');
 
 dotenv.config();
 
@@ -56,6 +57,7 @@ app.use('/api/jobs', jobRoutes);
 app.use('/api/activities', activityRoutes);
 app.use('/api/co-partners/ibc', ibcRoutes);
 app.use('/api/co-partners/bbc', bbcRoutes);
+app.use('/api/complains', complainRoutes);
 
 app.listen(PORT, async ()=>{
     // await connectDb();

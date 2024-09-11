@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from '../../../config/api';
+import api from "../../config/api";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 
@@ -13,14 +13,18 @@ const CustomerUpdate = () => {
     address: "",
     gstNo: "",
     gstName: "",
+    dob: "",
   });
 
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const response = await api.get(
-          `/api/customers/${id}`
-        );
+        const token = sessionStorage.getItem("token");
+        const response = await api.get(`/api/customers/details/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setFormData(response.data);
       } catch (error) {
         console.error("Error fetching customer details", error);
@@ -39,9 +43,9 @@ const CustomerUpdate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.put(`/api/customers/${id}`, formData);
+      await api.put(`/api/customers/details/update/${id}`, formData);
       toast.success("Customer updated successfully");
-      navigate("/admin/customerReport");
+      navigate("/account/customer/customerReport");
     } catch (error) {
       console.error("Error updating customer", error);
       toast.error("Failed to update customer");
@@ -99,6 +103,22 @@ const CustomerUpdate = () => {
             required
           />
         </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-700 " htmlFor="gstName">
+            Date Of Birth
+          </label>
+          <input
+            type="date"
+            name="dob"
+            id="dob"
+            value={formData.dob}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
+            required
+          />
+        </div>
+
         <div className="mb-4">
           <label htmlFor="address" className="block text-gray-700">
             Address

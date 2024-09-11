@@ -11,8 +11,8 @@ const AccountNavbar = ({ setSidebarOpen, sidebarOpen }) => {
   };
 
   return (
-    <nav className="fixed top-0 w-full bg-custom-dark-blue z-20 h-20">
-      <div className="px-3 py-3 lg:px-5 lg:pl-3">
+    <nav className="fixed top-0 w-full bg-custom-dark-blue z-20 h-16">
+      <div className="px-3 py-1 lg:px-5 lg:pl-3">
         <div className="flex text-white items-center py-2 justify-between">
           <div className="flex items-center">
             <HiMenuAlt3

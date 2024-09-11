@@ -55,7 +55,7 @@ const AccountSidebar = ({ sidebarOpen }) => {
   return (
     <aside
       id="logo-sidebar"
-      className={`top-0 mt-20 w-48 fixed z-20 border-t left-0 h-screen bg-custom-dark-blue text-gray-100 transition-transform duration-300 ease-in-out ${
+      className={`top-0 mt-16 w-48 fixed z-20 border-t left-0 h-screen bg-custom-dark-blue text-gray-100 transition-transform duration-300 ease-in-out ${
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       } md:translate-x-0`}
       aria-label="Sidebar"

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ProfileDetails from "../../Profile/ProfileDetails"
-import api from "../../../config/api";
+import api from "../../config/api";
+import ProfileDetails from "../../Components/Profile/ProfileDetails";
 
 const Profile = () => {
   const [employeeDetails, setEmployeeDetails] = useState(null);

@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import { useEffect, useState, forwardRef } from "react";
-import api from '../../../config/api';
+import api from '../../config/api';
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -98,7 +98,7 @@ const InvoiceReports = () => {
   };
 
   return (
-    <div className="md:ml-48">
+    <div className="md:ml-48 ">
       <div className="container mx-auto p-4 bg-gray-100">
         <h1 className="text-2xl font-bold text-center mb-4">Invoice Reports</h1>
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 mx-12 space-y-4 md:space-y-0 md:space-x-4">
@@ -165,6 +165,7 @@ const InvoiceReports = () => {
             </table>
           )}
         </div>
+        <div className="bg-white w-full h-24 my-4"></div>
       </div>
       {selectedInvoice && (
         <Modal
@@ -201,6 +202,7 @@ const InvoiceReports = () => {
           </div>
         </Modal>
       )}
+      
     </div>
   );
 };

@@ -2,19 +2,20 @@ const express = require('express');
 const router = express.Router();
 const {
     createCustomer,
-    getCustomers,
+    getAllCustomers,
     getCustomerById,
     updateCustomer,
     loginCustomer,
-    resetPassword
+    resetPassword,
 } = require('../../controllers/customer/customer.controller');
 const { authenticate } = require('../../middleware/auth');
+const { uploadImage } = require('../../middleware/upload');
 
-router.post('/createCustomer', createCustomer);
+router.post('/createCustomer', uploadImage.single('profileImage'), createCustomer);
 router.post('/login', loginCustomer);
-router.get('/getCustomer', getCustomers);
-router.get('/:id', authenticate, getCustomerById);
+router.get('/get/allCustomer', getAllCustomers);
+router.get('/details/:id', authenticate, getCustomerById);
 router.put('/update/reset-password', authenticate, resetPassword);
-router.put('/:id', updateCustomer);
+router.put('/details/update/:id', updateCustomer);
 
 module.exports = router;

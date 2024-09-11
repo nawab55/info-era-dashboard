@@ -1,6 +1,4 @@
 /* eslint-disable react/prop-types */
-
-
 const InvoiceItem = ({ id, name, hsn, qty, price, onDeleteItem, onEditItem }) => {
     const deleteItemHandler = () => {
       onDeleteItem(id);

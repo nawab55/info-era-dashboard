@@ -33,7 +33,7 @@ const HRSidebar = ({ sidebarToggle }) => {
             className="px-1 w-full text-left"
           >
             <FaHome className="inline-block w-5 h-5 mr-2 -mt-2" />
-            Home
+            Dashboard
           </button>
         </li>
         <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">

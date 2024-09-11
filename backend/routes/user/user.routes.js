@@ -5,11 +5,11 @@ const { upload } = require('../../middleware/upload');
 const userController = require('../../controllers/user/user.controller');
 
 // User registration and login
+// Get user by ID
+router.get('/details/:userId', userController.getUserById);
 // router.post('/register', userController.registerEmployee);
 router.post('/login', userController.loginUser);
 
-// Get user by ID
-router.get('/:userId', userController.getUserById);
 // Get all Users
 router.get('/all/getalluser', userController.getAllUsers);
 

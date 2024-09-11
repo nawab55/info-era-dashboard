@@ -26,6 +26,18 @@ const customerSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+
+  dob: {
+    type: String,
+  },
+  aadharNo: {
+    type: String,
+    trim: true
+  },
+  profileImage: {
+    type: String,
+    trim: true
+  }, 
   password: {
     type: String, // Store the plain generated password
     required: true
@@ -33,7 +45,7 @@ const customerSchema = new mongoose.Schema({
   encryptedPassword: {
     type: String, // Store the encrypted version of the password
     required: true
-  }
+  },
 });
 
 const Customer = mongoose.model('Customer', customerSchema);

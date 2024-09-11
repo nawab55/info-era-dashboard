@@ -87,7 +87,7 @@ const PostJob = () => {
   };
 
   return (
-    <section className="md:ml-60 bg-inherit p-4 pb-8">
+    <section className="md:ml-60 bg-inherit p-4 pb-8 -mt-4">
       <div
         className="max-w-full overflow-y-auto bg-white p-8 mx-4 rounded-lg shadow-md"
         style={{ height: "600px", color: "green", border: "1px solid white" }}

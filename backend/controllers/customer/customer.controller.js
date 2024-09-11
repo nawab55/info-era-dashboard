@@ -1,6 +1,5 @@
 const Customer = require('../../models/customer_model/customer.model');
 const bcrypt = require('bcryptjs');
-const { log } = require('console');
 const crypto = require('crypto');   // Import the built-in crypto module for random password generation
 const jwt = require('jsonwebtoken');
 
@@ -14,6 +13,9 @@ const generateRandomPassword = (length = 10) => {
 exports.createCustomer = async (req, res) => {
   try {
     const customerData = req.body;
+    const baseUrl = `${req.protocol}://${req.get('host')}/uploads/`;
+    const profileImage = req.file ? `${baseUrl}${req.file.filename}`: null;
+    customerData.profileImage = profileImage;
     // Generate a random password
     const randomPassword = generateRandomPassword();  // Default length is 10
     // Encrypt the generated password 
@@ -58,7 +60,7 @@ exports.loginCustomer = async (req, res) => {
 }
 
 // Get all customers (excluding encryptedPassword)
-exports.getCustomers = async (req, res) => {
+exports.getAllCustomers = async (req, res) => {
   try {
     const customers = await Customer.find().select('-encryptedPassword'); // Exclude encryptedPassword
     res.status(200).json(customers);

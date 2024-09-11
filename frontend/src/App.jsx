@@ -2,8 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./Components/Login";
 // import Register from "./Components/Register";
-import Home from "./Components/Home";
 import AuthGuard from "./Components/AuthGuard";
+import Home from "./Home";
 
 // Employee Dashboard
 import Layout from "./Components/Employee/Layout";
@@ -17,17 +17,17 @@ import IncrementLetter from "./Components/Employee/sidebarComponent/IncrementLet
 import DailySheet from "./Components/Employee/sidebarComponent/DailySheet";
 
 // Account Dashboard
-import AccountLayout from "./Components/Account/AccountLayout";
-import Dashboard from "./Components/Account/Dashboard";
-import Profile from "./Components/Account/AccountSidebarComponent/Profile";
-import AddCategory from "./Components/Account/Invoice/AddCategory";
-import AddHsnCode from "./Components/Account/Invoice/AddHsnCode";
-import Services from "./Components/Account/Invoice/Services";
-import InvoiceForm from "./Components/Account/Invoice/InvoiceForm";
-import InvoiceReports from "./Components/Account/Invoice/InvoiceReports";
-import CustomerForm from "./Components/Account/Invoice/CustomerForm";
-import CustomerUpdate from "./Components/Account/Invoice/CustomerUpdate";
-import CustomerReports from "./Components/Account/Invoice/CustomerReports";
+import AccountLayout from "./Account/AccountLayout";
+import Dashboard from "./Account/Dashboard";
+import Profile from "./Account/AccountSidebarComponent/Profile";
+import AddCategory from "./Account/Invoice/AddCategory";
+import AddHsnCode from "./Account/Invoice/AddHsnCode";
+import Services from "./Account/Invoice/Services";
+import InvoiceForm from "./Account/Invoice/InvoiceForm";
+import InvoiceReports from "./Account/Invoice/InvoiceReports";
+import CustomerForm from "./Account/Invoice/CustomerForm";
+import CustomerUpdate from "./Account/Invoice/CustomerUpdate";
+import CustomerReports from "./Account/Invoice/CustomerReports";
 
 // HR Dashboard
 import HRLayout from "./HR/HRLayout";
@@ -37,8 +37,8 @@ import Worksheet from "./HR/worksheet/Worksheet";
 import HRAttendance from "./HR/HRAttendance";
 import AttendanceReport from "./HR/Report/AttendanceReport";
 import Project from "./HR/Report/Project";
-import Domain from "./Components/Account/AccountSidebarComponent/Domain";
-import DomainReports from "./Components/Account/AccountSidebarComponent/DomainReports";
+import Domain from "./Account/AccountSidebarComponent/Domain";
+import DomainReports from "./Account/AccountSidebarComponent/DomainReports";
 import EmpRegReports from "./HR/Report/EmpRegReports";
 import WorksheetReports from "./HR/Report/WorksheetReports";
 import EmployeeType from "./HR/Employee/EmployeeType";
