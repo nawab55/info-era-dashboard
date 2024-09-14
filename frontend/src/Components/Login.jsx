@@ -27,7 +27,7 @@ const Login = () => {
 
     try {
       const response = await api.post(`/api/user/login`, formData);
-
+      
       if (response.status === 200) {
         // Handle successful login, e.g., save token, redirect, etc.
         sessionStorage.setItem("token", response.data.token);
@@ -55,6 +55,7 @@ const Login = () => {
       }
     } catch (error) {
       // Handle error during request
+      toast.info(`Login failed due to ${error.response.data.message}`)
       console.error("Error during login request", error);
     }
   };

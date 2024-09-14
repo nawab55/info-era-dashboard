@@ -7,9 +7,24 @@ Modal.setAppElement("#root");
 
 const ClientHome = () => {
   const [customer, setCustomer] = useState(null);
-  // const [loading, setLoading] = useState(true);
   const [isBirthday, setIsBirthday] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [birthdayImage, setBirthdayImage] = useState(""); // Store random birthday image
+
+  // Fetch a random birthday image from Unsplash
+  const fetchRandomBirthdayImage = async () => {
+    try {
+      const response = await api.get("https://api.unsplash.com/photos/random", {
+        params: { query: "birthday" },
+        headers: {
+          Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`, // Replace with your Unsplash API key
+        },
+      });
+      setBirthdayImage(response.data.urls.regular); // Store the image URL in state
+    } catch (error) {
+      console.error("Failed to fetch random birthday image", error);
+    }
+  };
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -32,6 +47,7 @@ const ClientHome = () => {
           ) {
             setIsBirthday(true);
             setIsModalOpen(true);
+            fetchRandomBirthdayImage();  // Fetch the random birthday image
           }
         }
       } catch (error) {
@@ -70,11 +86,18 @@ const ClientHome = () => {
             <p className="text-lg text-gray-600 mb-6">
               Wishing you a day filled with love and happiness.
             </p>
-            <img
+            {/* <img
               src="/giphy1.webp" // Replace with the path to your animated GIF
               alt="Birthday Animation"
               className="w-64 h-64 mx-auto mb-4 birthday-img"
-            />
+            /> */}
+            {birthdayImage && (
+              <img
+                src={birthdayImage}
+                alt="Random Birthday"
+                className="w-64 h-64 mx-auto mb-4 birthday-img rounded-md"
+              />
+            )}
             <button
               onClick={() => setIsModalOpen(false)}
               className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-600"
