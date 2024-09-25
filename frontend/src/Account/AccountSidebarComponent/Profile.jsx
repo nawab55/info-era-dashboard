@@ -12,7 +12,7 @@ const Profile = () => {
       // const decoded = JSON.parse(atob(token.split(".")[1]));
       // const userId = decoded.user.userId;
       const userId = sessionStorage.getItem("userId")
-      const response = await api.get(`/api/user/${userId}`, {
+      const response = await api.get(`/api/user/details/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

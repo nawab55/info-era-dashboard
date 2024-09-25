@@ -28,58 +28,58 @@ const Sidebar = ({ sidebarToggle }) => {
       aria-label="Sidebar"
     >
       <hr className="border-gray-600" />
-      <ul className="py-4 text-white font-bold">
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+      <ul className="py-1 text-white font-bold">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
             onClick={() => handleNavigate("/employee")}
-            className="px-3 w-full text-left"
+            className="px-1 w-full text-left"
           >
-            <FaHome className="inline-block w-6 h-6 mr-2 -mt-2" />
+            <FaHome className="inline-block w-5 h-5 mr-4 -mt-2" />
             Home
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
             onClick={() => handleNavigate("/employee/dailysheet")}
-            className="px-3 w-full text-left"
+            className="px-1 w-full text-left"
           >
-            <FaSheetPlastic className="inline-block w-6 h-6 mr-2 -mt-2" />
+            <FaSheetPlastic className="inline-block w-5 h-5 mr-4 -mt-2" />
             Daily Sheet
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
             onClick={() => handleNavigate("/employee/worklist")}
-            className="px-3 w-full text-left"
+            className="px-1 w-full text-left"
           >
-            <FaRegFileAlt className="inline-block w-6 h-6 mr-2 -mt-2" />
+            <FaRegFileAlt className="inline-block w-5 h-5 mr-4 -mt-2" />
             Work List
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
             onClick={() => handleNavigate("/employee/attendance")}
-            className="px-3 w-full text-left"
+            className="px-1 w-full text-left"
           >
-            <GiCalendar className="inline-block w-6 h-6 mr-2 -mt-2" />
+            <GiCalendar className="inline-block w-5 h-5 mr-4 -mt-2" />
             Attendance
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
             onClick={() => handleNavigate("/employee/salary")}
-            className="px-3 w-full text-left"
+            className="px-1 w-full text-left"
           >
-            <GiReceiveMoney className="inline-block w-6 h-6 mr-2 -mt-2" />
+            <GiReceiveMoney className="inline-block w-5 h-5 mr-4 -mt-2" />
             Salary
-          </button>
+          </button> 
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
             onClick={() => handleNavigate("/employee/leave")}
-            className="px-3 w-full text-left"
+            className="px-1 w-full text-left"
           >
-            <FcLeave className="inline-block w-6 h-6 mr-2 -mt-2" />
+            <FcLeave className="inline-block w-5 h-5 mr-4 -mt-2" />
             Leave History
           </button>
         </li>
@@ -92,27 +92,27 @@ const Sidebar = ({ sidebarToggle }) => {
             <img
               src="/hr.png"
               alt="HR"
-              className="inline-block w-6 h-6 mr-2 -mt-2"
+              className="inline-block w-5 h-5 mr-4 -mt-2"
             />
             HR
             <MdKeyboardArrowDown className="ml-auto" size={20} /> {/* Use the new icon */}
           </button>
           {showHRDropdown && (
-            <ul className="ml-4">
-              <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2 flex items-center">
-                <FaCircle className="inline-block w-2 h-2" />
+            <ul className="">
+              <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-4 flex items-center">
+                <FaCircle className="inline-block w-2 h-2 mr-4" />
                 <button
                   onClick={() => handleNavigate("/employee/hr/offer-letter ")}
-                  className="px-2 text-sm w-full text-left"
+                  className="px-1 text-sm w-full text-left"
                 >
                   Offer Letter
                 </button>
               </li>
-              <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2 flex items-center">
-                <FaCircle className="inline-block w-2 h-2" />
+              <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-4 flex items-center">
+                <FaCircle className="inline-block w-2 h-2 mr-4" />
                 <button
                   onClick={() => handleNavigate("/employee/hr/increment-letter")}
-                  className="px-2 text-sm w-full text-left"
+                  className="px-1 text-sm w-full text-left"
                 >
                   Increment Letter
                 </button>

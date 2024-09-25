@@ -62,9 +62,9 @@ const ClientHome = () => {
   }, []);
 
   return (
-    <section className="md:ml-60 px-4 pb-56">
+    <section className="md:ml-60 px-4 pb-20">
       <div className="bg-white p-8 h-96 border rounded-md shadow-lg mx-4">
-        <p className="text-gray-500 font-bold text-2xl mb-6">
+        <p className="text-gray-500 font-bold text-xl mb-4">
           Welcome to the Dashboard
         </p>
         <p className="font-bold text-5xl text-blue-900">

@@ -33,6 +33,7 @@ const Login = () => {
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("role", response.data.role);
         sessionStorage.setItem("userId", response.data.user._id);
+        sessionStorage.setItem("username", response.data.user.name)
         toast.success("Login successful");
 
         if (response.data.role === "employee") {

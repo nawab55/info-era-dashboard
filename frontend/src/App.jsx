@@ -6,15 +6,15 @@ import AuthGuard from "./Components/AuthGuard";
 import Home from "./Home";
 
 // Employee Dashboard
-import Layout from "./Components/Employee/Layout";
-import WorkList from "./Components/Employee/sidebarComponent/WorkList";
-import EmpHome from "./Components/Employee/EmpHome";
-import Attendance from "./Components/Employee/sidebarComponent/Attendance";
-import Salary from "./Components/Employee/sidebarComponent/Salary";
-import LeaveHistory from "./Components/Employee/sidebarComponent/LeaveHistory";
-import OfferLetter from "./Components/Employee/sidebarComponent/OfferLetter";
-import IncrementLetter from "./Components/Employee/sidebarComponent/IncrementLetter";
-import DailySheet from "./Components/Employee/sidebarComponent/DailySheet";
+import Layout from "./Employee/Layout";
+import WorkList from "./Employee/sidebarComponent/WorkList";
+import EmpHome from "./Employee/EmpHome";
+import Attendance from "./Employee/attendance/Attendance";
+import Salary from "./Employee/sidebarComponent/Salary";
+import LeaveHistory from "./Employee/sidebarComponent/LeaveHistory";
+import OfferLetter from "./Employee/sidebarComponent/OfferLetter";
+import IncrementLetter from "./Employee/sidebarComponent/IncrementLetter";
+import DailySheet from "./Employee/sidebarComponent/DailySheet";
 
 // Account Dashboard
 import AccountLayout from "./Account/AccountLayout";

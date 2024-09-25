@@ -73,7 +73,7 @@ const Domain = () => {
     <section className="md:ml-48 bg-blue-100 p-4 font-sans">
       <h1 className="text-center font-bold text-2xl mb-4 text-black">Domain</h1>
       <form 
-        className="max-w-7xl mx-auto px-8 py-16 bg-white shadow-lg shadow-blue-500/50 rounded-lg mb-16" 
+        className="max-w-7xl mx-auto px-8 py-8 bg-white shadow-lg shadow-blue-500/50 rounded-lg mb-8" 
         onSubmit={handleSubmit}
       >
         <div className="flex flex-wrap -mx-3 mb-6">

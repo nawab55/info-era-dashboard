@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
-import api from "../../config/api";
+import api from "../config/api";
 
 // Ensure the app element is set for accessibility with react-modal
 Modal.setAppElement("#root");

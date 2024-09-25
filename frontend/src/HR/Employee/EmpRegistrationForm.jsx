@@ -269,21 +269,21 @@ const EmpRegistrationForm = () => {
 
   return (
     <>
-      <div className="p-8 md:ml-52 mt-16">
-        <h1 className="text-base md:text-3xl font-bold pb-2 text-center uppercase border-b border-gray-300">
+      <div className="p-4 md:ml-52 mt-16">
+        <h1 className="text-base md:text-2xl font-bold pb-2 text-center uppercase border-b border-gray-300">
             Employee Registration Form
         </h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="">
             {currentPage === 1 && (
-              <div className="p-4 border-2 hover:border-gray-400 shadow-lg border-red-900/10">
+              <div className="p-2 border-2 hover:border-gray-400 shadow-lg border-red-900/10">
                 <div className="flex items-center bg-blue-200 h-9 border-b-2 border-black">
-                  <h2 className="text-base md:text-3xl ml-2 font-semibold leading-7 text-blue-950">
+                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
                     Personal Details
                   </h2>
                 </div>
 
-                <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="mt-4 grid grid-cols-1 gap-x-2 gap-y-6 sm:grid-cols-6">
                   {/* Name */}
                   <div className="sm:col-span-2">
                     <label

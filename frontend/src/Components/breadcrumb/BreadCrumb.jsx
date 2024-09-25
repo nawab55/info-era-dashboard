@@ -32,9 +32,9 @@ const Breadcrumb = () => {
   const pageTitle = routeNames[currentPage] || ' Home';
 
   return (
-    <div className=" md:ml-60 mt-16 px-8 py-8 text-gray-700 bg-inherit">
-      <span className="from-neutral-600 text-3xl">Dashboard /</span>
-      <span className="text-3xl font-bold">{pageTitle}</span>
+    <div className=" md:ml-60 mt-16 px-8 py-6 text-gray-700 bg-inherit">
+      <span className="from-neutral-600 text-2xl">Dashboard /</span>
+      <span className="text-2xl font-bold">{pageTitle}</span>
     </div>
   );
 };

@@ -1,9 +1,12 @@
 const express = require('express');
-const router = express.Router();
-const attendanceController = require('../../controllers/attendance/attendance.controller');
-const { authenticate } = require('../../middleware/auth');
 
-router.post('/attendance', authenticate, attendanceController.markAttendance);
-router.get('/:userId', authenticate, attendanceController.getUserAttendance);
+const { markAttendance, checkoutAttendance } = require('../../controllers/attendance/attendance.controller.js');
+const { authenticate } = require('../../middleware/auth.js');
+
+const router = express.Router();
+
+// POST /api/attendance
+router.post('/mark/attendance', authenticate, markAttendance);
+router.put('/attendance/:attendanceId/checkout', authenticate, checkoutAttendance); // New route for checkout
 
 module.exports = router;

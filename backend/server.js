@@ -42,7 +42,7 @@ app.get('/', (req, res)=>{
 // Routes
 app.use('/api/user', userRoutes);
 app.use('/api/type', employeeTypeRoutes);
-app.use('/api/attendance', attendanceRoutes);
+app.use('/api/employee', attendanceRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/product', categoryRoutes);

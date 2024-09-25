@@ -2,9 +2,8 @@
 import { useState } from "react";
 import { FaBars, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import api from "../../config/api";
-import ProfileDetails from "../Profile/ProfileDetails";
-
+import api from "../config/api";
+import ProfileDetails from "../Components/Profile/ProfileDetails";
 
 const Navbar = ({ sidebarToggle, setSidebarToggle }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -27,7 +26,7 @@ const Navbar = ({ sidebarToggle, setSidebarToggle }) => {
       const token = sessionStorage.getItem("token");
       // const decoded = JSON.parse(atob(token.split(".")[1]));
       // const userId = decoded.user.userId;
-      const userId = sessionStorage.getItem("userId")
+      const userId = sessionStorage.getItem("userId");
       const response = await api.get(`/api/user/details/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -38,7 +37,7 @@ const Navbar = ({ sidebarToggle, setSidebarToggle }) => {
       console.error("Error fetching employee details:", error);
     }
   };
-  // Employee Details 
+  // Employee Details
 
   return (
     <>
@@ -48,12 +47,12 @@ const Navbar = ({ sidebarToggle, setSidebarToggle }) => {
             className="text-white me-4 cursor-pointer block md:hidden"
             onClick={() => setSidebarToggle(!sidebarToggle)}
           />
-          <span className="hidden md:block text-white font-semibold">Dashboard</span>
+          <span className="hidden md:block text-white font-semibold">
+            Dashboard
+          </span>
         </div>
         <div className="flex-1 flex items-center justify-center">
-          <p className=" text-xl text-white font-bold">
-            Employee Dashboard
-          </p>
+          <p className=" text-xl text-white font-bold">Employee Dashboard</p>
         </div>
         <div className="flex items-center gap-x-5">
           <div className="relative">
@@ -83,7 +82,7 @@ const Navbar = ({ sidebarToggle, setSidebarToggle }) => {
       {isProfileModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
           <div className="bg-white p-6 mt-10 rounded shadow-lg w-full max-w-3xl overflow-auto relative">
-            <button 
+            <button
               onClick={() => setIsProfileModalOpen(false)}
               className="absolute top-2 right-2 text-gray-500 hover:text-red-700 text-3xl p-2"
             >
@@ -100,9 +99,6 @@ const Navbar = ({ sidebarToggle, setSidebarToggle }) => {
           </div>
         </div>
       )}
-
-
-
     </>
   );
 };
