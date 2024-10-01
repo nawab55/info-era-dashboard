@@ -13,15 +13,14 @@ const attendanceSchema = new mongoose.Schema(
     },
     date: {
       type: String,
-      // required: true
+      required: true
     },
-    time: {
-      type: String,
-      // required: true,
+    checkInTime: {
+      type: Date,
+      required: true,
     },
-
-    logouttime: {
-      type: String,
+    logoutTime: {
+      type: Date,
     },
     totalHours: {
       type: String,
@@ -33,7 +32,10 @@ const attendanceSchema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["present", "absent", "halfday", "holiday"],
-      // required: true,
+      required: true,
+    },
+    autoSubmit: {
+      type: String, // Field to store your message
     },
   },
   { timestamps: true }

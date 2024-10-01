@@ -99,7 +99,7 @@ const DailySheet = () => {
   };
 
   return (
-    <section className="bg-slate-50 h-full mt-16 md:ml-52">
+    <section className="bg-slate-50 h-full mt-16 md:ml-56">
       <form className="bg-blue-100 pb-8 p-4 space-y-4" onSubmit={handleSubmit}>
         <div className="p-4 text-center text-2xl bg-blue-700 rounded-md shadow-lg shadow-blue-500 text-white">
           Worksheet 

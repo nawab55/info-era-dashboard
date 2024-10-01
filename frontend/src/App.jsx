@@ -11,7 +11,9 @@ import WorkList from "./Employee/sidebarComponent/WorkList";
 import EmpHome from "./Employee/EmpHome";
 import Attendance from "./Employee/attendance/Attendance";
 import Salary from "./Employee/sidebarComponent/Salary";
-import LeaveHistory from "./Employee/sidebarComponent/LeaveHistory";
+import LeaveApplication from "./Employee/sidebarComponent/LeaveApplication";
+import Notification from "./Employee/sidebarComponent/Notification";
+import ReportAProblem from "./Employee/sidebarComponent/ReportAProblem";
 import OfferLetter from "./Employee/sidebarComponent/OfferLetter";
 import IncrementLetter from "./Employee/sidebarComponent/IncrementLetter";
 import DailySheet from "./Employee/sidebarComponent/DailySheet";
@@ -68,6 +70,7 @@ import CustomerProfile from "./client/clientComponent/profile/CustomerProfile";
 import ResetPassword from "./client/clientComponent/reset_password/ResetPassword";
 import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetails";
 import Complain from "./client/clientComponent/service/Complain";
+import ViewLeaveApplication from "./HR/Leave/ViewLeaveApplication";
 
 function App() {
   return (
@@ -107,6 +110,7 @@ function App() {
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
             <Route path="attendance" element={<HRAttendance />} />
+            <Route path="leaves" element={<ViewLeaveApplication />} />
             <Route
               path="report/view_emp-registration"
               element={<EmpRegReports />}
@@ -152,7 +156,9 @@ function App() {
             <Route path="dailysheet" element={<DailySheet />} />
             <Route path="salary" element={<Salary />} />
             <Route path="attendance" element={<Attendance />} />
-            <Route path="leave" element={<LeaveHistory />} />
+            <Route path="leaves" element={<LeaveApplication />} />
+            <Route path="alerts" element={<Notification />} />
+            <Route path="report-problem" element={<ReportAProblem />} />
             <Route path="hr/offer-letter" element={<OfferLetter />} />
             <Route path="hr/increment-letter" element={<IncrementLetter />} />
           </Route>

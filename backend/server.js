@@ -6,6 +6,7 @@ const connectDB = require('./config/db');
 const userRoutes = require('./routes/user/user.routes');
 const employeeTypeRoutes = require('./routes/user/employeeType.routes');
 const attendanceRoutes = require('./routes/attendance/attendance.routes');
+const leaveRoutes = require("./routes/leaveApplication/leave.routes");
 const invoiceRoutes = require('./routes/invoice/invoice.routes');
 const customerRoutes = require('./routes/customer/customer.routes');
 const categoryRoutes = require('./routes/product/category.routes');
@@ -25,6 +26,9 @@ const complainRoutes = require('./routes/customer/complain.routes');
 dotenv.config();
 
 const app = express();
+// Import and initialize cron jobs
+require('./config/cronJobs'); 
+
 const PORT = process.env.PORT || 5454;
 
 // Connect to the database
@@ -43,6 +47,7 @@ app.get('/', (req, res)=>{
 app.use('/api/user', userRoutes);
 app.use('/api/type', employeeTypeRoutes);
 app.use('/api/employee', attendanceRoutes);
+app.use('/api/employeeLeaves', leaveRoutes);
 app.use('/api/invoices', invoiceRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/product', categoryRoutes);

@@ -9,7 +9,7 @@ const CustomModal = ({ isOpen, onClose, children }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white p-8 rounded-lg shadow-md max-w-6xl "
+        className="bg-white p-8 rounded-lg shadow-md w-full md:max-w-6xl "
         onClick={(e) => e.stopPropagation()} // Prevent modal from closing when clicking inside
       >
         {children}

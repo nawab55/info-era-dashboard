@@ -6,6 +6,7 @@ import { GiCalendar } from "react-icons/gi";
 import { SiGoogleforms } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md"; // Import the new icon
+import { FcLeave } from "react-icons/fc";
 
 const HRSidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
@@ -61,6 +62,15 @@ const HRSidebar = ({ sidebarToggle }) => {
           >
             <GiCalendar className="inline-block w-6 h-6 mr-2 -mt-2" />
             Attendance
+          </button>
+        </li>
+        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+          <button
+            onClick={() => handleNavigate("/hr/leaves")}
+            className="px-1 w-full text-left"
+          >
+            <FcLeave className="inline-block w-6 h-6 mr-2 -mt-2" />
+            Leave Applications
           </button>
         </li>
 
