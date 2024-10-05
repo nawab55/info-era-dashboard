@@ -277,7 +277,7 @@ const HRAttendance = () => {
                     </label>
                   </div>
 
-                  <div className="flex items-center me-10 my-2">
+                  {/* <div className="flex items-center me-10 my-2">
                     <input
                       id="holiday-radio"
                       type="radio"
@@ -294,7 +294,7 @@ const HRAttendance = () => {
                     >
                       Holiday
                     </label>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="text-center my-8 mx-4 flex justify-center">

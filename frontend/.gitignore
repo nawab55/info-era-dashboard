@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 .env
-./src/Components/practice
+./src/Components/practice/leaveprc.jsx
 
 # Editor directories and files
 .vscode/*

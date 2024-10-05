@@ -6,16 +6,13 @@ const Customer = require("../models/customer_model/customer.model");
 exports.authenticate = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   // console.log(token);
-
   if (!token) {
     return res
       .status(401)
       .json({ message: "Access denied. No token provided." });
   }
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
     // Determine if the token belongs to a User or a Customer
     if(decoded.user && decoded.user.userId){
        // The token belongs to a User
@@ -27,6 +24,8 @@ exports.authenticate = async (req, res, next) => {
     } else if (decoded.id) {
        // The token belongs to a Customer
       const customer = await Customer.findById(decoded.id); 
+      // console.log("customer details -> ",customer);
+      
       if (customer) {
         req.customer = customer;
         return next();

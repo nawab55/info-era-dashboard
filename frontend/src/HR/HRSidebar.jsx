@@ -7,6 +7,9 @@ import { SiGoogleforms } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { MdKeyboardArrowDown } from "react-icons/md"; // Import the new icon
 import { FcLeave } from "react-icons/fc";
+import { BiErrorCircle } from "react-icons/bi";
+import { BiCommentError } from "react-icons/bi";
+
 
 const HRSidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
@@ -28,7 +31,7 @@ const HRSidebar = ({ sidebarToggle }) => {
     >
       <hr className="border-gray-600" />
       <ul className="py-2 text-white font-bold">
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
           <button
             onClick={() => handleNavigate("/hr")}
             className="px-1 w-full text-left"
@@ -37,7 +40,7 @@ const HRSidebar = ({ sidebarToggle }) => {
             Dashboard
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
           <button
             onClick={() => handleNavigate("/hr/register")}
             className="px-1 w-full text-left"
@@ -46,7 +49,7 @@ const HRSidebar = ({ sidebarToggle }) => {
             Emp Registeration
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
           <button
             onClick={() => handleNavigate("/hr/worksheet")}
             className="px-1 w-full text-left"
@@ -55,7 +58,7 @@ const HRSidebar = ({ sidebarToggle }) => {
             Work Sheet
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
           <button
             onClick={() => handleNavigate("/hr/attendance")}
             className="px-1 w-full text-left"
@@ -64,13 +67,40 @@ const HRSidebar = ({ sidebarToggle }) => {
             Attendance
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
           <button
             onClick={() => handleNavigate("/hr/leaves")}
             className="px-1 w-full text-left"
           >
             <FcLeave className="inline-block w-6 h-6 mr-2 -mt-2" />
             Leave Applications
+          </button>
+        </li>
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+          <button
+            onClick={() => handleNavigate("/hr/alerts")}
+            className="px-1 w-full text-left"
+          >
+            <BiErrorCircle className="inline-block w-6 h-6 mr-2 -mt-2" />
+            Alerts
+          </button>
+        </li>
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+          <button
+            onClick={() => handleNavigate("/hr/issues")}
+            className="px-1 w-full text-left"
+          >
+            <BiErrorCircle className="inline-block w-6 h-6 mr-2 -mt-2" />
+            Issues
+          </button>
+        </li>
+        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2">
+          <button
+            onClick={() => handleNavigate("/hr/client/complain")}
+            className="px-1 w-full text-left"
+          >
+            <BiCommentError className="inline-block w-6 h-6 mr-2 -mt-2" />
+            Client Complain
           </button>
         </li>
 

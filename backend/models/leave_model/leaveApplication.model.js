@@ -6,6 +6,9 @@ const leaveSchema = new mongoose.Schema({
     ref: "User",
     required: "true",
   }, // Reference to the User
+  empname: {
+    type: String,
+  }, 
   type: {
     type: String,
     required: true,

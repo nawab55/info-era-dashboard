@@ -1,4 +1,5 @@
 const Leave = require("../../models/leave_model/leaveApplication.model");
+const User = require("../../models/user_model/User");
 
 // Create a new leave request
 exports.createLeaveRequest = async (req, res) => {
@@ -6,12 +7,19 @@ exports.createLeaveRequest = async (req, res) => {
   const { userId } = req.params;
 
   try {
+    // Fetch employee information by _id // Ensure the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
     const newLeaveRequest = new Leave({
       userId,  // Associate the leave with the userId
       type,
       fromDate,
       toDate,
       reason,
+      empname: user.name,
     });
 
     const savedLeaveRequest = await newLeaveRequest.save();
@@ -35,7 +43,12 @@ exports.getLeaveRequestsByUser = async (req, res) => {
 
 // Get all leave requests of pending status
 exports.getAllPendingLeaveRequest = async (req, res) => {
-  
+  try {
+    const pendingLeaves = await Leave.find({ status: "Pending" }).sort({ appliedDate: -1 });
+    res.status(200).json({ pendingLeavesStatus: pendingLeaves, message: "Fetch Leave Request which has Pending status" });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve pending leave requests', error });
+  }
 }
 
 // Delete a leave request
@@ -52,11 +65,11 @@ exports.deleteLeaveRequest = async (req, res) => {
 
 // Update the status of a leave request
 exports.updateLeaveStatus = async (req, res) => {
-  const { id } = req.params;
+  const { leaveId } = req.params;
   const { status } = req.body;
 
   try {
-    const leaveRequest = await Leave.findById(id);
+    const leaveRequest = await Leave.findById(leaveId);
     if (!leaveRequest) {
       return res.status(404).json({ message: 'Leave request not found' });
     }

@@ -46,7 +46,7 @@ function WorkList() {
 
   return (
     <section className="bg-slate-200 h-full mt-16 md:ml-56 p-4">
-      <div className="bg-sky-200 p-4 text-center text-black text-2xl font-bold border-b-2 border-black">Work List</div>
+      <div className="bg-sky-200 p-2 text-center text-black text-2xl font-bold border-b-2 border-black">Work List</div>
       <div className="p-2 flex justify-between items-center">
         <div>
           <label className="mr-2 font-bold ">Start Date:</label>
@@ -68,9 +68,9 @@ function WorkList() {
         </div>
       </div>
       <div className="overflow-x-auto">
-        <table className="min-w-full text-center text-sm font-mono bg-slate-200">
+        <table className="min-w-full text-center text-sm font-sans bg-slate-200">
           <thead className="border-b border-black font-medium bg-slate-300 sticky">
-            <tr className="text-blue-700 border font-bold text-lg border-black">
+            <tr className="text-blue-700 border text-nowrap font-bold text-lg border-black">
               <th className="px-1 py-1 border border-black">Employee ID</th>
               <th className="px-1 py-1 border border-black">Employee Name</th>
               <th className="px-1 py-1 border border-black">Designation</th>

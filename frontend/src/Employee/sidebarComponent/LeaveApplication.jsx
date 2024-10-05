@@ -57,7 +57,12 @@ const LeaveApplication = () => {
     try {
       const response = await api.post(
         `/api/employeeLeaves/create/leave/${userId}`,
-        newLeaveRequest
+        newLeaveRequest,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`
+          }
+        },
       );
       // Add the new leave request to the state and close the modal
       setLeaveRequests([response.data.leave, ...leaveRequests]); // Add the latest leave request at the front
@@ -169,7 +174,10 @@ const LeaveApplication = () => {
         <div className="bg-blue-50 w-full p-6 rounded-lg shadow-lg">
           {/* Modal Header */}
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold">Leave Request</h2>
+            <div className="flex items-center my-auto">
+              <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+              <h2 className="text-xl font-semibold">Leave Request</h2>
+            </div>
             <button onClick={handleModal} className="text-2xl">
               <MdClose />
             </button>

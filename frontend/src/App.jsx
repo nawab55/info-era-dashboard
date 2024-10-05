@@ -37,6 +37,10 @@ import HRHome from "./HR/HRHome";
 import EmpRegistrationForm from "./HR/Employee/EmpRegistrationForm";
 import Worksheet from "./HR/worksheet/Worksheet";
 import HRAttendance from "./HR/HRAttendance";
+import ViewLeaveApplication from "./HR/Leave/ViewLeaveApplication";
+import Alerts from "./HR/notification/Alerts";
+import Issues from "./HR/notification/Issues";
+import ClientComplain from "./HR/notification/ClientComplain";
 import AttendanceReport from "./HR/Report/AttendanceReport";
 import Project from "./HR/Report/Project";
 import Domain from "./Account/AccountSidebarComponent/Domain";
@@ -70,7 +74,7 @@ import CustomerProfile from "./client/clientComponent/profile/CustomerProfile";
 import ResetPassword from "./client/clientComponent/reset_password/ResetPassword";
 import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetails";
 import Complain from "./client/clientComponent/service/Complain";
-import ViewLeaveApplication from "./HR/Leave/ViewLeaveApplication";
+
 
 function App() {
   return (
@@ -111,6 +115,9 @@ function App() {
             <Route path="worksheet" element={<Worksheet />} />
             <Route path="attendance" element={<HRAttendance />} />
             <Route path="leaves" element={<ViewLeaveApplication />} />
+            <Route path="alerts" element={<Alerts />} />
+            <Route path="issues" element={<Issues />} />
+            <Route path="client/complain" element={<ClientComplain />} />
             <Route
               path="report/view_emp-registration"
               element={<EmpRegReports />}

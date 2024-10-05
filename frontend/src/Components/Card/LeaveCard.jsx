@@ -1,18 +1,42 @@
 /* eslint-disable react/prop-types */
 import { BsClock } from "react-icons/bs";
 
-const LeaveCard = ({ request }) => {
-  return (
-    <div className="bg-blue-50 p-3 rounded-lg shadow-md">
+const LeaveCard = ({ request, onUpdateStatus, hrId }) => {
+    return (
+    <div className="bg-blue-50 p-3 rounded-lg shadow-md hover:shadow-lg transition duration-300 relative group">
       <div className="flex justify-between items-center mb-0.5">
         <div className="flex items-center font-bold">
-          <BsClock className="mr-2 text-blue-800" />
-          <span className="text-sm text-purple-800">
-            {new Date(request.appliedDate).toLocaleDateString("en-GB")}{" "}
-            {/* Format as day/month/year */}
-          </span>
+          <BsClock className={`mr-2 rounded shadow-md ${
+          request.status === 'Pending' 
+            ? 'bg-yellow-100 text-yellow-600' 
+            : request.status === 'Approved'
+              ? 'bg-green-100 text-green-600'
+              : 'bg-red-100 text-red-600'
+        }`} />
+          {hrId 
+            ? 
+              <span className="text-sm text-purple-800">
+              {request.empname}
+              </span>
+            :  
+              <span className="text-sm text-purple-800">
+                {new Date(request.appliedDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}  
+                {/* Format as day/month/year, "en-GB" */}
+              </span>
+          }
+          
         </div>
-        <span className="text-sm bg-yellow-100 px-3 py-1.5 rounded-2xl shadow-md text-yellow-600 font-bold">
+        <span className={`text-sm px-3 py-1.5 rounded-2xl shadow-md ${
+          request.status === 'Pending' 
+            ? 'bg-yellow-100 text-yellow-600' 
+            : request.status === 'Approved'
+              ? 'bg-green-100 text-green-600'
+              : 'bg-red-100 text-red-600'
+        } font-bold`}>
           {request.status}
         </span>
       </div>
@@ -34,6 +58,23 @@ const LeaveCard = ({ request }) => {
       <p className="text-sm font-semibold text-blue-900">
         Reason:<span className="ml-2 font-normal text-blue-900">{request.reason}</span>
       </p>
+       {/* Approve/Reject buttons on hover */}
+      {hrId && (
+      <div className="absolute inset-0 flex justify-center items-center opacity-0 group-hover:opacity-100 bg-opacity-90 bg-blue-50 transition duration-300">
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded-lg mx-2 hover:bg-green-600"
+          onClick={() => onUpdateStatus(request._id, "Approved")}
+        >
+          Approve
+        </button>
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded-lg mx-2 hover:bg-red-600"
+          onClick={() => onUpdateStatus(request._id, "Rejected")}
+        >
+          Reject
+        </button>
+      </div>
+      )}
     </div>
   );
 };

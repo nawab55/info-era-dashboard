@@ -58,7 +58,7 @@ const autoCheckout = async () => {
           {
             logoutTime: parsedLogoutTime,
             autoSubmit: autoSubmitMessage,
-            // totalHours: totalHours,
+            totalHours: totalHours,
           },
           { new: true }
         );
@@ -71,7 +71,7 @@ const autoCheckout = async () => {
   };
   
   // Schedule the cron job to run at 9:00 PM every day
-  cron.schedule('1 19 * * *', () => {
+  cron.schedule('0 21 * * *', () => {
     console.log('Executing automatic checkout job at 9:00 PM.');
     autoCheckout();
   }, {
