@@ -28,8 +28,8 @@ const complainSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Open', 'Closed', 'UnderProcess'],
-    default: 'Open',
+    enum: ['Pending', 'In Progress', 'Resolved', 'Closed'],
+    default: 'Pending',
   },
   createdAt: {
     type: Date,

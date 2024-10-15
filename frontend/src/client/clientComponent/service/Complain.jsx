@@ -15,7 +15,7 @@ const Complain = () => {
   });
 
   useEffect(() => {
-    // Fetch all complains from the backend
+    // Fetch all complains of respected customer from the backend
     const fetchComplains = async () => {
       try {
         const res = await api.get("/api/complains/get-all/cuctomer-complain", {
@@ -102,6 +102,7 @@ const Complain = () => {
               <label className="block text-gray-500 font-semibold mb-2">Token ID</label>
               <input
                 type="text"
+                name="tokenId"
                 value={tokenId}
                 readOnly
                 className="w-full px-4 py-2 rounded-md bg-gray-100 text-gray-600 cursor-not-allowed"

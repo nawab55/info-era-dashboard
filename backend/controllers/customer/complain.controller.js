@@ -63,10 +63,11 @@ const getAllComplains = async (req, res) => {
 };
 
 // Update Complain Status and Add Reply
-const updateComplainStatusAndReply = async (req, res) => {
+const updateComplainStatus = async (req, res) => {
   try {
     const { tokenId } = req.params;
     const { status, replyMessage } = req.body;
+    console.log(status);
 
     // Find the complain by tokenId
     const complain = await Complain.findOne({ tokenId });
@@ -75,17 +76,17 @@ const updateComplainStatusAndReply = async (req, res) => {
     }
 
     // Update the complain status
-    complain.status = status || complain.status;
+    complain.status = status;
     await complain.save();
 
     // Add a reply if provided
-    if (replyMessage) {
-      const newReply = new Reply({
-        tokenId: complain.tokenId,
-        message: replyMessage,
-      });
-      await newReply.save();
-    }
+    // if (replyMessage) {
+    //   const newReply = new Reply({
+    //     tokenId: complain.tokenId,
+    //     message: replyMessage,
+    //   });
+    //   await newReply.save();
+    // }
 
     res.status(200).json({ success: true, message: 'Complain updated successfully', complain });
   } catch (error) {
@@ -95,15 +96,16 @@ const updateComplainStatusAndReply = async (req, res) => {
 };
 
 // Get replies for a specific complain
+// Get replies (and comments) for a specific complain, sorted by createdAt
 const getComplainReplies = async (req, res) => {
   try {
     const { tokenId } = req.params;
     const replies = await Reply.find({ tokenId }).sort({ createdAt: 'asc' });
-
+    // console.log(replies);
     if (!replies.length) {
       return res.status(404).json({ success: false, message: 'No replies found for this complain.' });
     }
-
+    // Send the replies (and comments) to the frontend
     res.status(200).json({ success: true, replies });
   } catch (error) {
     console.error('Error fetching replies', error);
@@ -111,25 +113,47 @@ const getComplainReplies = async (req, res) => {
   }
 };
 
-// Add a reply of comment for a specific complain
+// Add a reply (message) for a specific complain
 const addReplyComment = async (req, res) => {
   try {
     const { tokenId } = req.params;
     const { status, replyMessage } = req.body;
-    //     status,
-//     replyMessage: reply,
-
+    console.log(status);
+    
     if (!replyMessage) {
-      return res.status(400).json({ success: false, message: 'Comment cannot be empty.' });
+      return res.status(400).json({ success: false, message: 'Reply message cannot be empty.' });
     }
 
     const newReply = new Reply({
       tokenId,
-      message: comment,
+      message: replyMessage,
     });
 
     await newReply.save();
-    res.status(201).json({ success: true, message: 'Comment added successfully', reply: newReply });
+    res.status(201).json({ success: true, message: 'Reply added successfully', reply: newReply });
+  } catch (error) {
+    console.error('Error adding Reply', error);
+    res.status(500).json({ message: 'Failed to add reply for a comment', error });
+  }
+};
+
+// Add a comment for a specific complain by client
+const addComplainComment = async (req, res) => {
+  try {
+    const { tokenId } = req.params;
+    const { comment } = req.body;
+
+    if (!comment) {
+      return res.status(400).json({ success: false, message: 'Comment cannot be empty.' });
+    }
+
+    const newComment = new Reply({
+      tokenId,
+      commentMsg: comment,
+    });
+
+    await newComment.save();
+    res.status(201).json({ success: true, message: 'Comment added successfully', reply: newComment });
   } catch (error) {
     console.error('Error adding comment', error);
     res.status(500).json({ message: 'Failed to add comment', error });
@@ -141,7 +165,8 @@ module.exports = {
   createComplain,
   getAllComplains,
   getComplainByClientId,
-  updateComplainStatusAndReply,
+  updateComplainStatus,
   getComplainReplies,
   addReplyComment,
+  addComplainComment,
 };

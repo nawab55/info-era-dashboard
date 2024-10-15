@@ -8,7 +8,10 @@ const replySchema = new mongoose.Schema({
   },
   message: {
     type: String,
-    required: true,
+    // required: true,
+  },
+  commentMsg: {
+    type: String,
   },
   createdAt: {
     type: Date,
