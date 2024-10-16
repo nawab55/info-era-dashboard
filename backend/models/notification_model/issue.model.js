@@ -15,8 +15,8 @@ const issueSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["unresolved", "resolved"],
-    default: "unresolved",
+    enum: ["Unresolved", "Resolved"],
+    default: "Unresolved",
   },
   createdAt: {
     type: Date,

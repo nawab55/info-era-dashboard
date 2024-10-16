@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BiErrorCircle } from "react-icons/bi"
-import { MdClose } from "react-icons/md";
+import { MdClose, MdCheck } from "react-icons/md";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import CustomModal from "../../Components/Modal/CustomModal";
@@ -13,7 +13,8 @@ const ReportAProblem = () => {
   // Fetch issues from the backend
   const fetchIssues = async () => {
     try {
-      const response = await api.get("/api/message/issues", {
+      const userId = sessionStorage.getItem("userId");
+      const response = await api.get(`/api/message/issues/get/${userId}`, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`
         }
@@ -57,7 +58,9 @@ const ReportAProblem = () => {
     return (
       <section className="md:ml-56 mt-16 bg-gray-50 p-4">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
+      <div 
+        className="flex justify-between items-center mt-20 mx-4 bg-blue-50 p-4 shadow-md rounded-lg fixed top-0 left-0 md:left-56 right-0 "
+      >
         <div className="flex items-center my-auto">
           <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-900">Issues</h1>
@@ -72,28 +75,30 @@ const ReportAProblem = () => {
       </div>
 
       {/* Issues List */}
-      <div className="mt-6 space-y-4">
+      <div className="mt-24 space-y-4">
         {issues.map((issue, index) => (
           <div
             key={index}
             className={`p-4 rounded-lg shadow-md flex justify-between items-center ${
-              issue.status === "unresolved"
+              issue.status === "Unresolved"
                 ? "bg-red-100 text-gray-900"
                 : "bg-green-100 text-gray-900"
             }`}
           >
             <div className="flex items-center">
-              <MdClose className={`text-2xl mr-2 rounded-full text-white ${
-                  issue.status === "unresolved"
-                    ? "bg-red-600"
-                    : "bg-green-600"
-                }`} />
-              <p>{issue.description}</p>
+            {issue.status === "Unresolved" ? (
+                <MdClose className="text-3xl p-1.5 mr-2 rounded-full text-white bg-red-600" />
+              ) : (
+                <MdCheck className="text-3xl p-1.5 mr-2 rounded-full text-white bg-green-600" />
+              )}
+              <p className={`${issue.status === "Unresolved" ? "text-red-700" : "text-green-700"}`}>
+                {issue.description}
+              </p>
             </div>
             <div>
               <span
-                className={`px-4 py-2 rounded-lg text-sm text-white ${
-                  issue.status === "unresolved"
+                className={`p-2 rounded-md text-sm text-white ${
+                  issue.status === "Unresolved"
                     ? "bg-red-600"
                     : "bg-green-600"
                 }`}

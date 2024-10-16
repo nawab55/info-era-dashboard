@@ -25,17 +25,41 @@ exports.createIssue = async (req, res) => {
   }
 };
 
+
 // Get all issues
 exports.getIssues = async (req, res) => {
   try {
-    const issues = await Issue.find().sort({ createdAt: -1 }); // Sort by latest
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalIssues = await Issue.countDocuments();
+    const issues = await Issue.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+    // const issues = await Issue.find().sort({ createdAt: -1 }); // Sort by latest
+    res.status(200).json({ issues, totalPages: Math.ceil(totalIssues / limit), currentPage: page});
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch issues" });
+  }
+};
+
+// Get all issues of user(employee)
+exports.getIssuesByUserId = async (req, res) => {
+  try {
+    // const userId = req.user._id; // get user id from token
+    // console.log(userId);
+    const userId = req.params.userId;
+    const issues = await Issue.find({userId}).sort({ createdAt: -1 }); // Sort by latest
+    // console.log(issues);
     res.status(200).json(issues);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch issues" });
   }
 };
 
-// Update issue status
+// Update issue status (Resolved or Unresolved)
 exports.updateIssueStatus = async (req, res) => {
   try {
     const { id } = req.params;
