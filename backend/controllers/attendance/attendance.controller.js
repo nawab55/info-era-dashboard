@@ -1,15 +1,15 @@
 const Attendance = require("../../models/attendance_model/attendance.model");
 const User = require("../../models/user_model/User"); 
-const { parseISO } = require("date-fns");
+const { parse, isWithinInterval } = require("date-fns");
 
 exports.markAttendance = async (req, res) => {
   const userId = req.user._id; // Retrieve user ID from the token
   const { status, date, checkInTime, weekday } = req.body;
-  console.log(status, date, checkInTime, weekday);
+  // console.log(status, date, checkInTime, weekday);
   try {
     // Fetch employee information by _id // Ensure the user exists
     const user = await User.findById(userId);
-    console.log(user.name);
+    // console.log(user.name);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -114,17 +114,41 @@ exports.getTodayAttendance = async (req, res) => {
   }
 };
 
-exports.getUserAttendance = async (req, res) => {
+exports.getUserAttendanceByMonthYear = async (req, res) => {
+  const { userId } = req.params;
+  const {month, year} = req.query;
+  // console.log(userId, month, year, new Date() );
+
+  // this is code for when date is stored in db as Date foramt
+  // const startDate = new Date(`${year}-${month}-01`);  // Start of the month
+  // const endDate = new Date(year, month, 0);  // End of the month
+
+  // this is the code for date is stored in db as a String format 
+ // Define start and end dates in the 'DD/MM/YYYY' format
+ const startDateString = `01/${month.padStart(2, '0')}/${year}`; // First day of the month
+ const endDateString = `${new Date(year, month, 0).getDate()}/${month.padStart(2, '0')}/${year}`; // Last day of the month
+
+ // Parse the start and end dates to Date objects
+  const startDate = parse(startDateString, "dd/MM/yyyy", new Date());
+  const endDate = parse(endDateString, "dd/MM/yyyy", new Date());
+  // console.log(`Querying from ${startDateString} (${startDate}) to ${endDateString} (${endDate}) for UserId: ${userId}`);
   try {
-    const { userId } = req.params;
     // Fetch all attendance records for the user
-    const attendanceRecords = await Attendance.find({ userId }).populate(
-      "userId",
-      "email"
-    );
-    res.status(200).json(attendanceRecords);
+    const attendanceRecords = await Attendance.find({ userId });
+
+    // Filter records where the date is within the startDate and endDate range
+    const filteredRecords = attendanceRecords.filter(record => {
+      const recordDate = parse(record.date, "dd/MM/yyyy", new Date());
+      return isWithinInterval(recordDate, { start: startDate, end: endDate });
+    });
+
+    // filteredRecords.forEach((data, index) => {
+    //   console.log(data.date, "and status ", data.status);
+    // });
+    // console.log(filteredRecords);
+    res.status(200).json(filteredRecords);
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    console.error("Error fetching attendance records:", error);
+    res.status(500).json("Internal Server Error");
   }
 };

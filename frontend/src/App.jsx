@@ -10,6 +10,7 @@ import Layout from "./Employee/Layout";
 import WorkList from "./Employee/sidebarComponent/WorkList";
 import EmpHome from "./Employee/EmpHome";
 import Attendance from "./Employee/attendance/Attendance";
+import ViewAttendance from "./Employee/attendance/ViewAttendance";
 import Salary from "./Employee/sidebarComponent/Salary";
 import LeaveApplication from "./Employee/sidebarComponent/LeaveApplication";
 import Notification from "./Employee/sidebarComponent/Notification";
@@ -162,7 +163,8 @@ function App() {
             <Route path="worklist" element={<WorkList />} />
             <Route path="dailysheet" element={<DailySheet />} />
             <Route path="salary" element={<Salary />} />
-            <Route path="attendance" element={<Attendance />} />
+            <Route path="attendance/add" element={<Attendance />} />
+            <Route path="attendance/view" element={<ViewAttendance />} />
             <Route path="leaves" element={<LeaveApplication />} />
             <Route path="alerts" element={<Notification />} />
             <Route path="report-problem" element={<ReportAProblem />} />

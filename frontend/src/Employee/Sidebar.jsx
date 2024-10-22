@@ -1,17 +1,19 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaHome, FaRegFileAlt, FaCircle } from "react-icons/fa";
-import { GiCalendar, GiReceiveMoney } from "react-icons/gi";
-import { FcLeave } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import { MdKeyboardArrowDown } from "react-icons/md"; // Import the new icon
+import { FaHome, FaRegFileAlt, } from "react-icons/fa";
+import { GiCalendar } from "react-icons/gi";
+import { FcLeave } from "react-icons/fc";
 import { FaSheetPlastic } from "react-icons/fa6";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { BiErrorCircle } from "react-icons/bi";
+import { RiArrowDownSFill, RiArrowRightSFill, RiMoneyDollarCircleFill } from "react-icons/ri";
+
 
 const Sidebar = ({ sidebarToggle }) => {
   const navigate = useNavigate();
   const [showHRDropdown, setShowHRDropdown] = useState(false);
+  const [showAttendanceDropdown, setShowAttendanceDropdown] = useState(false); // Add this state
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -20,6 +22,11 @@ const Sidebar = ({ sidebarToggle }) => {
   const toggleHRDropdown = () => {
     setShowHRDropdown((prev) => !prev);
   };
+
+  const toggleAttendanceDropdown = () => {
+    setShowAttendanceDropdown((prev) => !prev); // Add toggle for Attendance dropdown
+  };
+
 
   // console.log("Sidebar rendered, sidebarToggle:", sidebarToggle);
   return (
@@ -58,14 +65,39 @@ const Sidebar = ({ sidebarToggle }) => {
             Work List
           </button>
         </li>
-        <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
-          <button
-            onClick={() => handleNavigate("/employee/attendance")}
-            className="px-1 w-full text-left"
+
+        {/* Attendance Dropdown */}
+        <li className="mb-1">
+          <button 
+            onClick={toggleAttendanceDropdown}
+            className="px-3 py-2 w-full text-left flex items-center hover:bg-custom-hover-blue rounded"
           >
             <GiCalendar className="inline-block w-5 h-5 mr-4 -mt-2" />
             Attendance
+            <RiArrowDownSFill className="ml-auto" size={20} />
           </button>
+          {showAttendanceDropdown && (
+            <ul className="">
+              <li className="rounded hover:shadow hover:bg-custom-hover-blue py-2 px-4 flex items-center">
+                <RiArrowRightSFill className="inline-block w-6 h-6 mr-2" />
+                <button
+                  onClick={() => handleNavigate("/employee/attendance/add")}
+                  className="px-1 text-sm w-full text-left"
+                >
+                  Add Attendance
+                </button>
+              </li>
+              <li className="rounded hover:shadow hover:bg-custom-hover-blue py-2 px-4 flex items-center">
+                <RiArrowRightSFill className="inline-block w-6 h-6 mr-2" />
+                <button
+                  onClick={() => handleNavigate("/employee/attendance/view")}
+                  className="px-1 text-sm w-full text-left"
+                >
+                  View Attendance
+                </button>
+              </li>
+            </ul>
+          )}
         </li>
         <li className="mb-1 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
@@ -99,7 +131,7 @@ const Sidebar = ({ sidebarToggle }) => {
             onClick={() => handleNavigate("/employee/salary")}
             className="px-1 w-full text-left"
           >
-            <GiReceiveMoney className="inline-block w-5 h-5 mr-4 -mt-2" />
+            <RiMoneyDollarCircleFill className="inline-block w-5 h-5 mr-4 -mt-2" />
             Salary
           </button> 
         </li>
@@ -114,12 +146,12 @@ const Sidebar = ({ sidebarToggle }) => {
               className="inline-block w-5 h-5 mr-4 -mt-2"
             />
             HR
-            <MdKeyboardArrowDown className="ml-auto" size={20} /> {/* Use the new icon */}
+            <RiArrowDownSFill className="ml-auto" size={20} /> {/* Use the new icon */}
           </button>
           {showHRDropdown && (
             <ul className="">
               <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-4 flex items-center">
-                <FaCircle className="inline-block w-2 h-2 mr-4" />
+                <RiArrowRightSFill className="inline-block w-6 h-6 mr-2" />
                 <button
                   onClick={() => handleNavigate("/employee/hr/offer-letter ")}
                   className="px-1 text-sm w-full text-left"
@@ -128,7 +160,7 @@ const Sidebar = ({ sidebarToggle }) => {
                 </button>
               </li>
               <li className=" rounded hover:shadow hover:bg-custom-hover-blue py-2 px-4 flex items-center">
-                <FaCircle className="inline-block w-2 h-2 mr-4" />
+                <RiArrowRightSFill className="inline-block w-6 h-6 mr-2" />
                 <button
                   onClick={() => handleNavigate("/employee/hr/increment-letter")}
                   className="px-1 text-sm w-full text-left"

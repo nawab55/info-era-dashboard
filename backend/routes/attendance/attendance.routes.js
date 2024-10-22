@@ -1,16 +1,24 @@
 const express = require('express');
 
-const { markAttendance, checkoutAttendance, getTodayAttendance } = require('../../controllers/attendance/attendance.controller.js');
+const { 
+    markAttendance, 
+    checkoutAttendance, 
+    getTodayAttendance, 
+    getUserAttendanceByMonthYear,
+} = require('../../controllers/attendance/attendance.controller.js');
 const { authenticate } = require('../../middleware/auth.js');
 
 const router = express.Router();
 
-// POST /api/attendance
+// Mark attendance
 router.post('/mark/attendance', authenticate, markAttendance);
-// New route for checkout
+// Checkout attendance
 router.put('/attendance/:attendanceId/checkout', authenticate, checkoutAttendance); 
-// Route to get today's attendance
+// Get today's attendance for logged-in user
 router.post("/attendance/today", authenticate, getTodayAttendance);
+
+// Get attendance for a specific month and year (NEW ROUTE)
+router.get('/attendance/:userId', authenticate, getUserAttendanceByMonthYear);
 
 module.exports = router;
 
