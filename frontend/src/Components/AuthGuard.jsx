@@ -7,7 +7,7 @@ const AuthGuard = () => {
 
   if (!token) {
     console.log("No token, redirecting to login");
-    return <Navigate to="/login" />;
+    return <Navigate to="/" />;
   }
 
   // console.log("Token found, rendering Outlet");

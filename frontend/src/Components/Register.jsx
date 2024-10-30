@@ -31,7 +31,7 @@ const Register = () => {
 
       if (response.data.success) {
         toast.success("User registered successfully");
-        navigate("/login"); // Redirect to login page
+        navigate("/"); // Redirect to login page
       } else {
         toast.error("Registration failed: " + response.data.message);
       }
@@ -102,7 +102,7 @@ const Register = () => {
           Already have an account?{" "}
           <Link
             className="text-red-600 hover:underline hover:underline-offset-4 cursor-pointer"
-            to="/login"
+            to="/"
           >
             Login
           </Link>

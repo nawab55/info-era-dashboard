@@ -13,7 +13,7 @@ const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
-    navigate("/login");
+    navigate("/");
   };
 
   const handleProfile = async () => {

@@ -3,7 +3,7 @@ import "./App.css";
 import Login from "./Components/Login";
 // import Register from "./Components/Register";
 import AuthGuard from "./Components/AuthGuard";
-import Home from "./Home";
+// import Home from "./Home";
 
 // Employee Dashboard
 import Layout from "./Employee/Layout";
@@ -82,10 +82,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/client_login" element={<ClientLogin />} />
         {/* <Route path="/register" element={<Register />} /> */}
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
 
         {/* Protected Routes */}
         <Route element={<AuthGuard />}>

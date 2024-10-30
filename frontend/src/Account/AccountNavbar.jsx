@@ -7,7 +7,7 @@ const AccountNavbar = ({ setSidebarOpen, sidebarOpen }) => {
 
   const handleLogout = () => {
     sessionStorage.clear();
-    navigate('/login');
+    navigate('/');
   };
 
   return (
