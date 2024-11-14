@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 import api from "../config/api";
-
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -27,28 +26,27 @@ const Login = () => {
 
     try {
       const response = await api.post(`/api/user/login`, formData);
-      
+
       if (response.status === 200) {
         // Handle successful login, e.g., save token, redirect, etc.
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("role", response.data.role);
         sessionStorage.setItem("userId", response.data.user._id);
-        sessionStorage.setItem("username", response.data.user.name)
+        sessionStorage.setItem("username", response.data.user.name);
         toast.success("Login successful");
 
         if (response.data.role === "employee") {
-            // navigate("/admin");
-            navigate("/employee");
-        } else if(response.data.role === "account"){
+          // navigate("/admin");
+          navigate("/employee");
+        } else if (response.data.role === "account") {
           navigate("/account/dashboard");
-        } else if(response.data.role === "admin"){
-            navigate("/admin/dashboard_admin");
-        } else if(response.data.role === "hr") {
-            navigate("/hr");
+        } else if (response.data.role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (response.data.role === "hr") {
+          navigate("/hr");
         } else {
-          navigate("/")
+          navigate("/");
         }
-        
       } else {
         // Handle login failure
         console.error("Login failed", response.data.message);
@@ -56,7 +54,7 @@ const Login = () => {
       }
     } catch (error) {
       // Handle error during request
-      toast.info(`Login failed due to ${error.response.data.message}`)
+      toast.info(`Login failed due to ${error.response.data.message}`);
       console.error("Error during login request", error);
     }
   };

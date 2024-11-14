@@ -57,14 +57,16 @@ const Attendance = () => {
   const [attendanceStatus, setAttendanceStatus] = useState("");
   const [isAttendanceMarked, setIsAttendanceMarked] = useState(false); // To show the checkout button
   // const [checkInTime, setCheckInTime] = useState(null); // Store check-in time
-  const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString()); // State for current time, updated every second
+  const [currentTime, setCurrentTime] = useState(
+    new Date().toLocaleTimeString()
+  ); // State for current time, updated every second
   const [attendanceId, setAttendanceId] = useState(""); // Store attendance record ID for checkout
   // const [isAutoCheckedOut, setIsAutoCheckedOut] = useState(false); // state to track automatic checkout
 
   // Fetch the user's name from session storage
-  const userName = sessionStorage.getItem("username"); 
+  const userName = sessionStorage.getItem("username");
   // Update current time every second
-  useEffect(() => { 
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date().toLocaleTimeString());
     }, 1000);
@@ -78,20 +80,22 @@ const Attendance = () => {
         // Get the current date and format it
         const currentDateAndTime = getCurrentDateAndTime();
         const datePart = formatDate(currentDateAndTime); // e.g., "28/09/2024"
-        const response = await api.post("/api/employee/attendance/today",
+        const response = await api.post(
+          "/api/employee/attendance/today",
           { date: datePart },
           {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-          },
-        });
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
 
-        const lastAttendance = response.data.data;    //Fetch last attendance date from db
+        const lastAttendance = response.data.data; //Fetch last attendance date from db
         // console.log(lastAttendance);
-        
+
         // Check if the last attendance date is today
         if (lastAttendance && isToday(lastAttendance.date)) {
-          if(lastAttendance.logoutTime){
+          if (lastAttendance.logoutTime) {
             // If logoutTime exists, it means the user has already checked out (manually or automatically)
             setIsAttendanceMarked(false); // Hide checkout button
             // setIsAutoCheckedOut(true); // Show auto checkout message
@@ -152,7 +156,10 @@ const Attendance = () => {
       // Save attendance data to localStorage
       localStorage.setItem("attendanceId", res.data.data._id);
       // localStorage.setItem("checkInTime", res.data.data.checkInTime);
-      localStorage.setItem("lastAttendanceDate", currentDateAndTime.toISOString()); // Save the current date as ISO string to track the last attendance
+      localStorage.setItem(
+        "lastAttendanceDate",
+        currentDateAndTime.toISOString()
+      ); // Save the current date as ISO string to track the last attendance
 
       toast.success("Today Attendance marked Successfully!");
     } catch (error) {
@@ -206,13 +213,20 @@ const Attendance = () => {
         {/* name, date, time */}
         <div className="w-full flex justify-between px-2 shadow-2xl border border-slate-100 py-1 text-xl sm:text-md md:text-xl lg:text-xl xl:text-xl my-0">
           <h2 className="text-base text-start font-semibold p-2 px-3  rounded bg-sky-100 shadow-md">
-            Your Name: <span className="text-base tracking-wide text-blue-900">{userName}</span>
+            Your Name:{" "}
+            <span className="text-base tracking-wide text-blue-900">
+              {userName}
+            </span>
           </h2>
           <h2 className="text-base text-start font-semibold p-2 px-3 rounded bg-sky-100 shadow-md">
-            Time: <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">{currentTime}</span>
+            Time:{" "}
+            <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
+              {currentTime}
+            </span>
           </h2>
           <h2 className="text-base text-start font-semibold p-2 px-3 rounded bg-sky-100 shadow-md">
-            Date: <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
+            Date:{" "}
+            <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
               {formatDate(getCurrentDateAndTime())}
             </span>
           </h2>
@@ -238,80 +252,78 @@ const Attendance = () => {
               </h1>
             </div>
           </div>
-          
-        ) : 
-        // isAutoCheckedOut ? ( // New condition to check if auto checkout was performed
-        //   <div className=" text-center mt-8">
-        //     <h1 className="text-3xl text-yellow-600 font-bold">
-        //       You were automatically checked out at 9:00 PM today.
-        //     </h1>
-        //   </div>
-        //   ) :
-          (
-            <div className="flex flex-wrap justify-center pt-6 bg-slate-100 rounded ">
-              <div className="w-full sm:w-full md:w-full lg:w-full xl:w-1/2 bg-orange-100 shadow-xl my-4 mx-2 rounded">
-                <div className="flex justify-center text-center">
-                  <h1 className="text-xl xl:text-2xl lg:text-2xl tracking-wide text-start font-medium uppercase text-custom-blue me-10 mt-4">
-                    Make Attendance
-                  </h1>
+        ) : (
+          // isAutoCheckedOut ? ( // New condition to check if auto checkout was performed
+          //   <div className=" text-center mt-8">
+          //     <h1 className="text-3xl text-yellow-600 font-bold">
+          //       You were automatically checked out at 9:00 PM today.
+          //     </h1>
+          //   </div>
+          //   ) :
+          <div className="flex flex-wrap justify-center pt-6 bg-slate-100 rounded ">
+            <div className="w-full sm:w-full md:w-full lg:w-full xl:w-1/2 bg-orange-100 shadow-xl my-4 mx-2 rounded">
+              <div className="flex justify-center text-center">
+                <h1 className="text-xl xl:text-2xl lg:text-2xl tracking-wide text-start font-medium uppercase text-custom-blue me-10 mt-4">
+                  Make Attendance
+                </h1>
+              </div>
+              <div className="flex flex-wrap mx-2 text-center justify-center mt-4">
+                <div className="flex items-center me-10 my-2">
+                  <input
+                    id="present-radio"
+                    type="radio"
+                    value="present"
+                    name="attendance"
+                    checked={attendanceStatus === "present"}
+                    onChange={() => setAttendanceStatus("present")} // onChange={(e) => setAttendanceStatus(e.target.value)}
+                    className="w-5 h-5 cursor-pointer text-green-600 bg-green-200  border-green-700 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 "
+                    style={{ accentColor: "#15803d" }}
+                  />
+                  <label
+                    htmlFor="present-radio"
+                    className="ms-2 text-xl cursor-pointer font-semibold text-green-600 "
+                  >
+                    Present
+                  </label>
                 </div>
-                <div className="flex flex-wrap mx-2 text-center justify-center mt-4">
-                  <div className="flex items-center me-10 my-2">
-                    <input
-                      id="present-radio"
-                      type="radio"
-                      value="present"
-                      name="attendance"
-                      checked={attendanceStatus === "present"}
-                      onChange={() => setAttendanceStatus("present")} // onChange={(e) => setAttendanceStatus(e.target.value)}
-                      className="w-5 h-5 cursor-pointer text-green-600 bg-green-200  border-green-700 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 "
-                      style={{ accentColor: "#15803d" }}
-                    />
-                    <label
-                      htmlFor="present-radio"
-                      className="ms-2 text-xl cursor-pointer font-semibold text-green-600 "
-                    >
-                      Present
-                    </label>
-                  </div>
-                  <div className="flex items-center me-10 my-2">
-                    <input
-                      id="absent-radio"
-                      type="radio"
-                      value="absent"
-                      name="attendance"
-                      checked={attendanceStatus === "absent"}
-                      onChange={() => setAttendanceStatus("absent")}
-                      className="w-5 h-5 cursor-pointer text-red-600 bg-red-200 border-red-700 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 "
-                      style={{ accentColor: "#b91c1c" }} // Red color for Absent
-                    />
-                    <label
-                      htmlFor="absent-radio"
-                      className="ms-2 text-xl cursor-pointer font-semibold text-red-600 "
-                    >
-                      Absent
-                    </label>
-                  </div>
-                  <div className="flex items-center me-10 my-2">
-                    <input
-                      id="halfday-radio"
-                      type="radio"
-                      value="halfday"
-                      name="attendance"
-                      checked={attendanceStatus === "halfday"}
-                      onChange={() => setAttendanceStatus("halfday")}
-                      className="w-5 h-5 cursor-pointer text-blue-400 bg-blue-200 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                      style={{ accentColor: "#3b82f6" }} // Blue color for HalfDay
-                    />
-                    <label
-                      htmlFor="halfday-radio"
-                      className="ms-2 text-xl cursor-pointer font-semibold text-blue-600"
-                    >
-                      HalfDay
-                    </label>
-                  </div>
+                <div className="flex items-center me-10 my-2">
+                  <input
+                    id="absent-radio"
+                    type="radio"
+                    value="absent"
+                    name="attendance"
+                    checked={attendanceStatus === "absent"}
+                    onChange={() => setAttendanceStatus("absent")}
+                    className="w-5 h-5 cursor-pointer text-red-600 bg-red-200 border-red-700 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 "
+                    style={{ accentColor: "#b91c1c" }} // Red color for Absent
+                  />
+                  <label
+                    htmlFor="absent-radio"
+                    className="ms-2 text-xl cursor-pointer font-semibold text-red-600 "
+                  >
+                    Absent
+                  </label>
+                </div>
+                <div className="flex items-center me-10 my-2">
+                  <input
+                    id="halfday-radio"
+                    type="radio"
+                    value="halfday"
+                    name="attendance"
+                    checked={attendanceStatus === "halfday"}
+                    onChange={() => setAttendanceStatus("halfday")}
+                    className="w-5 h-5 cursor-pointer text-blue-400 bg-blue-200 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+                    style={{ accentColor: "#3b82f6" }} // Blue color for HalfDay
+                  />
+                  <label
+                    htmlFor="halfday-radio"
+                    className="ms-2 text-xl cursor-pointer font-semibold text-blue-600"
+                  >
+                    HalfDay
+                  </label>
+                </div>
 
-                  {/* <div className="flex items-center me-10 my-2">
+                {/* <div className="flex items-center me-10 my-2">
                     <input
                       id="holiday-radio"
                       type="radio"
@@ -329,18 +341,18 @@ const Attendance = () => {
                       Holiday
                     </label>
                   </div> */}
-                </div>
+              </div>
 
-                <div className="text-center my-8 mx-4 flex justify-center">
-                  <button
-                    className="text-white cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-10 duration-300 bg-custom-blue hover:bg-custom-hover-blue focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-semibold rounded text-base px-3 py-1 text-center me-2 mb-2"
-                    onClick={handleSubmit}
-                  >
-                    Submit
-                  </button>
-                </div>
+              <div className="text-center my-8 mx-4 flex justify-center">
+                <button
+                  className="text-white cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-10 duration-300 bg-custom-blue hover:bg-custom-hover-blue focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-semibold rounded text-base px-3 py-1 text-center me-2 mb-2"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
               </div>
             </div>
+          </div>
         )}
       </div>
     </section>

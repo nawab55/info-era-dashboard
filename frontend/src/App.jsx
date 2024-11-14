@@ -75,14 +75,18 @@ import CustomerProfile from "./client/clientComponent/profile/CustomerProfile";
 import ResetPassword from "./client/clientComponent/reset_password/ResetPassword";
 import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetails";
 import Complain from "./client/clientComponent/service/Complain";
-
+import AuthLogin from "./Components/AuthLogin";
+import NotFound from "./NotFound";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Login />} />
+
+        <Route element={<AuthLogin />}>
+          <Route path="/" element={<Login />} />
+        </Route>
         <Route path="/client_login" element={<ClientLogin />} />
         {/* <Route path="/register" element={<Register />} /> */}
         {/* <Route path="/" element={<Home />} /> */}
@@ -91,7 +95,7 @@ function App() {
         <Route element={<AuthGuard />}>
           {/* Admin Dashboard */}
           <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard_admin" element={<AdminHome />} />
+            <Route path="dashboard" element={<AdminHome />} />
             <Route path="add-college" element={<AddCollege />} />
             <Route path="add-student" element={<AddStudent />} />
             <Route path="training-certificate" element={<Certificate />} />
@@ -183,6 +187,8 @@ function App() {
             <Route path="request-complain" element={<Complain />} />
           </Route>
         </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

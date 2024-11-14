@@ -17,7 +17,7 @@ const ViewLeaveApplication = () => {
     day: "numeric",
   });
 
-  const userId = sessionStorage.getItem("userId")
+  const userId = sessionStorage.getItem("userId");
 
   // Fetch all leave requests from the backend
   useEffect(() => {
@@ -88,7 +88,7 @@ const ViewLeaveApplication = () => {
   };
 
   return (
-    <section className="md:ml-52 mt-16 bg-gray-50 p-4">
+    <section className="flex-1 bg-gray-50 p-4">
       {/* Top Card Section */}
       <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
         <div className="flex items-center my-auto">
@@ -151,7 +151,11 @@ const ViewLeaveApplication = () => {
             {currentPage}
           </span>
           <button
-            className={`px-4 py-2 ${indexOfLastItem >= leaveRequests.length ? "bg-gray-300" : "bg-gray-200"} rounded-lg`}
+            className={`px-4 py-2 ${
+              indexOfLastItem >= leaveRequests.length
+                ? "bg-gray-300"
+                : "bg-gray-200"
+            } rounded-lg`}
             onClick={nextPage}
             disabled={indexOfLastItem >= leaveRequests.length}
           >

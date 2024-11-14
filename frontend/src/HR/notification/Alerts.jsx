@@ -104,7 +104,7 @@ const Alerts = () => {
   }
 
   return (
-    <section className="md:ml-52 mt-16 bg-gray-50 p-4">
+    <section className="flex-1 bg-gray-50 p-4">
       {/* Top Card Section */}
       <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
         <div className="flex items-center my-auto">
@@ -139,7 +139,9 @@ const Alerts = () => {
             </div>
             {/* Display the created date on the right side */}
             <div className="text-gray-700 text-sm my-auto">
-                {moment(alert.createdAt, "Do MMMM YYYY, h:mm:ss a").format("D MMMM, YYYY")}
+              {moment(alert.createdAt, "Do MMMM YYYY, h:mm:ss a").format(
+                "D MMMM, YYYY"
+              )}
               {/* {alert.createdAt} */}
             </div>
           </div>

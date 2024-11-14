@@ -1,8 +1,7 @@
-
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from "react-router-dom";
 
 const AuthGuard = () => {
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem("token");
   // console.log("AuthGuard check, token:", token);
 
   if (!token) {

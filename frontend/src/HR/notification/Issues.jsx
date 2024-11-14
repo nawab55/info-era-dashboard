@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import api from "../../config/api";
-import { BiErrorCircle } from "react-icons/bi"
+import { BiErrorCircle } from "react-icons/bi";
 import { MdCheck, MdClose } from "react-icons/md";
 import { toast } from "react-toastify";
 
@@ -9,18 +9,20 @@ const Issues = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // Fetch issues with pagination 
+  // Fetch issues with pagination
   const fetchIssues = async (page = 1) => {
     try {
-      const response = await api.get(`/api/message/issues/get-all?page=${page}&limit=10`,{
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      });
+      const response = await api.get(
+        `/api/message/issues/get-all?page=${page}&limit=10`,
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
       setIssues(response.data.issues);
       setTotalPages(response.data.totalPages);
       setCurrentPage(response.data.currentPage);
-
     } catch (error) {
       console.error("Error Fetching issues:", error);
     }
@@ -33,13 +35,17 @@ const Issues = () => {
   // Handle status update
   const updatteIssueStatus = async (id, status) => {
     try {
-      await api.patch(`/api/message/issues/${id}/status`, { status }, {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-        },
-      });
+      await api.patch(
+        `/api/message/issues/${id}/status`,
+        { status },
+        {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        }
+      );
       toast.success(`Issues marked as ${status}!`);
-      fetchIssues(currentPage);  // Refetch issues to update UI
+      fetchIssues(currentPage); // Refetch issues to update UI
     } catch (error) {
       toast.error("Error updating issue status!");
       console.error("Error", error);
@@ -49,10 +55,10 @@ const Issues = () => {
   // Pagination navigation
   const handlePageChange = (page) => {
     setCurrentPage(page);
-  }
+  };
 
   return (
-    <section className="md:ml-52 mt-16 bg-gray-50 p-4">
+    <section className="flex-1 bg-gray-50 p-4">
       {/* Top Card Section */}
       <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
         <div className="flex items-center my-auto">
@@ -68,15 +74,21 @@ const Issues = () => {
       {/* Issues list */}
       <div className="mt-6 space-y-4">
         {issues.map((issue, index) => (
-          <div 
+          <div
             key={index}
             className={`p-4 rounded-lg shadow-md flex justify-between items-center relative ${
               issue.status === "Unresolved"
-              ? "bg-red-100 text-gray-900"
-              : "bg-green-100 text-gray-900"
+                ? "bg-red-100 text-gray-900"
+                : "bg-green-100 text-gray-900"
             }`}
-            onMouseEnter={() => document.getElementById(`hover-${index}`).classList.remove("hidden")}
-            onMouseLeave={() => document.getElementById(`hover-${index}`).classList.add("hidden")}
+            onMouseEnter={() =>
+              document
+                .getElementById(`hover-${index}`)
+                .classList.remove("hidden")
+            }
+            onMouseLeave={() =>
+              document.getElementById(`hover-${index}`).classList.add("hidden")
+            }
           >
             <div className="flex items-center">
               {issue.status === "Unresolved" ? (
@@ -84,14 +96,20 @@ const Issues = () => {
               ) : (
                 <MdCheck className="text-3xl p-1.5 mr-2 rounded-full bg-green-600 text-white" />
               )}
-            <p className="mr-2 font-bold text-sm">{issue.empname}:</p>
-              <p className={`${issue.status === "Unresolved" ? "text-red-700" : "text-green-700"}`}>
+              <p className="mr-2 font-bold text-sm">{issue.empname}:</p>
+              <p
+                className={`${
+                  issue.status === "Unresolved"
+                    ? "text-red-700"
+                    : "text-green-700"
+                }`}
+              >
                 {issue.description}
               </p>
             </div>
-            
+
             <div>
-              <span 
+              <span
                 className={`p-2 rounded-md text-sm text-white ${
                   issue.status === "Unresolved" ? "bg-red-600" : "bg-green-600"
                 }`}
@@ -102,10 +120,12 @@ const Issues = () => {
             {/* Hover Mark Resolved/Unresolved Options */}
             <div
               id={`hover-${index}`}
-              className={`absolute  left-0 top-0 ${issue.status === "Unresolved" ? "bg-red-600" : "bg-green-600"} p-3 ml-2  rounded-md shadow-sm hidden`}
+              className={`absolute  left-0 top-0 ${
+                issue.status === "Unresolved" ? "bg-red-600" : "bg-green-600"
+              } p-3 ml-2  rounded-md shadow-sm hidden`}
             >
               {issue.status === "Unresolved" ? (
-                <button 
+                <button
                   className="text-white hover:underline"
                   onClick={() => updatteIssueStatus(issue._id, "Resolved")}
                 >
@@ -131,7 +151,9 @@ const Issues = () => {
             key={index}
             onClick={() => handlePageChange(index + 1)}
             className={`px-3 py-1 mx-1 ${
-              currentPage === index + 1 ? "bg-purple-600 text-white" : "bg-gray-200"
+              currentPage === index + 1
+                ? "bg-purple-600 text-white"
+                : "bg-gray-200"
             } rounded-lg`}
           >
             {index + 1}
@@ -139,7 +161,7 @@ const Issues = () => {
         ))}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Issues
+export default Issues;

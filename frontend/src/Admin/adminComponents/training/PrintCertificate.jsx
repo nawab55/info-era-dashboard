@@ -97,7 +97,6 @@
 
 // export default PrintCertificate;
 
-
 import { useState, useRef } from "react";
 import api from "../../../config/api";
 import { toast } from "react-toastify";
@@ -171,7 +170,8 @@ const PrintCertificate = () => {
                 <th className="py-2 px-4 border-b text-left">Language</th>
                 <th className="py-2 px-4 border-b text-left">To Date</th>
                 <th className="py-2 px-4 border-b text-left">From Date</th>
-                <th className="py-2 px-4 border-b text-left">Print
+                <th className="py-2 px-4 border-b text-left">
+                  Print
                   {/* <button
                     onClick={openModal} // Open modal instead of direct print
                     className="px-4 py-2 bg-green-500 text-white rounded-lg"
@@ -183,15 +183,33 @@ const PrintCertificate = () => {
             </thead>
             <tbody>
               <tr>
-                <td className="py-2 px-4 border-b text-left">{certificateData._id}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.year}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.collegeName}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.regNo}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.studentName}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.projectName}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.language}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.toDate}</td>
-                <td className="py-2 px-4 border-b text-left">{certificateData.fromDate}</td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData._id}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.year}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.collegeName}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.regNo}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.studentName}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.projectName}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.language}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.toDate}
+                </td>
+                <td className="py-2 px-4 border-b text-left">
+                  {certificateData.fromDate}
+                </td>
                 <td className="py-2 px-4 border-b text-left">
                   <button
                     onClick={openModal}
@@ -214,7 +232,10 @@ const PrintCertificate = () => {
                 >
                   &times;
                 </button>
-                <CertificatePage ref={certificateRef} certificateData={certificateData} />
+                <CertificatePage
+                  ref={certificateRef}
+                  certificateData={certificateData}
+                />
                 <div className="flex justify-end mt-4">
                   <button
                     onClick={handlePrint}
@@ -233,4 +254,3 @@ const PrintCertificate = () => {
 };
 
 export default PrintCertificate;
-

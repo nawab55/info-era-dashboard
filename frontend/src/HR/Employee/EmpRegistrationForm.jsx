@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../../config/api";
 // import axios from "axios";
 // import API_BASE_URL from "../../../config/api"
@@ -45,13 +45,46 @@ const EmpRegistrationForm = () => {
       { fname: "", frelation: "", foccupation: "", fdob: "" },
     ],
     educationalDetails: [
-      { edegree: "", euniversity: "", especialization: "", efromDate: "", etoDate: "", epercentage: "", },
-      { edegree: "", euniversity: "", especialization: "", efromDate: "", etoDate: "", epercentage: "", },
-      { edegree: "", euniversity: "", especialization: "", efromDate: "", etoDate: "", epercentage: "", },
+      {
+        edegree: "",
+        euniversity: "",
+        especialization: "",
+        efromDate: "",
+        etoDate: "",
+        epercentage: "",
+      },
+      {
+        edegree: "",
+        euniversity: "",
+        especialization: "",
+        efromDate: "",
+        etoDate: "",
+        epercentage: "",
+      },
+      {
+        edegree: "",
+        euniversity: "",
+        especialization: "",
+        efromDate: "",
+        etoDate: "",
+        epercentage: "",
+      },
     ],
     employmentDetails: [
-      { companyName: "", designation: "", empFromDate: "", empToDate: "", annualctc: "" },
-      { companyName: "", designation: "", empFromDate: "", empToDate: "", annualctc: "" },
+      {
+        companyName: "",
+        designation: "",
+        empFromDate: "",
+        empToDate: "",
+        annualctc: "",
+      },
+      {
+        companyName: "",
+        designation: "",
+        empFromDate: "",
+        empToDate: "",
+        annualctc: "",
+      },
     ],
     signature: null,
   });
@@ -103,49 +136,71 @@ const EmpRegistrationForm = () => {
       if (!formData.empType) newErrors.empType = "Employee type is required";
       if (!formData.gender) newErrors.gender = "Gender is required";
       if (!formData.aadharNo) newErrors.aadharNo = "AadharNo is required";
-      if (!formData.aadhaarFrontImage) newErrors.aadhaarFrontImage = "Aadhaar Front Image is required";
-      if (!formData.aadhaarBackImage) newErrors.aadhaarBackImage = "Aadhaar Back Image is required";
+      if (!formData.aadhaarFrontImage)
+        newErrors.aadhaarFrontImage = "Aadhaar Front Image is required";
+      if (!formData.aadhaarBackImage)
+        newErrors.aadhaarBackImage = "Aadhaar Back Image is required";
       if (!formData.panImage) newErrors.panImage = "PanImage is required";
       if (!formData.panNo) newErrors.panNo = "PanNo is required";
-      if (!formData.dateOfJoining) newErrors.dateOfJoining = "DateOfJoining is required";
-      if (!formData.emergencyContactName) newErrors.emergencyContactName = "EmergencyContactName is required";
-      if (!formData.emergencyContactRelation) newErrors.emergencyContactRelation ="EmergencyContactRelation is required";
-      if (!formData.emergencyContactMobile) newErrors.emergencyContactMobile = "EmergencyContactMobile is required";
-      if (!formData.emergencyContactAddress) newErrors.emergencyContactAddress = "EmergencyContactAddress is required";
+      if (!formData.dateOfJoining)
+        newErrors.dateOfJoining = "DateOfJoining is required";
+      if (!formData.emergencyContactName)
+        newErrors.emergencyContactName = "EmergencyContactName is required";
+      if (!formData.emergencyContactRelation)
+        newErrors.emergencyContactRelation =
+          "EmergencyContactRelation is required";
+      if (!formData.emergencyContactMobile)
+        newErrors.emergencyContactMobile = "EmergencyContactMobile is required";
+      if (!formData.emergencyContactAddress)
+        newErrors.emergencyContactAddress =
+          "EmergencyContactAddress is required";
     } else if (currentPage === 2) {
       formData.familyDetails.forEach((familyMember, index) => {
         if (!familyMember.fname)
-          newErrors[`familyDetails[${index}].fname`] = "Family Name is required";
+          newErrors[`familyDetails[${index}].fname`] =
+            "Family Name is required";
         if (!familyMember.frelation)
-          newErrors[`familyDetails[${index}].frelation`] = "Relation is required";
+          newErrors[`familyDetails[${index}].frelation`] =
+            "Relation is required";
       });
     } else if (currentPage === 3) {
       formData.educationalDetails.forEach((educationalDetail, index) => {
         if (!educationalDetail.edegree)
-          newErrors[`educationalDetails[${index}][edegree]`] = "Educational degree is required";
+          newErrors[`educationalDetails[${index}][edegree]`] =
+            "Educational degree is required";
         if (!educationalDetail.euniversity)
-          newErrors[`educationalDetails[${index}][euniversity]`] = "Educational university is required";
+          newErrors[`educationalDetails[${index}][euniversity]`] =
+            "Educational university is required";
         if (!educationalDetail.especialization)
-          newErrors[`educationalDetails[${index}][especialization]`] = "Educational especialization is required";
+          newErrors[`educationalDetails[${index}][especialization]`] =
+            "Educational especialization is required";
         if (!educationalDetail.efromDate)
-          newErrors[`educationalDetails[${index}][efromDate]`] = "Educational fromDate is required";
+          newErrors[`educationalDetails[${index}][efromDate]`] =
+            "Educational fromDate is required";
         if (!educationalDetail.etoDate)
-          newErrors[`educationalDetails[${index}][etoDate]`] = "Educational toDate is required";
+          newErrors[`educationalDetails[${index}][etoDate]`] =
+            "Educational toDate is required";
         if (!educationalDetail.epercentage)
-          newErrors[`educationalDetails[${index}][epercentage]`] = "Educational percentage is required";
+          newErrors[`educationalDetails[${index}][epercentage]`] =
+            "Educational percentage is required";
       });
     } else if (currentPage === 4) {
       formData.employmentDetails.forEach((employmentDetail, index) => {
         if (!employmentDetail.companyName)
-          newErrors[`employmentDetails[${index}][companyName]`] = "Employement Company name is required";
+          newErrors[`employmentDetails[${index}][companyName]`] =
+            "Employement Company name is required";
         if (!employmentDetail.designation)
-          newErrors[`employmentDetails[${index}][designation]`] = "Employement Designation is required";
+          newErrors[`employmentDetails[${index}][designation]`] =
+            "Employement Designation is required";
         if (!employmentDetail.empFromDate)
-          newErrors[`employmentDetails[${index}][empFromDate]`] = "Employement fromDate is required";
+          newErrors[`employmentDetails[${index}][empFromDate]`] =
+            "Employement fromDate is required";
         if (!employmentDetail.empToDate)
-          newErrors[`employmentDetails[${index}][empToDate]`] = "Employement toDate is required";
+          newErrors[`employmentDetails[${index}][empToDate]`] =
+            "Employement toDate is required";
         if (!employmentDetail.annualctc)
-          newErrors[`employmentDetails[${index}][annualctc]`] = "Employement annualctc is required";
+          newErrors[`employmentDetails[${index}][annualctc]`] =
+            "Employement annualctc is required";
       });
     } else if (currentPage === 5) {
       if (!formData.bankAccName)
@@ -155,7 +210,8 @@ const EmpRegistrationForm = () => {
       if (!formData.ifscCode) newErrors.ifscCode = "IFSC Code is required";
     } else if (currentPage === 6) {
       if (!formData.decDate) newErrors.decDate = "Declaration Date is required";
-      if (!formData.signature) newErrors.signature = "signature image is required";
+      if (!formData.signature)
+        newErrors.signature = "signature image is required";
     }
 
     setErrors(newErrors);
@@ -222,10 +278,10 @@ const EmpRegistrationForm = () => {
 
   const fetchEmployeeTypes = async () => {
     try {
-      const response = await api.get('/api/type/employee-types');
+      const response = await api.get("/api/type/employee-types");
       setEmployeeTypes(response.data);
     } catch (error) {
-      console.error('Error fetching employee types:', error);
+      console.error("Error fetching employee types:", error);
     }
   };
 
@@ -265,13 +321,13 @@ const EmpRegistrationForm = () => {
       console.error("Error submitting the form:", error);
       toast.error("Failed to submit the form.");
     }
-  };  
+  };
 
   return (
     <>
-      <div className="p-4 md:ml-52 mt-16">
+      <div className="flex-1 p-4">
         <h1 className="text-base md:text-2xl font-bold pb-2 text-center uppercase border-b border-gray-300">
-            Employee Registration Form
+          Employee Registration Form
         </h1>
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="">
@@ -327,7 +383,9 @@ const EmpRegistrationForm = () => {
                         required
                       />{" "}
                       {errors.fathersName && (
-                        <span className="text-red-600">{errors.fathersName}</span>
+                        <span className="text-red-600">
+                          {errors.fathersName}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -350,7 +408,9 @@ const EmpRegistrationForm = () => {
                         required
                       />{" "}
                       {errors.mothersName && (
-                        <span className="text-red-600">{errors.mothersName}</span>
+                        <span className="text-red-600">
+                          {errors.mothersName}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -375,7 +435,9 @@ const EmpRegistrationForm = () => {
                         required
                       />{" "}
                       {errors.correspondenceAddress && (
-                        <span className="text-red-600">{errors.correspondenceAddress}</span>
+                        <span className="text-red-600">
+                          {errors.correspondenceAddress}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -399,7 +461,9 @@ const EmpRegistrationForm = () => {
                         required
                       />{" "}
                       {errors.permanentAddress && (
-                        <span className="text-red-600">{errors.permanentAddress}</span>
+                        <span className="text-red-600">
+                          {errors.permanentAddress}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -443,7 +507,7 @@ const EmpRegistrationForm = () => {
                         autoComplete="tel"
                         value={formData.altMobile}
                         onChange={handleChange}
-                        className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none" 
+                        className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -578,7 +642,6 @@ const EmpRegistrationForm = () => {
                         value={formData.maritalStatus}
                         onChange={handleChange}
                         className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none"
-                        
                       >
                         <option value="">Select Marital Status</option>
                         <option value="single">Single</option>
@@ -615,7 +678,8 @@ const EmpRegistrationForm = () => {
                       htmlFor="aadhaarFrontImage"
                       className="block text-base ml-2 font-medium leading-8 text-gray-900"
                     >
-                      Aadhaar Front Image <span className="text-red-600">*</span>
+                      Aadhaar Front Image{" "}
+                      <span className="text-red-600">*</span>
                     </label>
                     <div className="mt-2">
                       <input
@@ -628,7 +692,9 @@ const EmpRegistrationForm = () => {
                         required
                       />
                       {errors.aadhaarFrontImage && (
-                        <span className="text-red-600">{errors.aadhaarFrontImage}</span>
+                        <span className="text-red-600">
+                          {errors.aadhaarFrontImage}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -650,7 +716,9 @@ const EmpRegistrationForm = () => {
                         required
                       />
                       {errors.aadhaarBackImage && (
-                        <span className="text-red-600">{errors.aadhaarBackImage}</span>
+                        <span className="text-red-600">
+                          {errors.aadhaarBackImage}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -672,7 +740,6 @@ const EmpRegistrationForm = () => {
                         className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none"
                         required
                       />
-                      
                     </div>
                   </div>
                   {/* PAN No */}
@@ -759,13 +826,18 @@ const EmpRegistrationForm = () => {
                         required
                       />{" "}
                       {errors.dateOfJoining && (
-                        <span className="text-red-600">{errors.dateOfJoining}</span>
+                        <span className="text-red-600">
+                          {errors.dateOfJoining}
+                        </span>
                       )}
                     </div>
                   </div>
                   {/* Employee Id */}
                   <div className="sm:col-span-1">
-                    <label htmlFor="EmpId" className="block text-base ml-2 font-medium leading-6 text-gray-900">
+                    <label
+                      htmlFor="EmpId"
+                      className="block text-base ml-2 font-medium leading-6 text-gray-900"
+                    >
                       EmpId <span className="text-red-600">*</span>
                     </label>
                     <div className="mt-2">
@@ -803,7 +875,6 @@ const EmpRegistrationForm = () => {
                       </select>
                     </div>
                   </div>
-
                 </div>
 
                 <div className=" flex bg-blue-200 h-9 border-t-2 border-b-2 border-black mt-8 items-center">
@@ -832,7 +903,9 @@ const EmpRegistrationForm = () => {
                         required
                       />
                       {errors.emergencyContactName && (
-                        <span className="text-red-600">{errors.emergencyContactName}</span>
+                        <span className="text-red-600">
+                          {errors.emergencyContactName}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -855,7 +928,9 @@ const EmpRegistrationForm = () => {
                         required
                       />
                       {errors.emergencyContactRelation && (
-                        <span className="text-red-600">{errors.emergencyContactRelation}</span>
+                        <span className="text-red-600">
+                          {errors.emergencyContactRelation}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -878,7 +953,9 @@ const EmpRegistrationForm = () => {
                         required
                       />
                       {errors.emergencyContactMobile && (
-                        <span className="text-red-600">{errors.emergencyContactMobile}</span>
+                        <span className="text-red-600">
+                          {errors.emergencyContactMobile}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -901,7 +978,9 @@ const EmpRegistrationForm = () => {
                         required
                       />
                       {errors.emergencyContactAddress && (
-                        <span className="text-red-600">{errors.emergencyContactAddress}</span>
+                        <span className="text-red-600">
+                          {errors.emergencyContactAddress}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -947,11 +1026,19 @@ const EmpRegistrationForm = () => {
                               name={`familyDetails[${index}].fname`}
                               className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               value={familyMember.fname}
-                              onChange={(e) => handleFamilyDetailChange(index, "fname", e.target.value )}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "fname",
+                                  e.target.value
+                                )
+                              }
                               required
                             />
                             {errors[`familyDetails[${index}].fname`] && (
-                              <span className="text-red-600">{errors[`familyDetails[${index}].fname`]}</span>
+                              <span className="text-red-600">
+                                {errors[`familyDetails[${index}].fname`]}
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
@@ -959,11 +1046,19 @@ const EmpRegistrationForm = () => {
                               type="text"
                               className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               value={familyMember.frelation}
-                              onChange={(e) => handleFamilyDetailChange(index, "frelation", e.target.value)}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "frelation",
+                                  e.target.value
+                                )
+                              }
                               required
                             />
                             {errors[`familyDetails[${index}].frelation`] && (
-                              <span className="text-red-600">{errors[`familyDetails[${index}].frelation`]}</span>
+                              <span className="text-red-600">
+                                {errors[`familyDetails[${index}].frelation`]}
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
@@ -971,7 +1066,13 @@ const EmpRegistrationForm = () => {
                               type="text"
                               className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               value={familyMember.foccupation}
-                              onChange={(e) => handleFamilyDetailChange(index, "foccupation", e.target.value)}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "foccupation",
+                                  e.target.value
+                                )
+                              }
                             />
                           </td>
                           <td className="py-2 px-4">
@@ -979,7 +1080,13 @@ const EmpRegistrationForm = () => {
                               type="date"
                               className="px-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               value={familyMember.fdob || ""}
-                              onChange={(e) => handleFamilyDetailChange(index, "fdob", e.target.value)}
+                              onChange={(e) =>
+                                handleFamilyDetailChange(
+                                  index,
+                                  "fdob",
+                                  e.target.value
+                                )
+                              }
                             />
                           </td>
                         </tr>
@@ -1030,72 +1137,156 @@ const EmpRegistrationForm = () => {
                             <input
                               type="text"
                               value={eduDetail.edegree}
-                              onChange={(e) => handleEducationalChange(index, "edegree", e.target.value)}
+                              onChange={(e) =>
+                                handleEducationalChange(
+                                  index,
+                                  "edegree",
+                                  e.target.value
+                                )
+                              }
                               className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               required
                             />
-                            {errors[`educationalDetails[${index}][edegree]`] && (
-                              <span className="text-red-600">{errors[`educationalDetails[${index}][edegree]`]}</span>
+                            {errors[
+                              `educationalDetails[${index}][edegree]`
+                            ] && (
+                              <span className="text-red-600">
+                                {
+                                  errors[
+                                    `educationalDetails[${index}][edegree]`
+                                  ]
+                                }
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
                             <input
                               type="text"
                               value={eduDetail.euniversity}
-                              onChange={(e) => handleEducationalChange(index, "euniversity",e.target.value)}
+                              onChange={(e) =>
+                                handleEducationalChange(
+                                  index,
+                                  "euniversity",
+                                  e.target.value
+                                )
+                              }
                               className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               required
                             />
-                            {errors[`educationalDetails[${index}][euniversity]`] && (
-                              <span className="text-red-600">{errors[`educationalDetails[${index}][euniversity]`]}</span>
+                            {errors[
+                              `educationalDetails[${index}][euniversity]`
+                            ] && (
+                              <span className="text-red-600">
+                                {
+                                  errors[
+                                    `educationalDetails[${index}][euniversity]`
+                                  ]
+                                }
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
                             <input
                               type="text"
                               value={eduDetail.especialization}
-                              onChange={(e) => handleEducationalChange(index, "especialization", e.target.value)}
+                              onChange={(e) =>
+                                handleEducationalChange(
+                                  index,
+                                  "especialization",
+                                  e.target.value
+                                )
+                              }
                               className="ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               required
                             />
-                            {errors[`educationalDetails[${index}][especialization]`] && (
-                              <span className="text-red-600">{errors[`educationalDetails[${index}][especialization]`]}</span>
+                            {errors[
+                              `educationalDetails[${index}][especialization]`
+                            ] && (
+                              <span className="text-red-600">
+                                {
+                                  errors[
+                                    `educationalDetails[${index}][especialization]`
+                                  ]
+                                }
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
                             <input
                               type="date"
                               value={eduDetail.efromDate}
-                              onChange={(e) => handleEducationalChange(index, "efromDate", e.target.value)}
+                              onChange={(e) =>
+                                handleEducationalChange(
+                                  index,
+                                  "efromDate",
+                                  e.target.value
+                                )
+                              }
                               className="px-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               required
                             />
-                            {errors[`educationalDetails[${index}][efromDate]`] && (
-                              <span className="text-red-600">{errors[`educationalDetails[${index}][efromDate]`]}</span>
+                            {errors[
+                              `educationalDetails[${index}][efromDate]`
+                            ] && (
+                              <span className="text-red-600">
+                                {
+                                  errors[
+                                    `educationalDetails[${index}][efromDate]`
+                                  ]
+                                }
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
                             <input
                               type="date"
                               value={eduDetail.etoDate}
-                              onChange={(e) => handleEducationalChange(index, "etoDate", e.target.value)}
+                              onChange={(e) =>
+                                handleEducationalChange(
+                                  index,
+                                  "etoDate",
+                                  e.target.value
+                                )
+                              }
                               className="px-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               required
                             />
-                            {errors[`educationalDetails[${index}][etoDate]`] && (
-                              <span className="text-red-600">{errors[`educationalDetails[${index}][etoDate]`]}</span>
+                            {errors[
+                              `educationalDetails[${index}][etoDate]`
+                            ] && (
+                              <span className="text-red-600">
+                                {
+                                  errors[
+                                    `educationalDetails[${index}][etoDate]`
+                                  ]
+                                }
+                              </span>
                             )}
                           </td>
                           <td className="py-2 px-4">
                             <input
                               type="text"
                               value={eduDetail.epercentage}
-                              onChange={(e) => handleEducationalChange(index, "epercentage", e.target.value)}
+                              onChange={(e) =>
+                                handleEducationalChange(
+                                  index,
+                                  "epercentage",
+                                  e.target.value
+                                )
+                              }
                               className=" ps-2 block w-full rounded-md border-0 py-1.5 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               required
                             />{" "}
-                            {errors[`educationalDetails[${index}][epercentage]`] && (
-                              <span className="text-red-600">{errors[`educationalDetails[${index}][epercentage]`]}</span>
+                            {errors[
+                              `educationalDetails[${index}][epercentage]`
+                            ] && (
+                              <span className="text-red-600">
+                                {
+                                  errors[
+                                    `educationalDetails[${index}][epercentage]`
+                                  ]
+                                }
+                              </span>
                             )}
                           </td>
                         </tr>
@@ -1304,7 +1495,9 @@ const EmpRegistrationForm = () => {
                         required
                       />{" "}
                       {errors.bankAccName && (
-                        <span className="text-red-600">{errors.bankAccName}</span>
+                        <span className="text-red-600">
+                          {errors.bankAccName}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -1516,24 +1709,23 @@ const EmpRegistrationForm = () => {
                 Next
               </button>
               {/* <button
-                type="button"
-                className="text-base font-semibold leading-6 text-gray-900"
-                onClick={openPreview}
-              >
-                Preview
-              </button> */}
-            
+                  type="button"
+                  className="text-base font-semibold leading-6 text-gray-900"
+                  onClick={openPreview}
+                >
+                  Preview
+                </button> */}
             </div>
             {/* Save Button - only visible on the last page */}
             {currentPage === totalPages && (
               <div className="mt-6 flex items-center justify-end gap-x-6">
-              <button
-                type="button"
-                className="text-base font-semibold leading-6 text-gray-900"
-                onClick={openPreview}
-              >
-                Preview
-              </button>
+                <button
+                  type="button"
+                  className="text-base font-semibold leading-6 text-gray-900"
+                  onClick={openPreview}
+                >
+                  Preview
+                </button>
                 <button
                   type="submit"
                   className="rounded-md bg-indigo-600 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -1546,7 +1738,11 @@ const EmpRegistrationForm = () => {
         </form>
         {/* Conditional rendering of PreviewForm */}
         {showPreview && (
-              <PreviewForm isOpen={showPreview} onClose={closePreview} formData={formData} />
+          <PreviewForm
+            isOpen={showPreview}
+            onClose={closePreview}
+            formData={formData}
+          />
         )}
       </div>
     </>

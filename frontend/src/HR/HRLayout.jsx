@@ -1,22 +1,20 @@
-import { Outlet, useLocation } from "react-router-dom";
-
-import HRDashboard from "./HRDashboard";
-// import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
+import HRNavbar from "./HRNavbar";
+import { useState } from "react";
+import HRSidebar from "./HRSidebar";
 
 function Layout() {
-  //   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const location = useLocation();
-
-  console.log("Layout rendered, current location:", location.pathname);
+  const [sidebarToggle, setSidebarToggle] = useState(false);
 
   return (
     <div className="">
-      <div className="">
-        <HRDashboard />
-
-        <main className="">
-          <Outlet />
-        </main>
+      <HRNavbar
+        sidebarToggle={sidebarToggle}
+        setSidebarToggle={setSidebarToggle}
+      />
+      <div className="flex min-w-full">
+        <HRSidebar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />
+        <Outlet />
       </div>
     </div>
   );

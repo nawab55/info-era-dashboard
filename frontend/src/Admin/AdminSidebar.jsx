@@ -1,8 +1,17 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaHome, FaCircle, FaChalkboardTeacher, FaFileAlt, } from "react-icons/fa";
-import { AiOutlineSolution, AiOutlineTeam, } from 'react-icons/ai';
-import { MdEvent, MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
+import {
+  FaHome,
+  FaCircle,
+  FaChalkboardTeacher,
+  FaFileAlt,
+} from "react-icons/fa";
+import { AiOutlineSolution, AiOutlineTeam } from "react-icons/ai";
+import {
+  MdEvent,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowRight,
+} from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
 const AdminSidebar = ({ sidebarToggle }) => {
@@ -17,8 +26,6 @@ const AdminSidebar = ({ sidebarToggle }) => {
     setActiveDropdown((prev) => (prev === section ? null : section));
   };
 
- 
-
   return (
     <aside
       className={`w-60 z-10 fixed left-0 h-screen bg-custom-dark-blue px-2 transition-transform ${
@@ -30,7 +37,7 @@ const AdminSidebar = ({ sidebarToggle }) => {
       <ul className="py-2 text-white font-bold">
         <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
           <button
-            onClick={() => handleNavigate("/admin/dashboard_admin")}
+            onClick={() => handleNavigate("/admin/dashboard")}
             className="px-1 w-full text-left"
           >
             <FaHome className="inline-block w-5 h-5 mr-4 -mt-2" />
@@ -173,7 +180,6 @@ const AdminSidebar = ({ sidebarToggle }) => {
                   BBC
                 </button>
               </li>
-              
             </ul>
           )}
         </li>

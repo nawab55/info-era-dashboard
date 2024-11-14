@@ -3,11 +3,46 @@ const BBC = require("../../models/co-partners/bbc.model");
 // Create BBC entry
 exports.registerBBC = async (req, res) => {
   try {
-    const bbc = await BBC.create(req.body);
-    res.status(201).json({ message: "BBC Registered Successfully", bbc });
+    const { name, company, gender, aadhaar, pan, gst, email, mobile, state, district } = req.body;
+
+    if (
+      !name ||
+      !company ||
+      !gender ||
+      !aadhaar ||
+      !pan ||
+      !gst ||
+      !email ||
+      !mobile ||
+      !state ||
+      !district
+    ) {
+      return res.status(400).json({ message: "Please fill all the fields" });
+    }
+    // Using the create method to directly create and save the document
+    await BBC.create({
+      name,
+      company,
+      gender,
+      aadhaar,
+      pan,
+      gst,
+      email,
+      mobile,
+      state,
+      district,
+    });
+    res
+      .status(201)
+      .json({ message: "BBC registration successful", success: true });
   } catch (error) {
-    res.status(400).json({ message: "Error Registering BBC", error });
+    res.status(400).json({
+      message: "Error creating BBC registration",
+      success: false,
+      error,
+    });
   }
+
 };
 
 // Fetch all BBC entries
