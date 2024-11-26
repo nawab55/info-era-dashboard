@@ -1,19 +1,26 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaUserCircle,
   FaLock,
   FaFileInvoiceDollar,
-  FaCircle,
   FaServicestack,
+  FaCircle,
 } from "react-icons/fa";
-import { MdKeyboardArrowDown, MdKeyboardArrowRight,} from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 
-const ClientSidebar = ({ sidebarToggle }) => {
+const ClientSidebar = ({ sidebarToggle, setSidebarToggle }) => {
   const navigate = useNavigate();
   const [activeDropdown, setActiveDropdown] = useState(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (setSidebarToggle) {
+      setSidebarToggle(false);
+    }
+  }, [pathname, setSidebarToggle]);
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -25,100 +32,117 @@ const ClientSidebar = ({ sidebarToggle }) => {
 
   return (
     <aside
-      className={`w-60 z-10 fixed left-0 h-screen bg-custom-dark-blue px-2 transition-transform ${
-        sidebarToggle ? "translate-x-0" : "-translate-x-full"
-      } md:translate-x-0 overflow-y-auto`}
-      aria-label="Sidebar"
-    >
-      <hr className="border-gray-600" />
-      <ul className="py-2 text-white font-bold">
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
+        className={`md:w-64 w-[60%] lg:static  fixed z-[2] min-h-screen bg-custom-dark-blue  px-4 pt-4 transition-transform ${
+          sidebarToggle ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+        aria-label="Sidebar"
+      >
+      <ul className="space-y-2 text-white font-semibold min-h-full">
+        {/* Dashboard Link */}
+        <li
+          className={`rounded hover:bg-blue-800 py-3 transition-all ${
+            pathname === "/client/dashboard_client" ? "bg-blue-800" : ""
+          }`}
+        >
           <button
             onClick={() => handleNavigate("/client/dashboard_client")}
-            className="px-1 w-full text-left"
+            className="flex items-center w-full px-2 text-left"
           >
-            <FaHome className="inline-block w-5 h-5 mr-4 -mt-2" />
-            Dashboard
+            <FaHome className="text-blue-400 w-5 h-5 mr-3" />
+            <span>Dashboard</span>
           </button>
         </li>
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
+
+        {/* Profile */}
+        <li
+          className={`rounded hover:bg-blue-800 py-3 transition-all ${
+            pathname === "/client/profile" ? "bg-blue-800" : ""
+          }`}
+        >
           <button
             onClick={() => handleNavigate("/client/profile")}
-            className="px-1 w-full text-left"
+            className="flex items-center w-full px-2 text-left"
           >
-            <FaUserCircle className="inline-block w-5 h-5 mr-4 -mt-1" />
-            Profile
+            <FaUserCircle className="text-green-400 w-5 h-5 mr-3" />
+            <span>Profile</span>
           </button>
         </li>
 
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
+        {/* Edit Password */}
+        <li
+          className={`rounded hover:bg-blue-800 py-3 transition-all ${
+            pathname === "/client/edit_password" ? "bg-blue-800" : ""
+          }`}
+        >
           <button
             onClick={() => handleNavigate("/client/edit_password")}
-            className="px-1 w-full text-left"
+            className="flex items-center w-full px-2 text-left"
           >
-            <FaLock className="inline-block w-5 h-5 mr-4 -mt-1" />
-            Edit Password
+            <FaLock className="text-red-400 w-5 h-5 mr-3" />
+            <span>Edit Password</span>
           </button>
         </li>
 
-        <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
+        {/* Invoice */}
+        <li
+          className={`rounded hover:bg-blue-800 py-3 transition-all ${
+            pathname === "/client/invoice-details" ? "bg-blue-800" : ""
+          }`}
+        >
           <button
             onClick={() => handleNavigate("/client/invoice-details")}
-            className="px-1 w-full text-left"
+            className="flex items-center w-full px-2 text-left"
           >
-            <FaFileInvoiceDollar className="inline-block w-5 h-5 mr-4 -mt-1" />
-            Invoice
+            <FaFileInvoiceDollar className="text-yellow-400 w-5 h-5 mr-3" />
+            <span>Invoice</span>
           </button>
         </li>
 
-        <li className="hover:shadow mb-2">
+        {/* Service Dropdown */}
+        <li>
           <button
             onClick={() => toggleDropdown("service")}
-            className="px-2 py-2 w-full text-left flex items-center hover:bg-custom-hover-blue rounded"
+            className="flex items-center justify-between w-full px-2 py-3 hover:bg-blue-800 rounded-lg transition-all"
           >
-            {/* <FaHandshake className="inline-block w-5 h-5 mr-4 " /> */}
-            <FaServicestack className="inline-block w-5 h-5 mr-4 " />
-            Service
+            <span className="flex items-center">
+              <FaServicestack className="text-purple-400 w-5 h-5 mr-3" />
+              Service
+            </span>
             {activeDropdown === "service" ? (
-              <MdKeyboardArrowDown className="ml-auto" size={20} />
+              <MdKeyboardArrowDown size={20} />
             ) : (
-              <MdKeyboardArrowRight className="ml-auto" size={20} />
+              <MdKeyboardArrowRight size={20} />
             )}
           </button>
           {activeDropdown === "service" && (
-            <ul className="">
-              <li className="rounded hover:shadow hover:bg-custom-hover-blue py-2 my-1 px-4 flex items-center">
-                <FaCircle className="inline-block w-2 h-2 mr-4" />
+            <ul className="ml-6 list-none mt-2 space-y-1">
+              <li>
                 <button
                   onClick={() => handleNavigate("/client/request-complain")}
-                  className="px-1 text-sm w-full text-left"
+                  className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
+                    pathname === "/client/request-complain"
+                      ? "bg-blue-800"
+                      : ""
+                  }`}
                 >
+                  <FaCircle className="text-purple-400 w-3 h-3 mr-3" />
                   Complain
                 </button>
               </li>
-              <li className="rounded hover:shadow hover:bg-custom-hover-blue py-2 my-1 px-4 flex items-center">
-                <FaCircle className="inline-block w-2 h-2 mr-4" />
+              <li>
                 <button
-                  onClick={() => handleNavigate("/client/")}
-                  className="px-1 text-sm w-full text-left"
+                  onClick={() => handleNavigate("/client/upcoming")}
+                  className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
+                    pathname === "/client/upcoming" ? "bg-blue-800" : ""
+                  }`}
                 >
+                  <FaCircle className="text-purple-400 w-3 h-3 mr-3" />
                   Upcoming
                 </button>
               </li>
-              
             </ul>
           )}
         </li>
-
-        {/* <li className="mb-2 rounded hover:shadow hover:bg-custom-hover-blue py-2 px-2">
-          <button
-            onClick={() => handleNavigate("/client/service")}
-            className="px-1 w-full text-left"
-          >
-            <FaServicestack className="inline-block w-5 h-5 mr-4 -mt-1" />
-            Service
-          </button>
-        </li> */}
       </ul>
     </aside>
   );

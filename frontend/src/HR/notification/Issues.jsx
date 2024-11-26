@@ -44,7 +44,7 @@ const Issues = () => {
           },
         }
       );
-      toast.success(`Issues marked as ${status}!`);
+      toast.success(`Issue marked as ${status}!`);
       fetchIssues(currentPage); // Refetch issues to update UI
     } catch (error) {
       toast.error("Error updating issue status!");
@@ -58,17 +58,16 @@ const Issues = () => {
   };
 
   return (
-    <section className="flex-1 bg-gray-50 p-4">
+    <section className="flex-1 bg-gray-50 p-6">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
-        <div className="flex items-center my-auto">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
-          <h1 className="text-2xl font-bold text-gray-900">Issues</h1>
+      <div className="flex justify-between items-center bg-gradient-to-r from-blue-600 to-indigo-800 px-5 py-2 rounded-tl rounded-tr">
+        <div className="flex items-center space-x-3">
+          <h1 className="text-2xl font-bold text-white">Issues</h1>
         </div>
-        <div className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
-          <BiErrorCircle className="mr-2" />
-          Issues
-        </div>
+        <button className="flex items-center bg-white text-indigo-800 px-3 py-2 rounded hover:bg-indigo-100 transition duration-300 shadow-lg">
+          <BiErrorCircle className="mr-2 text-xl" />
+          Report Issue
+        </button>
       </div>
 
       {/* Issues list */}
@@ -76,85 +75,80 @@ const Issues = () => {
         {issues.map((issue, index) => (
           <div
             key={index}
-            className={`p-4 rounded-lg shadow-md flex justify-between items-center relative ${
+            className={`relative px-4 py-1 rounded-lg group border flex justify-between items-center ${
               issue.status === "Unresolved"
-                ? "bg-red-100 text-gray-900"
-                : "bg-green-100 text-gray-900"
-            }`}
-            onMouseEnter={() =>
-              document
-                .getElementById(`hover-${index}`)
-                .classList.remove("hidden")
-            }
-            onMouseLeave={() =>
-              document.getElementById(`hover-${index}`).classList.add("hidden")
-            }
+                ? "border-red-600 bg-red-50"
+                : "border-green-600 bg-green-50"
+            } transition-all duration-300 hover:border-indigo-500 hover:bg-indigo-50`}
           >
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
               {issue.status === "Unresolved" ? (
-                <MdClose className="text-3xl p-1.5 mr-2 rounded-full bg-red-600 text-white" />
+                <MdClose className="text-3xl p-2 mr-3 rounded-full bg-red-600 text-white" />
               ) : (
-                <MdCheck className="text-3xl p-1.5 mr-2 rounded-full bg-green-600 text-white" />
+                <MdCheck className="text-3xl p-2 mr-3 rounded-full bg-green-600 text-white" />
               )}
-              <p className="mr-2 font-bold text-sm">{issue.empname}:</p>
-              <p
-                className={`${
-                  issue.status === "Unresolved"
-                    ? "text-red-700"
-                    : "text-green-700"
-                }`}
-              >
-                {issue.description}
-              </p>
+              <div className="flex flex-col">
+                <p className="font-semibold text-lg">{issue.empname}:</p>
+                <p
+                  className={`${
+                    issue.status === "Unresolved"
+                      ? "text-red-700"
+                      : "text-green-700"
+                  }`}
+                >
+                  {issue.description}
+                </p>
+              </div>
             </div>
 
-            <div>
-              <span
-                className={`p-2 rounded-md text-sm text-white ${
-                  issue.status === "Unresolved" ? "bg-red-600" : "bg-green-600"
-                }`}
-              >
-                {issue.status}
-              </span>
-            </div>
-            {/* Hover Mark Resolved/Unresolved Options */}
             <div
-              id={`hover-${index}`}
-              className={`absolute  left-0 top-0 ${
+              className={`group-hover:block hidden p-2 rounded-lg shadow-md bg-opacity-80 transition-all duration-300 ${
                 issue.status === "Unresolved" ? "bg-red-600" : "bg-green-600"
-              } p-3 ml-2  rounded-md shadow-sm hidden`}
+              }`}
             >
               {issue.status === "Unresolved" ? (
                 <button
-                  className="text-white hover:underline"
+                  className="text-white  "
                   onClick={() => updatteIssueStatus(issue._id, "Resolved")}
                 >
                   Mark Resolved
                 </button>
               ) : (
                 <button
-                  className="text-white hover:underline"
+                  className="text-white  "
                   onClick={() => updatteIssueStatus(issue._id, "Unresolved")}
                 >
                   Mark Unresolved
                 </button>
               )}
             </div>
+
+            <div>
+              <span
+                className={`px-4 py-2 text-sm font-medium rounded text-white ${
+                  issue.status === "Unresolved" ? "bg-red-600" : "bg-green-600"
+                }`}
+              >
+                {issue.status}
+              </span>
+            </div>
+
+            {/* Hover Mark Resolved/Unresolved Options */}
           </div>
         ))}
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6">
+      <div className="flex justify-center mt-8">
         {[...Array(totalPages)].map((_, index) => (
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-3 py-1 mx-1 ${
+            className={`px-4 py-2 mx-2 rounded-lg text-lg font-medium transition-all duration-300 ${
               currentPage === index + 1
-                ? "bg-purple-600 text-white"
-                : "bg-gray-200"
-            } rounded-lg`}
+                ? "bg-indigo-600 text-white"
+                : "bg-gray-200 text-gray-600 hover:bg-gray-300"
+            }`}
           >
             {index + 1}
           </button>

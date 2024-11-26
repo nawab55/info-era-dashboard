@@ -39,9 +39,13 @@ const Notification = () => {
   const getIcon = (type) => {
     switch (type) {
       case "Success":
-        return <MdCheckCircle className="bg-green-700 text-white rounded-full" />;
+        return (
+          <MdCheckCircle className="bg-green-700 text-white rounded-full" />
+        );
       case "Info":
-        return <BiErrorCircle className="bg-blue-700 text-white rounded-full" />;
+        return (
+          <BiErrorCircle className="bg-blue-700 text-white rounded-full" />
+        );
       case "Warning":
         return <MdWarning className="text-yellow-600 rounded-full" />;
       case "Danger":
@@ -81,41 +85,49 @@ const Notification = () => {
   }
 
   return (
-    <section className="md:ml-56 mt-16 bg-gray-50 p-4">
+    <section className="flex-1 bg-gradient-to-r from-gray-50 to-blue-50 lg:p-6 p-2">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
+      <div className="flex justify-between items-center bg-blue-50 p-4 border rounded">
         <div className="flex items-center my-auto">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-900">Alerts</h1>
         </div>
-        <button className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
-          <CiCalendar className="mr-2" />
-          {todayDate} {/* Display today's date */}
+        <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+          <CiCalendar className="mr-3 text-xl" />
+          <span className="font-semibold">{todayDate}</span>
         </button>
       </div>
 
       {/* Alerts List */}
-      <div className="mt-6 space-y-4">
+      <div className="mt-8 space-y-6">
         {currentAlerts.length === 0 ? (
-          <p className="text-gray-700">No alerts available.</p>
+          <p className="text-center text-gray-600 font-medium text-lg">
+            No alerts available. Enjoy your day! 🎉
+          </p>
         ) : (
           currentAlerts.map((alert, index) => (
             <div
               key={index}
               className={`${getBackgroundColor(
                 alert.alertType
-              )} p-3 rounded-lg shadow-md flex justify-between items-start space-x-4`}
+              )} px-5 py-3 rounded border flex justify-between items-center transition transform`}
             >
-              <div className="flex items-center space-x-4">
-                <div className="text-3xl my-auto">{getIcon(alert.alertType)}</div>
+              <div className="flex items-center space-x-6">
+                <div className="text-4xl text-white">
+                  {getIcon(alert.alertType)}
+                </div>
                 <div>
-                  <h3 className="text-lg font-semibold">{alert.title}</h3>
-                  <p className="text-gray-700">{alert.message}</p>
+                  <h3 className="text-xl font-bold text-gray-800">
+                    {alert.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm mt-1">{alert.message}</p>
                 </div>
               </div>
               {/* Display the created date on the right side */}
-              <div className="text-gray-700 text-sm my-auto">
-                {moment(alert.createdAt, "Do MMMM YYYY, h:mm:ss a").format("D MMMM, YYYY")}
+              <div className="text-gray-500 text-sm italic">
+                {moment(alert.createdAt, "Do MMMM YYYY, h:mm:ss a").format(
+                  "D MMMM, YYYY"
+                )}
               </div>
             </div>
           ))
@@ -124,15 +136,15 @@ const Notification = () => {
 
       {/* Pagination */}
       {alerts.length > alertsPerPage && (
-        <div className="mt-6 flex justify-center space-x-2">
+        <div className="mt-8 flex justify-center space-x-2">
           {pageNumber.map((number) => (
             <button
               key={number}
               onClick={() => paginate(number)}
-              className={`px-3 py-1 rounded-lg border ${
+              className={`px-4 py-2 rounded font-semibold transition ${
                 currentPage === number
-                  ? "bg-purple-600 text-white"
-                  : "bg-white text-purple-600 border-purple-600"
+                  ? "bg-blue-600 text-white shadow-md transform scale-105"
+                  : "bg-white text-blue-600 border border-blue-600 hover:bg-blue-50"
               }`}
             >
               {number}

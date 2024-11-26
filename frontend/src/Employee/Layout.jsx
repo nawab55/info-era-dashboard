@@ -1,35 +1,33 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 // import { useState } from "react";
 // import Dashboard from "./Dashboard";
-import EmpDashboard from "./EmpDashboard";
+import Navbar from "./Navbar";
+import { useState } from "react";
+import Sidebar from "./Sidebar";
 // import Sidebar from "./Sidebar";
 
 function Layout() {
-//   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const location = useLocation();
-
-  console.log("Layout rendered, current location:", location.pathname);
+  const [sidebarToggle, setSidebarToggle] = useState(false);
 
   return (
-    <div className="">
-      {/* <Sidebar sidebarToggle={sidebarToggle} /> */}
-      <div className="">
-        <EmpDashboard />
-        {/* <Dashboard
+    <div>
+      <Navbar
+        sidebarToggle={sidebarToggle}
+        setSidebarToggle={setSidebarToggle}
+      />
+      <div className="flex min-w-full">
+     
+        <Sidebar
           sidebarToggle={sidebarToggle}
           setSidebarToggle={setSidebarToggle}
-        /> */}
-        <main className="">
-          <Outlet />
-        </main>
+        />
+        <Outlet />
       </div>
     </div>
   );
 }
 
 export default Layout;
-
-
 
 // import { Outlet } from "react-router-dom";
 // import AccountDashboard from "./AccountDashboard";

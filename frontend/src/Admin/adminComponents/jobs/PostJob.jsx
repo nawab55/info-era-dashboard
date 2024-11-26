@@ -17,7 +17,7 @@ const PostJob = () => {
     // Fetch all jobs from backend
     const fetchJobs = async () => {
       try {
-        const response = await api.get("/api/jobs/get-allJob");
+        const response = await api.get("/api/jobs/get-all-jobs");
         setJobs(response.data);
       } catch (error) {
         console.error("Error fetching jobs", error);

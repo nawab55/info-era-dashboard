@@ -59,7 +59,7 @@ const EmpHome = () => {
   }, []);
 
   return (
-    <section className="md:ml-56 mt-16 bg-blue-gray-50 px-4 py-6">
+    <section className="flex-1 bg-blue-gray-50 px-4 py-6">
       <div className="bg-teal-200 p-5 text-center text-gray-700 shadow-lg">Home</div>
       <div className="flex justify-between px-8 bg-orange-100 mt-4 py-5 text-gray-700 shadow-lg">
         <h1>Attendance</h1>

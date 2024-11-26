@@ -42,24 +42,35 @@ const HRNavbar = ({ sidebarToggle, setSidebarToggle }) => {
 
   return (
     <>
-      <nav className="bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 lg:px-20 md:px-14 px-2 top-0 sticky w-full z-10 h-16 shadow-lg flex items-center">
+      <nav className="bg-gradient-to-r from-blue-400 via-blue-800 to-indigo-900 lg:px-20 md:px-14 px-2 top-0 sticky w-full z-10 h-16 flex items-center">
         <div className="flex flex-1 items-center text-xl text-white space-x-4">
           <FaBars
-            className="cursor-pointer block md:hidden"
+            className="cursor-pointer block lg:hidden"
             onClick={() => setSidebarToggle(!sidebarToggle)}
           />
-          <span className="hidden md:block font-semibold">Dashboard</span>
+          
+          {/* Logo */}
+          <img
+            src="/infoera.png"
+            alt="Logo"
+            className="hidden lg:block h-8 w-auto object-cover"
+          />
         </div>
 
         <div className="flex-1 flex items-center justify-center">
           <p className="text-xl font-bold hidden md:block text-white">
-            HR Dashboard
+            Dashboard
           </p>
+          <img
+            src="/infoera.png"
+            alt="Logo"
+            className="md:hidden block h-8 w-auto object-cover"
+          />
         </div>
 
         <div className="flex flex-1 items-center justify-end gap-x-5">
           <button
-            className="text-white relative group"
+            className="text-white relative"
             onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
           >
             <FaUserCircle className="w-8 h-8" />

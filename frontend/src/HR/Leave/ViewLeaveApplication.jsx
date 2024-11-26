@@ -92,10 +92,10 @@ const ViewLeaveApplication = () => {
       {/* Top Card Section */}
       <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
         <div className="flex items-center my-auto">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <div className="w-2 bg-indigo-600 h-8 mr-3 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-900">Leave Requests</h1>
         </div>
-        <div className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+        <div className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">
           <CiCalendar className="mr-2" />
           {todayDate} {/* Display today's date */}
         </div>
@@ -106,18 +106,18 @@ const ViewLeaveApplication = () => {
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
             {/* Vertical Line */}
-            <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+            <div className="w-2 bg-indigo-600 h-8 mr-3 rounded-full"></div>
             <h2 className="text-lg font-semibold text-blue-900">
               All Leave Requests
             </h2>
           </div>
           {/* Filter and Sort Icons */}
           <div className="flex items-center space-x-4">
-            <button className="flex items-center text-purple-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+            <button className="flex items-center text-indigo-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
               <AiOutlineFilter className="mr-2" />
               Filter
             </button>
-            <button className="flex items-center text-purple-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+            <button className="flex items-center text-indigo-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
               <AiOutlineSortAscending className="mr-2" />
               Sort
             </button>
@@ -147,7 +147,7 @@ const ViewLeaveApplication = () => {
           >
             Previous
           </button>
-          <span className="px-4 py-2 bg-purple-600 text-white rounded-lg">
+          <span className="px-4 py-2 bg-indigo-600 text-white rounded-lg">
             {currentPage}
           </span>
           <button

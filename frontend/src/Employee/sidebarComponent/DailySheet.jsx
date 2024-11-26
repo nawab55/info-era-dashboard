@@ -22,7 +22,7 @@ const DailySheet = () => {
     const formattedDate = date.toISOString().split("T")[0]; // Convert to string "YYYY-MM-DD"
 
     setFormData((prevFormData) => ({
-      ...prevFormData, 
+      ...prevFormData,
       date: formattedDate,
     }));
 
@@ -84,9 +84,12 @@ const DailySheet = () => {
       const token = sessionStorage.getItem("token");
       const decoded = jwtDecode(token);
       const empId = decoded.user.EmpId;
-      
+
       // Submit form data via PUT request
-      const response = await api.put(`/api/worksheet/update/${empId}`, formData);
+      const response = await api.put(
+        `/api/worksheet/update/${empId}`,
+        formData
+      );
 
       if (response.status === 200) {
         toast.success("Worksheet updated successfully.");
@@ -99,70 +102,94 @@ const DailySheet = () => {
   };
 
   return (
-    <section className="bg-slate-50 h-full mt-16 md:ml-56">
-      <form className="bg-blue-100 pb-8 p-4 space-y-4" onSubmit={handleSubmit}>
-        <div className="p-4 text-center text-2xl bg-blue-700 rounded-md shadow-lg shadow-blue-500 text-white">
-          Worksheet 
+    <section className="bg-gradient-to-b from-blue-50 min-h-screen to-slate-100 h-full flex-1">
+      <form
+        className="p-6 rounded-lg bg-white border m-4 space-y-6"
+        onSubmit={handleSubmit}
+      >
+        <div className="text-center text-3xl font-bold text-blue-700">
+          Worksheet
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 py-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Date Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-900">Date</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Date
+            </label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleDateChange}
-              className="bg-blue-50 mt-1 block w-full p-2 border border-gray-300 shadow-lg shadow-blue-400 rounded-md focus:border-blue-500 focus:outline-none"
+              className="mt-2 block w-full px-4 py-2 text-sm border border-gray-300  rounded outline-none shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-300"
             />
           </div>
 
+          {/* Project Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-900">Project Name</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Project Name
+            </label>
             <input
               type="text"
               name="projectName"
               value={formData.projectName}
               onChange={handleInputChange}
-              className="bg-blue-50 mt-1 block w-full p-2 border border-gray-300 shadow-lg shadow-blue-400 rounded-md focus:border-blue-500 focus:outline-none"
+              className={`mt-2 block w-full px-4 py-2 text-sm outline-none border rounded shadow-sm ${
+                isWorksheetExists
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "border-gray-300  focus:ring-1 focus:ring-blue-500"
+              }`}
               readOnly={isWorksheetExists}
             />
           </div>
 
+          {/* Work Assign */}
           <div>
-            <label className="block text-sm font-medium text-gray-900">Work Assign</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Work Assign
+            </label>
             <input
               type="text"
               name="work"
               value={formData.work}
               onChange={handleInputChange}
-              className="bg-blue-50 mt-1 block w-full p-2 border border-gray-300 shadow-lg shadow-blue-400 rounded-md focus:border-blue-500 focus:outline-none"
+              className={`mt-2 block w-full px-4 py-2 text-sm border outline-none rounded shadow-sm ${
+                isWorksheetExists
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "border-gray-300  focus:ring-1 focus:ring-blue-500"
+              }`}
               readOnly={isWorksheetExists}
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-900">Work Done</label>
+          {/* Work Done */}
+          <div className="md:col-span-3">
+            <label className="block text-sm font-medium text-gray-700">
+              Work Done
+            </label>
             <textarea
               name="workDone"
               value={formData.workDone}
               onChange={handleInputChange}
-              className="bg-blue-50 mt-1 block w-full p-2 border border-gray-300 shadow-lg shadow-blue-400 rounded-md focus:border-blue-500 focus:outline-none"
+              className="mt-2 block w-full px-4 py-2 text-sm border rounded border-gray-300  outline-none  focus:ring-1 focus:ring-blue-500"
+              rows="4"
             />
           </div>
         </div>
 
+        {/* Submit Button */}
         {isCurrentDate && (
-          <div className="flex justify-center py-2">
+          <div className="flex justify-center">
             <button
               type="submit"
-              className="flex items-center justify-center px-5 py-3 bg-blue-700 text-white rounded-md shadow-xl shadow-blue-500"
+              className="px-6 py-2 bg-blue-700 text-white font-semibold rounded  hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
             >
               Submit
             </button>
           </div>
         )}
-        {/* <div className="h-20"></div> */}
       </form>
     </section>
   );

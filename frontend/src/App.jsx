@@ -11,12 +11,9 @@ import WorkList from "./Employee/sidebarComponent/WorkList";
 import EmpHome from "./Employee/EmpHome";
 import Attendance from "./Employee/attendance/Attendance";
 import ViewAttendance from "./Employee/attendance/ViewAttendance";
-import Salary from "./Employee/sidebarComponent/Salary";
 import LeaveApplication from "./Employee/sidebarComponent/LeaveApplication";
 import Notification from "./Employee/sidebarComponent/Notification";
 import ReportAProblem from "./Employee/sidebarComponent/ReportAProblem";
-import OfferLetter from "./Employee/sidebarComponent/OfferLetter";
-import IncrementLetter from "./Employee/sidebarComponent/IncrementLetter";
 import DailySheet from "./Employee/sidebarComponent/DailySheet";
 
 // Account Dashboard
@@ -34,7 +31,7 @@ import CustomerReports from "./Account/Invoice/CustomerReports";
 
 // HR Dashboard
 import HRLayout from "./HR/HRLayout";
-import HRHome from "./HR/HRHome";
+import DashboardOverview from "./HR/DashboardOverview";
 import EmpRegistrationForm from "./HR/Employee/EmpRegistrationForm";
 import Worksheet from "./HR/worksheet/Worksheet";
 import HRAttendance from "./HR/HRAttendance";
@@ -42,8 +39,8 @@ import ViewLeaveApplication from "./HR/Leave/ViewLeaveApplication";
 import Alerts from "./HR/notification/Alerts";
 import Issues from "./HR/notification/Issues";
 import ClientComplain from "./HR/notification/ClientComplain";
-import AttendanceReport from "./HR/Report/AttendanceReport";
-import Project from "./HR/Report/Project";
+// import AttendanceReport from "./HR/Report/AttendanceReport";
+// import Project from "./HR/Report/Project";
 import Domain from "./Account/AccountSidebarComponent/Domain";
 import DomainReports from "./Account/AccountSidebarComponent/DomainReports";
 import EmpRegReports from "./HR/Report/EmpRegReports";
@@ -115,7 +112,7 @@ function App() {
 
           {/* HR Dashboard */}
           <Route path="/hr" element={<HRLayout />}>
-            <Route index element={<HRHome />} />
+            <Route index element={<DashboardOverview />} />
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
             <Route path="attendance" element={<HRAttendance />} />
@@ -131,11 +128,11 @@ function App() {
               path="report/view_worksheet"
               element={<WorksheetReports />}
             />
-            <Route
+            {/* <Route
               path="report/view_attendance"
               element={<AttendanceReport />}
-            />
-            <Route path="report/view_project" element={<Project />} />
+            /> */}
+            {/* <Route path="report/view_project" element={<Project />} /> */}
             <Route path="employee/type" element={<EmployeeType />} />
           </Route>
         </Route>
@@ -166,14 +163,11 @@ function App() {
             <Route index element={<EmpHome />} />
             <Route path="worklist" element={<WorkList />} />
             <Route path="dailysheet" element={<DailySheet />} />
-            <Route path="salary" element={<Salary />} />
             <Route path="attendance/add" element={<Attendance />} />
             <Route path="attendance/view" element={<ViewAttendance />} />
             <Route path="leaves" element={<LeaveApplication />} />
             <Route path="alerts" element={<Notification />} />
             <Route path="report-problem" element={<ReportAProblem />} />
-            <Route path="hr/offer-letter" element={<OfferLetter />} />
-            <Route path="hr/increment-letter" element={<IncrementLetter />} />
           </Route>
         </Route>
 

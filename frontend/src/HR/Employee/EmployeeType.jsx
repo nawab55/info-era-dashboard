@@ -1,12 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import api from "../../config/api";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
+import { CiCalendar } from "react-icons/ci";
 
 const EmployeeType = () => {
   const [employeeType, setEmployeeType] = useState("");
   const [employeeTypes, setEmployeeTypes] = useState([]);
+
+  const todayDate = new Date().toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   useEffect(() => {
     fetchEmployeeTypes();
@@ -15,10 +21,7 @@ const EmployeeType = () => {
   const fetchEmployeeTypes = async () => {
     try {
       const response = await api.get("/api/type/employee-types");
-      console.log(response.data);
-
       setEmployeeTypes(response.data);
-      console.log(employeeTypes);
     } catch (error) {
       console.error("Error fetching employee types:", error);
     }
@@ -28,7 +31,7 @@ const EmployeeType = () => {
     e.preventDefault();
     try {
       await api.post("/api/type/employee-types", { type: employeeType });
-      toast.success("Employee Type is Created successfully.");
+      toast.success("Employee Type is created successfully.");
       setEmployeeType("");
       fetchEmployeeTypes();
     } catch (error) {
@@ -47,50 +50,70 @@ const EmployeeType = () => {
   };
 
   return (
-    <div className="bg-green-200 h-full p-8 flex-1">
-      <div className=" text-center bg-blue-gray-600 text-gray-950 font-bold text-2xl mb-6 rounded-lg">
-        Employee Type
+    <div className="bg-gray-100 min-h-screen p-6 flex-1">
+      {/* Header */}
+      <div className="flex flex-wrap md:flex-nowrap justify-between items-center bg-gradient-to-r from-blue-700 to-indigo-600 px-5 py-3 shadow-lg rounded-tl rounded-tr">
+        <h1 className="text-lg md:text-2xl font-bold text-white tracking-wide w-full md:w-auto text-center md:text-left">
+          Employee Type Management
+        </h1>
+        <div className="flex items-center bg-white text-violet-700 px-3 py-2 rounded shadow-lg cursor-pointer hover:text-purple-600 transition duration-300 w-full md:w-auto justify-center md:justify-start">
+          <CiCalendar className="mr-3 text-xl" />
+          <span className="font-medium text-sm md:text-base">{todayDate}</span>
+        </div>
       </div>
+
+      {/* Form Section */}
       <form
         onSubmit={handleAddEmployeeType}
-        className="mb-6 flex justify-between"
+        className="my-6 flex gap-4 bg-white p-6 rounded border"
       >
-        <div className="w-96">
-          <label className="block text-base px-1 font-medium leading-6 text-gray-900">
+        <div className="flex-1">
+          <label className="block text-lg font-medium text-gray-700 mb-2">
             Add Employee Type <span className="text-red-600">*</span>
           </label>
-          <input
-            type="text"
-            value={employeeType}
-            onChange={(e) => setEmployeeType(e.target.value)}
-            placeholder="Enter Employee Type"
-            className="ps-2 block w-full rounded-md border-0 py-2 shadow-md ring-1 ring-inset ring-gray-400  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:border-blue-500 focus:outline-none"
-            required
-          />
+          <div className="flex justify-between">
+            <input
+              type="text"
+              value={employeeType}
+              onChange={(e) => setEmployeeType(e.target.value)}
+              placeholder="Enter Employee Type"
+              className=" w-full rounded border border-gray-300 py-2 px-4 mr-6 shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+            <button
+              type="submit"
+              className="flex px-6 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 shadow-md transition"
+            >
+              Submit
+            </button>
+          </div>
         </div>
-        <button
-          type="submit"
-          className="mt-4 px-8 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-lg shadow-gray-200"
-        >
-          Submit
-        </button>
       </form>
+
+      {/* List Section */}
       <ul className="space-y-4">
-        {employeeTypes &&
+        {employeeTypes.length > 0 ? (
           employeeTypes.map((type) => (
             <li
               key={type._id}
-              className="flex justify-between items-center p-4 bg-white rounded-lg shadow-md"
+              className="flex justify-between items-center bg-white p-4 rounded-lg border border-gray-300 hover:bg-blue-50 transition"
             >
-              <span>{type.type}</span>
+              <span className="text-lg font-medium text-gray-700">
+                {type.type}
+              </span>
               <button
                 onClick={() => handleDeleteEmployeeType(type._id, type)}
-                className="text-red-600 hover:text-red-800"
+                className="text-red-600 hover:text-red-800 flex items-center justify-center"
               >
                 <MdDelete size={24} />
               </button>
             </li>
-          ))}
+          ))
+        ) : (
+          <p className="text-center text-gray-600">
+            No employee types available.
+          </p>
+        )}
       </ul>
     </div>
   );

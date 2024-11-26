@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import { format, isSameDay, parse } from "date-fns"; // New package for formatting date and time
-import { FaSignOutAlt } from "react-icons/fa"; // Exit icon
+import { FaSignOutAlt } from "react-icons/fa";
 
 // // Helper function to get current date and time in a specific format using date-fns
 // const getCurrentDateAndTime = () => {
@@ -204,153 +204,128 @@ const Attendance = () => {
   };
 
   return (
-    <section className="bg-white p-2 mt-16 md:ml-56">
-      {/* Content before the attendance form */}
-      <div className="flex items-center justify-center border-b-2 bg-blue-100 rounded ">
-        <h1 className="text-2xl font-bold py-2">Attendance</h1>
+    <section className="bg-gradient-to-br from-blue-100 flex-1 via-white to-gray-100 p-4 min-h-screen">
+      {/* Header */}
+      <div className="flex items-center justify-center bg-blue-50 p-4 border rounded-lg">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 tracking-wide">
+          Attendance
+        </h1>
       </div>
-      <div className=" bg-slate-100 flex flex-col justify-start pb-40 rounded pt-2">
-        {/* name, date, time */}
-        <div className="w-full flex justify-between px-2 shadow-2xl border border-slate-100 py-1 text-xl sm:text-md md:text-xl lg:text-xl xl:text-xl my-0">
-          <h2 className="text-base text-start font-semibold p-2 px-3  rounded bg-sky-100 shadow-md">
-            Your Name:{" "}
-            <span className="text-base tracking-wide text-blue-900">
-              {userName}
-            </span>
-          </h2>
-          <h2 className="text-base text-start font-semibold p-2 px-3 rounded bg-sky-100 shadow-md">
-            Time:{" "}
-            <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
-              {currentTime}
-            </span>
-          </h2>
-          <h2 className="text-base text-start font-semibold p-2 px-3 rounded bg-sky-100 shadow-md">
-            Date:{" "}
-            <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
+
+      {/* Attendance Info */}
+      <div className="bg-white border rounded-lg mt-4 p-4 md:p-6 flex flex-col space-y-4">
+        {/* User Info */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-2 md:space-y-0 md:space-x-4">
+          <div className="text-base md:text-lg font-semibold bg-blue-100 rounded-lg px-4 py-2 shadow w-full md:w-auto">
+            <span className="text-gray-600">Your Name: </span>
+            <span className="text-blue-800">{userName}</span>
+          </div>
+          <div className="text-base md:text-lg font-semibold bg-blue-100 rounded-lg px-4 py-2 shadow w-full md:w-auto">
+            <span className="text-gray-600">Time: </span>
+            <span className="text-blue-800">{currentTime}</span>
+          </div>
+          <div className="text-base md:text-lg font-semibold bg-blue-100 rounded-lg px-4 py-2 shadow w-full md:w-auto">
+            <span className="text-gray-600">Date: </span>
+            <span className="text-blue-800">
               {formatDate(getCurrentDateAndTime())}
             </span>
-          </h2>
+          </div>
         </div>
 
+        {/* Attendance Status */}
         {isAttendanceMarked ? (
-          <div className=" text-center pt-8 bg-inherit">
-            <h1 className="text-3xl text-green-700 font-bold">
-              THANK YOU FOR TODAY!
-            </h1>
-            <div className="flex justify-center">
-              <button
-                className="mt-4 flex items-center justify-center text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 shadow-md"
-                onClick={handleCheckout}
-              >
-                <FaSignOutAlt className="mr-2" /> Checkout
-              </button>
-            </div>
-            <div className=" text-center mt-8">
-              <hr className="mx-8 mb-4 h-1 bg-green-900" />
-              <h1 className="text-3xl text-yellow-600 font-bold">
-                You were automatically checked out at 9:00 PM today.
-              </h1>
-            </div>
+          <div className="text-center bg-blue-50 p-4 md:p-6 rounded-lg border">
+            <h2 className="text-xl md:text-2xl font-bold text-green-700">
+              Thank you for today!
+            </h2>
+            <button
+              className="mt-6 px-4 md:px-6 gap-2 py-2 md:py-3 bg-blue-600 mx-auto text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 flex items-center justify-center transition-transform transform "
+              onClick={handleCheckout}
+            >
+              <FaSignOutAlt />
+              Checkout
+            </button>
+            <hr className="mt-8 border-t-2 border-green-700" />
+            <p className="mt-4 text-yellow-700 text-base md:text-lg font-semibold">
+              You were automatically checked out at 9:00 PM today.
+            </p>
           </div>
         ) : (
-          // isAutoCheckedOut ? ( // New condition to check if auto checkout was performed
-          //   <div className=" text-center mt-8">
-          //     <h1 className="text-3xl text-yellow-600 font-bold">
-          //       You were automatically checked out at 9:00 PM today.
-          //     </h1>
-          //   </div>
-          //   ) :
-          <div className="flex flex-wrap justify-center pt-6 bg-slate-100 rounded ">
-            <div className="w-full sm:w-full md:w-full lg:w-full xl:w-1/2 bg-orange-100 shadow-xl my-4 mx-2 rounded">
-              <div className="flex justify-center text-center">
-                <h1 className="text-xl xl:text-2xl lg:text-2xl tracking-wide text-start font-medium uppercase text-custom-blue me-10 mt-4">
-                  Make Attendance
-                </h1>
-              </div>
-              <div className="flex flex-wrap mx-2 text-center justify-center mt-4">
-                <div className="flex items-center me-10 my-2">
-                  <input
-                    id="present-radio"
-                    type="radio"
-                    value="present"
-                    name="attendance"
-                    checked={attendanceStatus === "present"}
-                    onChange={() => setAttendanceStatus("present")} // onChange={(e) => setAttendanceStatus(e.target.value)}
-                    className="w-5 h-5 cursor-pointer text-green-600 bg-green-200  border-green-700 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 "
-                    style={{ accentColor: "#15803d" }}
-                  />
-                  <label
-                    htmlFor="present-radio"
-                    className="ms-2 text-xl cursor-pointer font-semibold text-green-600 "
-                  >
-                    Present
-                  </label>
-                </div>
-                <div className="flex items-center me-10 my-2">
-                  <input
-                    id="absent-radio"
-                    type="radio"
-                    value="absent"
-                    name="attendance"
-                    checked={attendanceStatus === "absent"}
-                    onChange={() => setAttendanceStatus("absent")}
-                    className="w-5 h-5 cursor-pointer text-red-600 bg-red-200 border-red-700 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 "
-                    style={{ accentColor: "#b91c1c" }} // Red color for Absent
-                  />
-                  <label
-                    htmlFor="absent-radio"
-                    className="ms-2 text-xl cursor-pointer font-semibold text-red-600 "
-                  >
-                    Absent
-                  </label>
-                </div>
-                <div className="flex items-center me-10 my-2">
-                  <input
-                    id="halfday-radio"
-                    type="radio"
-                    value="halfday"
-                    name="attendance"
-                    checked={attendanceStatus === "halfday"}
-                    onChange={() => setAttendanceStatus("halfday")}
-                    className="w-5 h-5 cursor-pointer text-blue-400 bg-blue-200 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                    style={{ accentColor: "#3b82f6" }} // Blue color for HalfDay
-                  />
-                  <label
-                    htmlFor="halfday-radio"
-                    className="ms-2 text-xl cursor-pointer font-semibold text-blue-600"
-                  >
-                    HalfDay
-                  </label>
-                </div>
-
-                {/* <div className="flex items-center me-10 my-2">
-                    <input
-                      id="holiday-radio"
-                      type="radio"
-                      value="holiday"
-                      name="attendance"
-                      checked={attendanceStatus === "holiday"}
-                      onChange={() => setAttendanceStatus("holiday")}
-                      className="w-5 h-5 cursor-pointer text-orange-400 bg-orange-200 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800"
-                      style={{ accentColor: "#ea580c" }} // Orange color for HalfDay
-                    />
-                    <label
-                      htmlFor="holiday-radio"
-                      className="ms-2 text-xl cursor-pointer font-semibold text-orange-600"
-                    >
-                      Holiday
-                    </label>
-                  </div> */}
-              </div>
-
-              <div className="text-center my-8 mx-4 flex justify-center">
-                <button
-                  className="text-white cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-10 duration-300 bg-custom-blue hover:bg-custom-hover-blue focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-semibold rounded text-base px-3 py-1 text-center me-2 mb-2"
-                  onClick={handleSubmit}
+          <div className="mt-8 bg-gradient-to-tr from-white via-blue-50 to-blue-100 p-4 md:p-6 rounded border shadow-inner">
+            <h2 className="text-lg md:text-xl font-semibold text-blue-700 text-center mb-4">
+              Mark Attendance
+            </h2>
+            {/* Attendance Options */}
+            <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  value="present"
+                  name="attendance"
+                  checked={attendanceStatus === "present"}
+                  onChange={() => setAttendanceStatus("present")}
+                  className="sr-only"
+                />
+                <span
+                  className="w-6 h-6 flex items-center justify-center bg-green-200 text-green-700 rounded-full shadow-lg ring-offset-2 ring-offset-white transition-all duration-200 ease-in-out"
+                  aria-hidden="true"
                 >
-                  Submit
-                </button>
-              </div>
+                  {attendanceStatus === "present" && "✓"}
+                </span>
+                <span className="ml-2 text-base md:text-lg font-medium text-green-700">
+                  Present
+                </span>
+              </label>
+
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  value="absent"
+                  name="attendance"
+                  checked={attendanceStatus === "absent"}
+                  onChange={() => setAttendanceStatus("absent")}
+                  className="sr-only"
+                />
+                <span
+                  className="w-6 h-6 flex items-center justify-center bg-red-200 text-red-700 rounded-full shadow-lg ring-offset-2 ring-offset-white transition-all duration-200 ease-in-out"
+                  aria-hidden="true"
+                >
+                  {attendanceStatus === "absent" && "✗"}
+                </span>
+                <span className="ml-2 text-base md:text-lg font-medium text-red-700">
+                  Absent
+                </span>
+              </label>
+
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  value="halfday"
+                  name="attendance"
+                  checked={attendanceStatus === "halfday"}
+                  onChange={() => setAttendanceStatus("halfday")}
+                  className="sr-only"
+                />
+                <span
+                  className="w-6 h-6 flex items-center justify-center bg-blue-200 text-blue-700 rounded-full shadow-lg ring-offset-2 ring-offset-white transition-all duration-200 ease-in-out"
+                  aria-hidden="true"
+                >
+                  {attendanceStatus === "halfday" && "½"}
+                </span>
+                <span className="ml-2 text-base md:text-lg font-medium text-blue-700">
+                  Half Day
+                </span>
+              </label>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-center mt-6">
+              <button
+                className="px-4 md:px-6 py-2 md:py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition-transform transform hover:scale-105"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
             </div>
           </div>
         )}

@@ -3,7 +3,6 @@ import { FaPencilAlt } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { AiOutlineFilter, AiOutlineSortAscending } from "react-icons/ai"; // Importing icons for filter and sort
 import api from "../../config/api";
-import CustomModal from "../../Components/Modal/CustomModal"; // Import your custom modal
 import LeaveCard from "../../Components/Card/LeaveCard";
 import { toast } from "react-toastify";
 
@@ -95,16 +94,16 @@ const LeaveApplication = () => {
   };
 
   return (
-    <section className="md:ml-56 mt-16 bg-gray-50 p-4">
+    <section className="flex-1 bg-gray-50 lg:p-6 p-2">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
+      <div className="flex justify-between items-center bg-blue-50 p-4 border rounded">
         <div className="flex items-center my-auto">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-900">Leaves</h1>
         </div>
         <button
           onClick={handleModal}
-          className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+          className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
         >
           <FaPencilAlt className="mr-2" />
           Leave Request
@@ -112,22 +111,22 @@ const LeaveApplication = () => {
       </div>
 
       {/* Leave History Section */}
-      <div className="mt-8 bg-white p-4 shadow-md rounded-lg">
+      <div className="mt-8 bg-white p-4 border rounded">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center">
             {/* Vertical Line */}
-            <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+            <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
             <h2 className="text-lg font-semibold text-blue-900">
               Leave History
             </h2>
           </div>
           {/* Filter and Sort Icons */}
           <div className="flex items-center space-x-4">
-            <button className="flex items-center text-purple-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+            <button className="flex items-center text-blue-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
               <AiOutlineFilter className="mr-2" />
               Filter
             </button>
-            <button className="flex items-center text-purple-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+            <button className="flex items-center text-blue-900 font-semibold bg-gray-200 px-3 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
               <AiOutlineSortAscending className="mr-2" />
               Sort
             </button>
@@ -152,7 +151,7 @@ const LeaveApplication = () => {
           >
             Previous
           </button>
-          <span className="px-4 py-2 bg-purple-600 text-white rounded-lg">
+          <span className="px-4 py-2 bg-blue-600 text-white rounded-lg">
             {currentPage}
           </span>
           <button
@@ -170,91 +169,109 @@ const LeaveApplication = () => {
       </div>
 
       {/* //       {/* Custom Modal Section */}
-      <CustomModal isOpen={openModal} onClose={handleModal}>
-        <div className="bg-blue-50 w-full p-6 rounded-lg shadow-lg">
-          {/* Modal Header */}
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center my-auto">
-              <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
-              <h2 className="text-xl font-semibold">Leave Request</h2>
-            </div>
-            <button onClick={handleModal} className="text-2xl">
-              <MdClose />
-            </button>
-          </div>
-
-          {/* Form Content */}
-          <form onSubmit={handleSubmit}>
-            {/* Leave Type Dropdown */}
-            <div className="mb-4">
-              <label className="block mb-2 text-gray-700">Leave Type</label>
-              <select
-                name="leaveType"
-                className="w-full p-2 border border-gray-300 rounded-lg"
-              >
-                <option value="">Choose Leave Type</option>
-                <option>Casual Leave</option>
-                <option>Sick Leave</option>
-                <option>Paid Leave</option>
-                <option>Monthly Leave</option>
-                <option>Other</option>
-              </select>
-            </div>
-
-            {/* Date Range */}
-            <div className="grid grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block mb-2 text-gray-700">From</label>
-                <input
-                  type="date"
-                  name="fromDate"
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-2 text-gray-700">To</label>
-                <input
-                  type="date"
-                  name="toDate"
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  required
-                />
-              </div>
-            </div>
-
-            {/* Reason Textarea */}
-            <div className="mb-6">
-              <label className="block mb-2 text-gray-700">Reason</label>
-              <textarea
-                rows="4"
-                name="reason"
-                className="w-full p-2 border border-gray-300 rounded-lg"
-                placeholder="Enter your reason here"
-                required
-              ></textarea>
-            </div>
-
-            {/* Buttons */}
-            <div className="flex justify-end space-x-4">
-              <button
-                onClick={handleModal}
-                className="px-4 py-2 border border-gray-400 text-gray-600 rounded-lg bg-gray-100 hover:bg-gray-300 transition duration-300"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300"
-              >
-                Request Now
-              </button>
-            </div>
-          </form>
-        </div>
-      </CustomModal>
+      <Modal isOpen={openModal} onClose={handleModal} handleSubmit={handleSubmit}>
+     
+      </Modal>
     </section>
   );
 };
 
 export default LeaveApplication;
+
+
+
+// eslint-disable-next-line react/prop-types
+const Modal = ({isOpen,onClose,handleSubmit}) => {
+
+  return (
+    <div>
+      {isOpen && (
+        <div onClick={onClose} className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div onClick={(e)=>e.stopPropagation()} className="bg-blue-50 w-[95%] max-w-md p-6 rounded-md shadow-lg">
+            {/* Modal Header */}
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center my-auto">
+                <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
+                <h2 className="text-xl font-semibold">Leave Request</h2>
+              </div>
+              <button onClick={onClose} className="text-2xl">
+                <MdClose />
+              </button>
+            </div>
+
+            {/* Form Content */}
+            <form onSubmit={handleSubmit}>
+              {/* Leave Type Dropdown */}
+              <div className="mb-4">
+                <label className="block mb-2 text-gray-700">Leave Type</label>
+                <select
+                  name="leaveType"
+                  className="w-full p-2 border border-gray-300 outline-none rounded"
+                  required
+                >
+                  <option value="">Choose Leave Type</option>
+                  <option>Casual Leave</option>
+                  <option>Sick Leave</option>
+                  <option>Paid Leave</option>
+                  <option>Monthly Leave</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              {/* Date Range */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block mb-2 text-gray-700">From</label>
+                  <input
+                    type="date"
+                    name="fromDate"
+                    className="w-full p-2 border border-gray-300 rounded outline-none"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-gray-700">To</label>
+                  <input
+                    type="date"
+                    name="toDate"
+                    className="w-full p-2 border border-gray-300 rounded outline-none"
+                    required
+                  />
+                </div>
+              </div>
+
+              {/* Reason Textarea */}
+              <div className="mb-6">
+                <label className="block mb-2 text-gray-700">Reason</label>
+                <textarea
+                  rows="4"
+                  name="reason"
+                  className="w-full p-2 border border-gray-300 rounded outline-none resize-none"
+                  placeholder="Enter your reason here"
+                  required
+                ></textarea>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={onClose}
+                  className="px-4 py-2 border border-gray-400 text-gray-600 rounded-lg bg-gray-100 hover:bg-gray-300 transition duration-300"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+                >
+                  Request Now
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+

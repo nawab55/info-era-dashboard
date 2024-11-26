@@ -54,15 +54,15 @@ const ViewAttendance = () => {
   }, [fetchAttendance]);
 
   return (
-    <section className="bg-gray-50 min-h-screen p-4 mt-16 md:ml-56">
+    <section className="bg-gray-50 min-h-screen p-4 flex-1">
       <Toaster />
       {/* Top Section */}
-      <div className="flex justify-between items-center bg-blue-100 p-4 shadow-lg rounded-lg">
+      <div className="flex justify-between items-center bg-blue-50 p-4  border rounded">
         <div className="flex items-center">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-800">Attendance</h1>
         </div>
-        <div className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+        <div className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
           <SlCalender className="mr-2 w-6 h-6" />
           Attendance
         </div>
@@ -98,7 +98,7 @@ const ViewAttendance = () => {
         {["Present", "Absent", "Halfday", "Holiday"].map((status, idx) => (
           <div key={idx} className="bg-blue-50 sm:p-0 md:p-4 rounded-lg shadow-md text-center transition-all duration-300 transform hover:scale-105 hover:cursor-pointer">
             <h3 className="sm:text-sm sm:font-semibold md:text-xl md:font-bold text-gray-700 ">{status}</h3>
-            <p className="text-2xl font-semibold text-purple-600">
+            <p className="text-2xl font-semibold text-blue-600">
               {summary[status.toLowerCase()]}
             </p>
           </div>
@@ -109,7 +109,7 @@ const ViewAttendance = () => {
       <div className="overflow-x-auto rounded-lg">
         <table className="w-full text-left bg-white rounded-lg shadow-lg">
           <thead className="rounded-lg">
-            <tr className="bg-purple-600 text-white">
+            <tr className="bg-blue-600 text-white">
               <th className="p-4">Date</th>
               <th className="p-4">Check-In Time</th>
               <th className="p-4">Logout Time</th>
@@ -151,10 +151,10 @@ export default ViewAttendance;
 //       {/* Top Card Section */}
 //       <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
 //         <div className="flex items-center my-auto">
-//           <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+//           <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
 //           <h1 className="text-2xl font-bold text-gray-900">Attendance</h1>
 //         </div>
-//         <div className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+//         <div className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
 //           <SlCalender className="mr-2 w-6 h-6" />
 //           Attendance
 //         </div>
@@ -270,10 +270,10 @@ export default ViewAttendance;
 //       {/* Top Card Section */}
 //       <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
 //         <div className="flex items-center my-auto">
-//           <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+//           <div className="w-2 bg-blue-600 h-8 mr-3 rounded-full"></div>
 //           <h1 className="text-2xl font-bold text-gray-900">Attendance</h1>
 //         </div>
-//         <div className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+//         <div className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
 //           <SlCalender className="mr-2 w-6 h-6" />
 //           Attendance
 //         </div>

@@ -45,66 +45,98 @@ function WorkList() {
   });
 
   return (
-    <section className="bg-purple-100 h-full mt-16 md:ml-56 p-4">
-      <div className="bg-sky-200 p-2 text-center text-black text-2xl font-bold border-b-2 border-black">Work List</div>
-      <div className="p-2 flex justify-between items-center">
-        <div>
-          <label className="mr-2 font-bold ">Start Date:</label>
+    <div className="min-h-screen bg-gradient-to-b flex-1 overflow-x-scroll from-blue-50 to-slate-100 p-4 space-y-6">
+      <header className="bg-blue-700 text-white p-4 rounded-md shadow-md">
+        <h1 className="text-xl md:text-2xl font-semibold text-center">
+          Work List
+        </h1>
+      </header>
+
+      <div className="bg-white  p-4 rounded-md shadow-md space-y-4 md:space-y-0 md:flex md:justify-between md:items-center">
+        <div className="space-y-2 md:space-y-0 md:flex md:items-center md:space-x-4">
+          <label
+            htmlFor="startDate"
+            className="font-semibold text-gray-700 whitespace-nowrap"
+          >
+            Start Date:
+          </label>
           <input
+            id="startDate"
             type="date"
             value={startDate}
             onChange={(e) => handleDateChange(e, "start")}
-            className="shadow my-0 p-2 text-base text-blue-700 border border-blue-300 rounded-md bg-gray-100  focus:ring-indigo-500 focus:border-blue-500 focus:border-2 hover:border-blue-400 focus:outline-none appearance-none mb-2 ml-2"
+            className="w-full md:w-auto p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 focus:outline-none"
           />
         </div>
-        <div>
-          <label className="mr-2 font-bold">End Date:</label>
+        <div className="space-y-2 md:space-y-0 md:flex md:items-center md:space-x-4">
+          <label
+            htmlFor="endDate"
+            className="font-semibold text-gray-700 whitespace-nowrap"
+          >
+            End Date:
+          </label>
           <input
+            id="endDate"
             type="date"
             value={endDate}
             onChange={(e) => handleDateChange(e, "end")}
-            className="shadow my-0 p-2 text-base text-blue-700 border border-blue-300 rounded-md bg-gray-100  focus:ring-indigo-500 focus:border-blue-500 focus:border-2 hover:border-blue-400 focus:outline-none appearance-none mb-2 ml-2"
+            className="w-full md:w-auto p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 focus:outline-none"
           />
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-center text-sm font-sans bg-slate-200">
-          <thead className="border-b border-black font-medium bg-slate-300 sticky">
-            <tr className="text-blue-700 border text-nowrap font-bold text-lg border-black">
-              <th className="px-1 py-1 border border-black">Employee ID</th>
-              <th className="px-1 py-1 border border-black">Employee Name</th>
-              <th className="px-1 py-1 border border-black">Designation</th>
-              <th className="px-1 py-1 border border-black">Project Name</th>
-              <th className="px-1 py-1 border border-black">Work</th>
-              <th className="px-1 py-1 border border-black">Work Done</th>
-              <th className="px-1 py-1 border border-black">Date</th>
+
+      <div className="overflow-x-auto w-full">
+        <table className=" divide-y divide-gray-200 min-w-full">
+          <thead className="bg-blue-700">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Employee ID
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Employee Name
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Designation
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Project Name
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Work
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Work Done
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider whitespace-nowrap">
+                Date
+              </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 border border-black">
+          <tbody className="bg-white divide-y divide-gray-200">
             {filteredWorkList.map((work, index) => (
               <tr
                 key={index}
-                className="text-sm font-medium border border-black hover:bg-blue-200 text-center"
+                className="hover:bg-blue-50 transition-colors duration-150"
               >
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.empId}
                 </td>
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.empName}
                 </td>
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.designation}
                 </td>
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.projectName}
                 </td>
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.work}
                 </td>
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.workDone}
                 </td>
-                <td className="whitespace-nowrap px-1 py-1 border border-black">
+                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                   {work.date}
                 </td>
               </tr>
@@ -112,7 +144,7 @@ function WorkList() {
           </tbody>
         </table>
       </div>
-    </section>
+    </div>
   );
 }
 

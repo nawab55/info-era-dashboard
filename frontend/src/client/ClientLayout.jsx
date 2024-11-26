@@ -1,26 +1,35 @@
-import { Outlet, useLocation } from "react-router-dom";
-import ClientDashboard from "./ClientDashboard";
-import Breadcrumb from "../Components/breadcrumb/BreadCrumb";
-// import Sidebar from "./Sidebar";
+import { Outlet } from "react-router-dom";
+import ClientNavbar from "./ClientNavbar";
+import { useState } from "react";
+import ClientSidebar from "./ClientSidebar";
+// import Breadcrumb from "../Components/breadcrumb/BreadCrumb";
 
 const ClientLayout = () => {
-  //   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const location = useLocation();
-
-  console.log("Layout rendered, current location:", location.pathname);
+  const [sidebarToggle, setSidebarToggle] = useState(false);
 
   return (
     <>
-      <div className=" bg-blue-50 ">
-        <ClientDashboard />
+      <div className="">
+      <ClientNavbar
+        sidebarToggle={sidebarToggle}
+        setSidebarToggle={setSidebarToggle}
+      />
 
-        <main className="">
-          <Breadcrumb />
+        <div className="flex min-w-full">
+          <ClientSidebar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />
+          {/* <Breadcrumb /> */}
           <Outlet />
-        </main>
+        </div>
       </div>
     </>
   );
 };
 
 export default ClientLayout;
+
+
+
+
+
+
+

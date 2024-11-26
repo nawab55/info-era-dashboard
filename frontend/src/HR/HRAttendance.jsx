@@ -175,141 +175,91 @@ const HRAttendance = () => {
   };
 
   return (
-    <section className="bg-white p-2 flex-1">
-      {/* Content before the attendance form */}
-      <div className="flex items-center justify-center border-b-2 bg-blue-100 rounded ">
-        <h1 className="text-2xl font-bold py-2">Attendance</h1>
+    <section className="bg-white p-4 flex-1">
+      {/* Header */}
+      <div className="flex items-center justify-center border-b-2 bg-gradient-to-r from-blue-500 to-teal-400 rounded-md shadow-lg">
+        <h1 className="text-3xl font-bold text-white py-3">Attendance</h1>
       </div>
-      <div className=" bg-slate-100 flex flex-col justify-start pb-40 rounded pt-2">
-        {/* name, date, time */}
-        <div className="w-full flex justify-between px-2 shadow-2xl border border-slate-100 py-1 text-xl sm:text-md md:text-xl lg:text-xl xl:text-xl my-0">
-          <h2 className="text-base text-start font-semibold p-2 px-3  rounded bg-sky-100 shadow-md">
-            Your Name:{" "}
-            <span className="text-base tracking-wide text-blue-900">
-              {userName}
-            </span>
+
+      <div className="bg-gray-100 flex flex-col justify-start pb-20 rounded-md mt-4 shadow-lg">
+        {/* Name, Date, Time */}
+        <div className="flex flex-col md:flex-row justify-between items-center p-4 shadow-md bg-white rounded-lg text-gray-800 mb-6">
+          <h2 className="text-lg font-semibold p-2 rounded bg-blue-50 shadow">
+            Your Name: <span className="text-blue-900">{userName}</span>
           </h2>
-          <h2 className="text-base text-start font-semibold p-2 px-3 rounded bg-sky-100 shadow-md">
-            Time:{" "}
-            <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
-              {currentTime}
-            </span>
+          <h2 className="text-lg font-semibold p-2 rounded bg-blue-50 shadow mt-2 md:mt-0">
+            Time: <span className="text-blue-900">{currentTime}</span>
           </h2>
-          <h2 className="text-base text-start font-semibold p-2 px-3 rounded bg-sky-100 shadow-md">
+          <h2 className="text-lg font-semibold p-2 rounded bg-blue-50 shadow mt-2 md:mt-0">
             Date:{" "}
-            <span className="font-medium tracking-wide text-blue-900 md:text-base xl:text-base sm:text-base">
+            <span className="text-blue-900">
               {formatDate(getCurrentDateAndTime())}
             </span>
           </h2>
         </div>
 
         {isAttendanceMarked ? (
-          <div className=" text-center pt-8 bg-inherit">
-            <h1 className="text-3xl text-green-700 font-bold">
+          <div className="text-center pt-8">
+            <h1 className="text-2xl md:text-3xl text-green-700 font-bold">
               THANK YOU FOR TODAY!
             </h1>
-            <div className="flex justify-center">
-              <button
-                className="mt-4 flex items-center justify-center text-white bg-blue-600 px-4 py-2 rounded hover:bg-blue-700 shadow-md"
-                onClick={handleCheckout}
-              >
-                <FaSignOutAlt className="mr-2" /> Checkout
-              </button>
-            </div>
-            <div className=" text-center mt-8">
-              <hr className="mx-8 mb-4 h-1 bg-green-900" />
-              <h1 className="text-3xl text-yellow-600 font-bold">
+            <button
+              className="mt-6 flex mx-auto items-center justify-center text-white bg-gradient-to-r from-blue-600 to-green-600 px-6 py-2 rounded shadow-lg  transform transition"
+              onClick={handleCheckout}
+            >
+              <FaSignOutAlt className="mr-2" /> Checkout
+            </button>
+            <div className="mt-10">
+              <hr className="mx-auto mb-4 h-1 w-1/2 bg-green-900" />
+              <h1 className="text-xl md:text-2xl text-yellow-600 font-semibold">
                 You were automatically checked out at 9:00 PM today.
               </h1>
             </div>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-center pt-6 bg-slate-100 rounded ">
-            <div className="w-full sm:w-full md:w-full lg:w-full xl:w-1/2 bg-orange-100 shadow-xl my-4 mx-2 rounded">
-              <div className="flex justify-center text-center">
-                <h1 className="text-xl xl:text-2xl lg:text-2xl tracking-wide text-start font-medium uppercase text-custom-blue me-10 mt-4">
-                  Make Attendance
-                </h1>
-              </div>
-              <div className="flex flex-wrap mx-2 text-center justify-center mt-4">
-                <div className="flex items-center me-10 my-2">
-                  <input
-                    id="present-radio"
-                    type="radio"
-                    value="present"
-                    name="attendance"
-                    checked={attendanceStatus === "present"}
-                    onChange={() => setAttendanceStatus("present")} // onChange={(e) => setAttendanceStatus(e.target.value)}
-                    className="w-5 h-5 cursor-pointer text-green-600 bg-green-200  border-green-700 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 "
-                    style={{ accentColor: "#15803d" }}
-                  />
-                  <label
-                    htmlFor="present-radio"
-                    className="ms-2 text-xl cursor-pointer font-semibold text-green-600 "
-                  >
-                    Present
-                  </label>
-                </div>
-                <div className="flex items-center me-10 my-2">
-                  <input
-                    id="absent-radio"
-                    type="radio"
-                    value="absent"
-                    name="attendance"
-                    checked={attendanceStatus === "absent"}
-                    onChange={() => setAttendanceStatus("absent")}
-                    className="w-5 h-5 cursor-pointer text-red-600 bg-red-200 border-red-700 focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 "
-                    style={{ accentColor: "#b91c1c" }} // Red color for Absent
-                  />
-                  <label
-                    htmlFor="absent-radio"
-                    className="ms-2 text-xl cursor-pointer font-semibold text-red-600 "
-                  >
-                    Absent
-                  </label>
-                </div>
-                <div className="flex items-center me-10 my-2">
-                  <input
-                    id="halfday-radio"
-                    type="radio"
-                    value="halfday"
-                    name="attendance"
-                    checked={attendanceStatus === "halfday"}
-                    onChange={() => setAttendanceStatus("halfday")}
-                    className="w-5 h-5 cursor-pointer text-blue-400 bg-blue-200 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                    style={{ accentColor: "#3b82f6" }} // Blue color for HalfDay
-                  />
-                  <label
-                    htmlFor="halfday-radio"
-                    className="ms-2 text-xl cursor-pointer font-semibold text-blue-600"
-                  >
-                    HalfDay
-                  </label>
-                </div>
+          <div className="flex justify-center pt-6">
+            <div className="w-full sm:w-full md:w-3/4 lg:w-1/2 bg-gradient-to-r from-orange-100 to-teal-50 shadow-2xl rounded-lg p-6">
+              <h1 className="text-center text-xl font-bold text-custom-blue uppercase mb-4">
+                Mark Attendance
+              </h1>
 
-                {/* <div className="flex items-center me-10 my-2">
+              <div className="flex justify-around text-center">
+                {["present", "absent", "halfday"].map((status) => (
+                  <div className="flex items-center my-2" key={status}>
                     <input
-                      id="holiday-radio"
+                      id={`${status}-radio`}
                       type="radio"
-                      value="holiday"
+                      value={status}
                       name="attendance"
-                      checked={attendanceStatus === "holiday"}
-                      onChange={() => setAttendanceStatus("holiday")}
-                      className="w-5 h-5 cursor-pointer text-orange-400 bg-orange-200 focus:ring-orange-500 dark:focus:ring-orange-600 dark:ring-offset-gray-800"
-                      style={{ accentColor: "#ea580c" }} // Orange color for HalfDay
+                      checked={attendanceStatus === status}
+                      onChange={() => setAttendanceStatus(status)}
+                      className={`w-5 h-5 cursor-pointer ${
+                        status === "present"
+                          ? "text-green-600"
+                          : status === "absent"
+                          ? "text-red-600"
+                          : "text-blue-600"
+                      } bg-gray-200 border focus:ring`}
                     />
                     <label
-                      htmlFor="holiday-radio"
-                      className="ms-2 text-xl cursor-pointer font-semibold text-orange-600"
+                      htmlFor={`${status}-radio`}
+                      className={`ms-2 text-xl cursor-pointer font-semibold ${
+                        status === "present"
+                          ? "text-green-600"
+                          : status === "absent"
+                          ? "text-red-600"
+                          : "text-blue-600"
+                      }`}
                     >
-                      Holiday
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
                     </label>
-                  </div> */}
+                  </div>
+                ))}
               </div>
 
-              <div className="text-center my-8 mx-4 flex justify-center">
+              <div className="text-center mt-8">
                 <button
-                  className="text-white cursor-pointer transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-10 duration-300 bg-custom-blue hover:bg-custom-hover-blue focus:ring-2 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-semibold rounded text-base px-3 py-1 text-center me-2 mb-2"
+                  className="bg-blue-600 text-white font-semibold px-6 py-2 rounded-full shadow-lg hover:bg-blue-700 transition transform hover:scale-105"
                   onClick={handleSubmit}
                 >
                   Submit
