@@ -62,6 +62,7 @@ import Activity from "./Admin/adminComponents/activity/Activity";
 import AddActivity from "./Admin/adminComponents/activity/AddActivity";
 import Ibc from "./Admin/adminComponents/co-partners/Ibc";
 import Bbc from "./Admin/adminComponents/co-partners/Bbc";
+import Consultant from "./Admin/adminComponents/consultant/Consultant";
 import Contact from "./Admin/adminComponents/contact/Contact";
 
 // Client Dashboard
@@ -112,6 +113,7 @@ function App() {
             <Route path="post-job" element={<PostJob />} />
             <Route path="activity" element={<Activity />} />
             <Route path="add-activity" element={<AddActivity />} />
+            <Route path="consultant" element={<Consultant />} />
             <Route path="contact" element={<Contact />} />
           </Route>
 

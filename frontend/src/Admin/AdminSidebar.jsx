@@ -17,6 +17,7 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { AiOutlineTeam, AiOutlineSolution } from "react-icons/ai";
+import { BiSupport } from "react-icons/bi";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { FiPhone } from "react-icons/fi";
@@ -134,6 +135,12 @@ const menus = [
     link: "/admin/activity",
     icon: MdEvent,
     color: "text-pink-500",
+  },
+  {
+    name: "Consultant",
+    link: "/admin/consultant",
+    icon: BiSupport,
+    color: "text-teal-500",
   },
   {
     name: "Contact",
