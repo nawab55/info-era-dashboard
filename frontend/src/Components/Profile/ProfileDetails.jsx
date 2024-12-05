@@ -1,90 +1,111 @@
-/* eslint-disable react/prop-types */
+import { IoCalendar, IoCall, IoMail, IoHome, IoCard, IoSchool, IoBriefcase } from 'react-icons/io5';
 
+ // eslint-disable-next-line react/prop-types
+ const InfoItem = ({ icon, label, value }) => (
+  <div className="flex items-center space-x-2 p-2 bg-gray-200 rounded-lg">
+    {icon}
+    <span className="font-medium text-gray-600">{label}:</span>
+    <span className="text-gray-800">{value}</span>
+  </div>
+);
+
+// eslint-disable-next-line react/prop-types
+const SectionTitle = ({ icon, title }) => (
+  <h3 className="text-xl font-semibold text-gray-800 mt-8 mb-4 flex items-center space-x-2">
+    {icon}
+    <span>{title}</span>
+  </h3>
+);
+
+
+// eslint-disable-next-line react/prop-types
 const ProfileDetails = ({ employee }) => {
+ 
+  // eslint-disable-next-line react/prop-types
+  const {name,EmpId,dob,mobile,email,correspondenceAddress,aadharNo,panNo,educationalDetails,employmentDetails,familyDetails,aadhaarFrontImage,aadhaarBackImage,panImage} = employee;
+
+
   return (
-    <div className="p-4 border-2 hover:border-gray-400 shadow-lg border-blue-200 max-w-4xl bg-white mx-auto">
-      <h2 className="text-3xl font-semibold leading-7 text-center text-blue-950 mb-8 border-b-2 border-black pb-2">{employee.name} Details</h2>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div><strong>Name:</strong> <span className="ml-2">{employee.name}</span></div>
-        <div><strong>Father&apos;s Name:</strong> <span className="ml-2">{employee.fathersName}</span></div>
-        <div><strong>Mother&apos;s Name:</strong> <span className="ml-2">{employee.mothersName}</span></div>
-        <div><strong>Correspondence Address:</strong> <span className="ml-2">{employee.correspondenceAddress}</span></div>
-        <div><strong>Permanent Address:</strong> <span className="ml-2">{employee.permanentAddress}</span></div>
-        <div><strong>Mobile:</strong> <span className="ml-2">{employee.mobile}</span></div>
-        <div><strong>Alternate Mobile:</strong> <span className="ml-2">{employee.altMobile}</span></div>
-        <div><strong>Date of Birth:</strong> <span className="ml-2">{new Date(employee.dob).toLocaleDateString()}</span></div>
-        <div><strong>Email:</strong> <span className="ml-2">{employee.email}</span></div>
-        <div><strong>Gender:</strong> <span className="ml-2">{employee.gender}</span></div>
-        <div><strong>Marital Status:</strong> <span className="ml-2">{employee.maritalStatus}</span></div>
-        <div><strong>Aadhar No:</strong> <span className="ml-2">{employee.aadharNo}</span></div>
-        <div>
-          <strong>Aadhar Front:</strong> 
-          <img src={employee.aadhaarFrontImage} alt="Aadhar Front" className="max-w-full h-auto mt-2"/>
-        </div>
-        <div>
-          <strong>Aadhar Back:</strong> 
-          <img src={employee.aadhaarBackImage} alt="Aadhar Back" className="max-w-full h-auto mt-2"/>
-        </div>
-        <div><strong>PAN No:</strong> <span className="ml-2">{employee.panNo}</span></div>
-        <div>
-          <strong>PAN Card:</strong> 
-          <img src={employee.panImage} alt="PAN Card" className="max-w-full h-auto mt-2"/>
-        </div>
-        <div><strong>Blood Group:</strong> <span className="ml-2">{employee.bloodGroup}</span></div>
-        <div><strong>Date of Joining:</strong> <span className="ml-2">{new Date(employee.dateOfJoining).toLocaleDateString()}</span></div>
-        <div><strong>Employee ID:</strong> <span className="ml-2">{employee.EmpId}</span></div>
-        <div><strong>Emergency Contact Name:</strong> <span className="ml-2">{employee.emergencyContactName}</span></div>
-        <div><strong>Emergency Contact Relation:</strong> <span className="ml-2">{employee.emergencyContactRelation}</span></div>
-        <div><strong>Emergency Contact Mobile:</strong> <span className="ml-2">{employee.emergencyContactMobile}</span></div>
-        <div><strong>Emergency Contact Address:</strong> <span className="ml-2">{employee.emergencyContactAddress}</span></div>
-        <div><strong>Bank Account Name:</strong> <span className="ml-2">{employee.bankAccName}</span></div>
-        <div><strong>Account Number:</strong> <span className="ml-2">{employee.accountNumber}</span></div>
-        <div><strong>IFSC Code:</strong> <span className="ml-2">{employee.ifscCode}</span></div>
-        <div><strong>Branch Name:</strong> <span className="ml-2">{employee.branchName}</span></div>
-        <div><strong>Declaration Date:</strong> <span className="ml-2">{new Date(employee.decDate).toLocaleDateString()}</span></div>
+    <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
+        <h2 className="text-3xl font-bold">{name}</h2>
+        <p className="text-lg opacity-90">Employee ID: {EmpId}</p>
       </div>
 
-      <h3 className="text-2xl font-semibold leading-6 text-blue-800 mt-6 mb-2">Family Details</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {employee.familyDetails.map((family, index) => (
-          <div key={index} className="border-b-2 border-gray-200 pb-2 mb-2">
-            <div><strong>Name:</strong> <span className="ml-2">{family.fname}</span></div>
-            <div><strong>Relation:</strong> <span className="ml-2">{family.frelation}</span></div>
-            <div><strong>Occupation:</strong> <span className="ml-2">{family.foccupation}</span></div>
-            <div><strong>Date of Birth:</strong> <span className="ml-2">{new Date(family.fdob).toLocaleDateString()}</span></div>
-          </div>
-        ))}
-      </div>
+      <div className="p-6 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <InfoItem icon={<IoCalendar className="text-blue-500" />} label="Date of Birth" value={new Date(dob).toLocaleDateString()} />
+          <InfoItem icon={<IoCall className="text-blue-500" />} label="Mobile" value={mobile} />
+          <InfoItem icon={<IoMail className="text-blue-500" />} label="Email" value={email} />
+          <InfoItem icon={<IoHome className="text-blue-500" />} label="Address" value={correspondenceAddress} />
+          <InfoItem icon={<IoCard className="text-blue-500" />} label="Aadhar No" value={aadharNo} />
+          <InfoItem icon={<IoCard className="text-blue-500" />} label="PAN No" value={panNo} />
+        </div>
 
-      <h3 className="text-2xl font-semibold leading-6 text-blue-800 mt-6 mb-2">Educational Details</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {employee.educationalDetails.map((education, index) => (
-          <div key={index} className="border-b-2 border-gray-200 pb-2 mb-2">
-            <div><strong>Degree:</strong> <span className="ml-2">{education.edegree}</span></div>
-            <div><strong>University:</strong> <span className="ml-2">{education.euniversity}</span></div>
-            <div><strong>Specialization:</strong> <span className="ml-2">{education.especialization}</span></div>
-            <div><strong>From:</strong> <span className="ml-2">{new Date(education.efromDate).toLocaleDateString()}</span></div>
-            <div><strong>To:</strong> <span className="ml-2">{new Date(education.etoDate).toLocaleDateString()}</span></div>
-            <div><strong>Percentage:</strong> <span className="ml-2">{education.epercentage}</span></div>
-          </div>
-        ))}
-      </div>
+        <SectionTitle icon={<IoSchool className="text-blue-500" />} title="Educational Details" />
+        <div className="space-y-4">
+          {/*eslint-disable-next-line react/prop-types*/}
+          {educationalDetails.map((education, index) => (
+            <div key={index} className="bg-gray-200 p-4 rounded-lg">
+              <h4 className="font-semibold text-lg text-gray-800">{education.edegree}</h4>
+              <p className="text-gray-600">{education.euniversity} - {education.especialization}</p>
+              <p className="text-sm text-gray-500">
+                {new Date(education.efromDate).getFullYear()} - {new Date(education.etoDate).getFullYear()}
+              </p>
+              <p className="text-sm font-medium text-blue-600">Percentage: {education.epercentage}%</p>
+            </div>
+          ))}
+        </div>
 
-      <h3 className="text-2xl font-semibold leading-6 text-blue-800 mt-6 mb-2">Employment Details</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {employee.employmentDetails.map((employment, index) => (
-          <div key={index} className="border-b-2 border-gray-200 pb-2 mb-2">
-            <div><strong>Company Name:</strong> <span className="ml-2">{employment.companyName}</span></div>
-            <div><strong>Designation:</strong> <span className="ml-2">{employment.designation}</span></div>
-            <div><strong>From:</strong> <span className="ml-2">{new Date(employment.empFromDate).toLocaleDateString()}</span></div>
-            <div><strong>To:</strong> <span className="ml-2">{new Date(employment.empToDate).toLocaleDateString()}</span></div>
-            <div><strong>Annual CTC:</strong> <span className="ml-2">{employment.annualctc}</span></div>
+        <SectionTitle icon={<IoBriefcase className="text-blue-500" />} title="Employment History" />
+        <div className="space-y-4">
+          {/*eslint-disable-next-line react/prop-types*/}
+          {employmentDetails.map((employment, index) => (
+            <div key={index} className="bg-gray-200 p-4 rounded-lg">
+              <h4 className="font-semibold text-lg text-gray-800">{employment.designation}</h4>
+              <p className="text-gray-600">{employment.companyName}</p>
+              <p className="text-sm text-gray-500">
+                {new Date(employment.empFromDate).toLocaleDateString()} - {new Date(employment.empToDate).toLocaleDateString()}
+              </p>
+              <p className="text-sm font-medium text-green-600">Annual CTC: {employment.annualctc}</p>
+            </div>
+          ))}
+        </div>
+
+        <SectionTitle icon={<IoHome className="text-blue-500" />} title="Family Details" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/*eslint-disable-next-line react/prop-types*/}
+          {familyDetails.map((family, index) => (
+            <div key={index} className="bg-gray-200 p-4 rounded-lg">
+              <h4 className="font-semibold text-gray-800">{family.fname}</h4>
+              <p className="text-gray-600">{family.frelation}</p>
+              <p className="text-sm text-gray-500">{family.foccupation}</p>
+              <p className="text-sm text-gray-500">DOB: {new Date(family.fdob).toLocaleDateString()}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 space-y-4">
+          <h3 className="text-xl font-semibold text-gray-800">Identity Documents</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <h4 className="font-medium text-gray-700 mb-2">Aadhar Card (Front)</h4>
+              <img src={aadhaarFrontImage} alt="Aadhar Front" className="w-full h-auto rounded-lg shadow-md" />
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-700 mb-2">Aadhar Card (Back)</h4>
+              <img src={aadhaarBackImage} alt="Aadhar Back" className="w-full h-auto rounded-lg shadow-md" />
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-700 mb-2">PAN Card</h4>
+              <img src={panImage} alt="PAN Card" className="w-full h-auto rounded-lg shadow-md" />
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   );
 };
 
 export default ProfileDetails;
+

@@ -19,67 +19,88 @@ const CollegeReports = () => {
   }, []);
 
   return (
-    <section className="md:ml-60 bg-gray-50 px-4">
-      <div className="bg-blue-700 p-4 text-center text-white text-2xl font-bold border-b-2 border-gray-700 shadow-md">
-        View All College Reports
-      </div>
+    <section className="flex-1 max-w-full min-h-screen lg:py-6 py-4 lg:px-6 px-2">
+      <div className="border">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-center text-white text-2xl font-bold shadow-lg">
+          <h2 className="lg:text-2xl text-xl lg:font-extrabold font-bold text-white text-center flex items-center justify-center">
+            View All College Reports
+          </h2>
+        </div>
 
-      <div className="p-4">
-        <div className="overflow-x-auto pb-10">
-          <table className="min-w-full text-center text-sm bg-white shadow-lg rounded-lg">
-            <thead className="border-b border-gray-300 font-medium bg-gray-200">
-              <tr className="text-gray-900 border font-bold text-lg">
-                <th className="px-2 py-3 border border-gray-300">Sl. No</th>
-                <th className="px-2 py-3 border border-gray-300">College Name</th>
-                <th className="px-2 py-3 border border-gray-300">College Code</th>
-                <th className="px-2 py-3 border border-gray-300">Address</th>
-                <th className="px-2 py-3 border border-gray-300">Website</th>
-                <th className="px-2 py-3 border border-gray-300">Mobile No</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {colleges.length > 0 ? (
-                colleges.map((college, index) => (
-                  <tr
-                    key={college._id}
-                    className="bg-white text-sm font-medium border border-gray-300 hover:bg-gray-100 transition duration-150"
-                  >
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
-                      {index + 1}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
-                      {college.collegeName}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
-                      {college.collegeCode}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
-                      {college.address}
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
-                      <a
-                        href={`http://${college.website}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-800 underline"
-                      >
-                        {college.website}
-                      </a>
-                    </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
-                      {college.mobileNo}
+        <div className="lg:p-4 p-2">
+          <div className="overflow-x-auto pb-10">
+            <table className="min-w-full bg-white rounded border">
+              <thead className="bg-gray-600">
+                <tr className="text-white font-semibold text-base text-nowrap">
+                  <th className="px-4 py-3 text-left border-gray-300">
+                    Sl. No
+                  </th>
+                  <th className="px-4 py-3 text-left border-gray-300">
+                    College Name
+                  </th>
+                  <th className="px-4 py-3 text-left border-gray-300">
+                    College Code
+                  </th>
+                  <th className="px-4 py-3 text-left border-gray-300">
+                    Address
+                  </th>
+                  <th className="px-4 py-3 text-left border-gray-300">
+                    Website
+                  </th>
+                  <th className="px-4 py-3 text-left border-gray-300">
+                    Mobile No
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {colleges.length > 0 ? (
+                  colleges.map((college, index) => (
+                    <tr
+                      key={college._id}
+                      className={`text-gray-700 text-sm ${
+                        index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                      } hover:bg-blue-50 transition-colors duration-200`}
+                    >
+                      <td className="whitespace-nowrap px-4 py-3 border">
+                        {index + 1}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 border">
+                        {college.collegeName}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py- border">
+                        {college.collegeCode}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 border">
+                        {college.address}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 border">
+                        <a
+                          href={`http://${college.website}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 underline"
+                        >
+                          {college.website}
+                        </a>
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3 border">
+                        {college.mobileNo}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="text-center py-6 text-gray-500 text-lg"
+                    >
+                      No colleges found.
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="6" className="text-center py-6 text-gray-500">
-                    No colleges found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

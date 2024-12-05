@@ -1,12 +1,12 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
 import { useEffect, useState, forwardRef } from "react";
-import api from '../../config/api';
+import api from "../../config/api";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parse, isWithinInterval, startOfDay, endOfDay } from "date-fns";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaEye } from "react-icons/fa";
 import Modal from "react-modal";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
@@ -98,9 +98,16 @@ const InvoiceReports = () => {
   };
 
   return (
-    <div className="md:ml-48 ">
-      <div className="container mx-auto p-4 bg-gray-100">
-        <h1 className="text-2xl font-bold text-center mb-4">Invoice Reports</h1>
+    <div className="flex-1 max-w-full min-h-screen">
+      <div className="container mx-auto p-4 h-full bg-gray-100">
+        <div className="flex justify-center mb-6">
+          <h1
+            id="header"
+            className="p-2 text-center font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700 text-2xl"
+          >
+            Invoice Reports
+          </h1>
+        </div>
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 mx-12 space-y-4 md:space-y-0 md:space-x-4">
           <div className="flex flex-col ">
             <label className="font-semibold mb-1">Start Date:</label>
@@ -134,38 +141,54 @@ const InvoiceReports = () => {
               No reports found for the selected date range.
             </div>
           ) : (
-            <table className="min-w-full bg-white border rounded-lg">
-              <thead className="bg-gray-100 border-b">
-                <tr>
-                  <th className="py-2 px-4 text-left">S.No</th>
-                  <th className="py-2 px-4 text-left">Customer Name</th>
-                  <th className="py-2 px-4 text-left">Amount</th>
-                  <th className="py-2 px-4 text-left">View Data</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredReports.map((report, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="py-2 px-4">{index + 1}</td>
-                    <td className="py-2 px-4">
-                      {report?.buyerDetails?.customerName}
-                    </td>
-                    <td className="py-2 px-4">{report.totalAmount}</td>
-                    <td className="py-2 px-4">
-                      <button
-                        className="bg-custom-blue text-white px-3 py-1 rounded-md hover:bg-custom-hover-blue"
-                        onClick={() => handleViewClick(report)}
-                      >
-                        View
-                      </button>
-                    </td>
+            <div className="overflow-x-auto">
+              <table className="min-w-full bg-white border rounded-lg shadow-sm">
+                <thead className="bg-slate-600 text-nowrap text-white border-b">
+                  <tr>
+                    <th className="py-3 px-4 text-left border font-medium">
+                      S.No
+                    </th>
+                    <th className="py-3 px-4 text-left border font-medium">
+                      Customer Name
+                    </th>
+                    <th className="py-3 px-4 text-left border font-medium">
+                      Amount
+                    </th>
+                    <th className="py-3 px-4 text-left border font-medium">
+                      View Data
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredReports.map((report, index) => (
+                    <tr
+                      key={index}
+                      className="border border-gray-200 hover:bg-gray-50 transition duration-150"
+                    >
+                      <td className="py-3 px-4 border border-gray-200 text-center text-gray-800">{index + 1}</td>
+                      <td className="py-3 px-4 border border-gray-200 text-center text-gray-800">
+                        {report?.buyerDetails?.customerName}
+                      </td>
+                      <td className="py-3 px-4 border border-gray-200 text-center text-gray-800">
+                        {report.totalAmount}
+                      </td>
+                      <td className="py-3 px-4 border flex border-gray-200 ">
+                        <button
+                          className="bg-blue-600 text-white px-4  mx-auto py-2 rounded-lg shadow 
+                                   hover:bg-blue-700 focus:ring-2 focus:ring-blue-400 focus:outline-none 
+                                   transition duration-200"
+                          onClick={() => handleViewClick(report)}
+                        >
+                          <FaEye/>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
-        <div className="bg-white w-full h-24 my-4"></div>
       </div>
       {selectedInvoice && (
         <Modal
@@ -202,7 +225,6 @@ const InvoiceReports = () => {
           </div>
         </Modal>
       )}
-      
     </div>
   );
 };

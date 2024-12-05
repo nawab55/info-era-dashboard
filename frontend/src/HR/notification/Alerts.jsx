@@ -59,20 +59,16 @@ const Alerts = () => {
     switch (type) {
       case "Success":
         return (
-          <MdCheckCircle className="bg-green-600 text-white p-1 rounded-full text-3xl" />
+          <MdCheckCircle className="bg-green-700 text-white rounded-full" />
         );
       case "Info":
         return (
-          <BiErrorCircle className="bg-blue-600 text-white p-1 rounded-full text-3xl" />
+          <BiErrorCircle className="bg-blue-700 text-white rounded-full" />
         );
       case "Warning":
-        return (
-          <MdWarning className="bg-yellow-500 text-white p-1 rounded-full text-3xl" />
-        );
+        return <MdWarning className="text-yellow-600 rounded-full" />;
       case "Danger":
-        return (
-          <MdError className="bg-red-600 text-white p-1 rounded-full text-3xl" />
-        );
+        return <MdError className="bg-red-600 text-white rounded-full" />;
       default:
         return null;
     }
@@ -108,61 +104,60 @@ const Alerts = () => {
   }
 
   return (
-    <section className="flex-1 bg-gray-50 p-6 sm:p-8">
+    <section className="flex-1 bg-gray-50 p-4">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-gradient-to-r from-indigo-600 to-indigo-800 px-5 py-3 rounded-tl rounded-tr">
-        <div className="flex items-center space-x-3">
-          <h1 className="text-2xl font-bold text-white">Alerts</h1>
+      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
+        <div className="flex items-center my-auto">
+          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <h1 className="text-2xl font-bold text-gray-900">Alerts</h1>
         </div>
 
         <button
           onClick={handleModal}
-          className="flex items-center bg-white text-indigo-800 px-3 py-2 rounded-lg hover:text-blue-600 transition duration-300 shadow-lg"
+          className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300"
         >
-          <BiErrorCircle className="text-2xl mr-3" />
+          <BiErrorCircle className="mr-2" />
           Add Alert
         </button>
       </div>
 
       {/* Alerts List */}
-      <div className="mt-6 space-y-3">
+      <div className="mt-6 space-y-4">
         {currentAlerts.map((alert, index) => (
           <div
             key={index}
             className={`${getBackgroundColor(
               alert.alertType
-            )}  px-3 py-1 rounded border-gray-300 flex justify-between items-center `}
+            )} bg-blue-50 p-3 rounded-lg shadow-md flex justify-between items-start space-x-4`}
           >
-            <div className="flex items-center space-x-6">
-              <div className="text-4xl">{getIcon(alert.alertType)}</div>
-              <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-gray-900">
-                  {alert.title}
-                </h3>
-                <p className="text-gray-600">{alert.message}</p>
+            <div className="flex items-center space-x-4">
+              <div className="text-3xl my-auto">{getIcon(alert.alertType)}</div>
+              <div className="">
+                <h3 className="text-lg font-semibold">{alert.title}</h3>
+                <p className="text-gray-700">{alert.message}</p>
               </div>
             </div>
-
             {/* Display the created date on the right side */}
-            <div className="text-gray-600 text-sm">
+            <div className="text-gray-700 text-sm my-auto">
               {moment(alert.createdAt, "Do MMMM YYYY, h:mm:ss a").format(
                 "D MMMM, YYYY"
               )}
+              {/* {alert.createdAt} */}
             </div>
           </div>
         ))}
       </div>
 
       {/* Pagination */}
-      <div className="mt-8 flex justify-center space-x-3">
+      <div className="mt-6 flex justify-center space-x-2">
         {pageNumber.map((number) => (
           <button
             key={number}
             onClick={() => paginate(number)}
-            className={`px-4 py-2 rounded-lg text-lg border transition duration-300 ${
+            className={`px-3 py-1 rounded-lg border ${
               currentPage === number
-                ? "bg-indigo-600 text-white"
-                : "bg-white text-indigo-600 border-indigo-600 hover:bg-indigo-50"
+                ? "bg-purple-600 text-white"
+                : "bg-white text-purple-600 border-purple-600"
             }`}
           >
             {number}
@@ -172,35 +167,28 @@ const Alerts = () => {
 
       {/* Custom Modal Section */}
       <CustomModal isOpen={openModal} onClose={handleModal}>
-        <div className="bg-gradient-to-r from-indigo-600 to-indigo-800 w-full p-8 rounded-lg shadow-xl">
+        <div className="bg-blue-50 w-full p-6 rounded-lg shadow-lg">
           {/* Modal Header */}
-          <div className="flex justify-between items-center bg-white rounded-lg px-4 py-3 mb-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-2 bg-indigo-600 h-8 rounded-full"></div>
-              <h2 className="text-2xl font-semibold text-gray-900">
-                Add Alert
-              </h2>
+          <div className="flex justify-between items-center bg-white rounded-lg px-2 py-2 mb-2">
+            <div className="flex items-center my-auto">
+              <div className="w-2 bg-purple-600 h-7 mr-3 rounded-full"></div>
+              <h2 className="text-xl font-semibold">Add Alert</h2>
             </div>
-            <button
-              onClick={handleModal}
-              className="text-2xl text-gray-600 hover:text-gray-900"
-            >
+            <button onClick={handleModal} className="text-2xl">
               <MdClose />
             </button>
           </div>
 
           {/* Form Content */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit}>
             {/* Alert Type Dropdown */}
-            <div className="mb-6">
-              <label className="block mb-2 text-lg font-medium text-gray-700">
-                Alert Type
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-700">Alert Type</label>
               <select
                 name="alertType"
                 value={alertType}
                 onChange={(e) => setAlertType(e.target.value)}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                 required
               >
                 <option value="">Select Alert Type</option>
@@ -212,31 +200,27 @@ const Alerts = () => {
             </div>
 
             {/* Title Input */}
-            <div className="mb-6">
-              <label className="block mb-2 text-lg font-medium text-gray-700">
-                Title
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-700">Title</label>
               <input
                 type="text"
                 name="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                 required
               />
             </div>
 
             {/* Message Input */}
-            <div className="mb-6">
-              <label className="block mb-2 text-lg font-medium text-gray-700">
-                Message
-              </label>
+            <div className="mb-4">
+              <label className="block mb-2 text-gray-700">Message</label>
               <textarea
                 name="message"
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                rows="5"
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                rows="4"
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
                 required
               />
             </div>
@@ -245,7 +229,7 @@ const Alerts = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300"
+                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300"
               >
                 Add Alert
               </button>

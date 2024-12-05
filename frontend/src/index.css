@@ -4,32 +4,80 @@
 
 /* react-toastify css */
 .toastBody {
-    font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
-    /* color: #10171D; #10171D; */
-    font-size: 1.1rem;
+  font-family: "Atlas Grotesk Web", Arial, Helvetica, sans-serif;
+  /* color: #10171D; #10171D; */
+  font-size: 1.1rem;
 }
 
-.adhar-image{
-    display: flex;
+.adhar-image {
+  display: flex;
 }
 .custom-image {
-    width: 230px; /* Adjust the width as needed */
-    height: auto; /* Keep aspect ratio */
-    margin-right: 10px;
+  width: 230px; /* Adjust the width as needed */
+  height: auto; /* Keep aspect ratio */
+  margin-right: 10px;
 }
 
 .birthday-img {
-    animation: bounce 2s infinite;
-  }
+  animation: bounce 2s infinite;
+}
 
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-    }
-    40% {
-      transform: translateY(-30px);
-    }
-    60% {
-      transform: translateY(-15px);
-    }
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
   }
+  40% {
+    transform: translateY(-30px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+}
+
+.box {
+  background-color: white;
+  text-shadow: 0 1px 0 #000;
+
+  --border-angle: 0turn;
+  --main-bg: conic-gradient(
+    from var(--border-angle),
+    #213,
+    #112 5%,
+    #112 60%,
+    #213 95%
+  );
+
+  border: solid 5px transparent;
+  border-radius: 1em;
+  --gradient-border: conic-gradient(
+    from var(--border-angle),
+    transparent 25%,
+    rgb(81, 0, 255),
+    #f03 99%,
+    transparent
+  );
+
+  background: var(--main-bg) padding-box, var(--gradient-border) border-box,
+    var(--main-bg) border-box;
+
+  background-position: center center;
+
+  animation: bg-spin 3s linear infinite forwards;
+
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0turn;
+}
+
+@keyframes bg-spin {
+  to {
+    --border-angle: 1turn;
+  }
+}

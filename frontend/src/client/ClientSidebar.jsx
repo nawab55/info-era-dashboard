@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -9,8 +8,55 @@ import {
   FaServicestack,
   FaCircle,
 } from "react-icons/fa";
-import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
+import { MdKeyboardArrowDown, MdSyncProblem } from "react-icons/md";
 
+const menus = [
+  {
+    path: "/client/dashboard_client",
+    name: "Dashboard",
+    icon: FaHome,
+    iconColor: "text-blue-400",
+  },
+  {
+    path: "/client/profile",
+    name: "Profile",
+    icon: FaUserCircle,
+    iconColor: "text-green-400",
+  },
+  {
+    path: "/client/edit_password",
+    name: "Edit Password",
+    icon: FaLock,
+    iconColor: "text-red-400",
+  },
+  {
+    path: "/client/invoice-details",
+    name: "Invoice",
+    icon: FaFileInvoiceDollar,
+    iconColor: "text-yellow-400",
+  },
+  {
+    name: "Services",
+    link: "/client/services",
+    icon: FaServicestack,
+    iconColor: "text-purple-400",
+    dropdown: true,
+    subMenus: [
+      {
+        link: "/client/request-complain",
+        name: "Complain",
+        icon: <MdSyncProblem className="text-cyan-400" />,
+      },
+      {
+        link: "/client/upcoming",
+        name: "Upcoming",
+        icon: <FaCircle className="text-cyan-400" />,
+      },
+    ],
+  },
+];
+
+// eslint-disable-next-line react/prop-types
 const ClientSidebar = ({ sidebarToggle, setSidebarToggle }) => {
   const navigate = useNavigate();
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -32,118 +78,73 @@ const ClientSidebar = ({ sidebarToggle, setSidebarToggle }) => {
 
   return (
     <aside
-        className={`md:w-64 w-[60%] lg:static  fixed z-[2] min-h-screen bg-custom-dark-blue  px-4 pt-4 transition-transform ${
-          sidebarToggle ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
-        aria-label="Sidebar"
-      >
-      <ul className="space-y-2 text-white font-semibold min-h-full">
-        {/* Dashboard Link */}
-        <li
-          className={`rounded hover:bg-blue-800 py-3 transition-all ${
-            pathname === "/client/dashboard_client" ? "bg-blue-800" : ""
-          }`}
-        >
-          <button
-            onClick={() => handleNavigate("/client/dashboard_client")}
-            className="flex items-center w-full px-2 text-left"
-          >
-            <FaHome className="text-blue-400 w-5 h-5 mr-3" />
-            <span>Dashboard</span>
-          </button>
-        </li>
-
-        {/* Profile */}
-        <li
-          className={`rounded hover:bg-blue-800 py-3 transition-all ${
-            pathname === "/client/profile" ? "bg-blue-800" : ""
-          }`}
-        >
-          <button
-            onClick={() => handleNavigate("/client/profile")}
-            className="flex items-center w-full px-2 text-left"
-          >
-            <FaUserCircle className="text-green-400 w-5 h-5 mr-3" />
-            <span>Profile</span>
-          </button>
-        </li>
-
-        {/* Edit Password */}
-        <li
-          className={`rounded hover:bg-blue-800 py-3 transition-all ${
-            pathname === "/client/edit_password" ? "bg-blue-800" : ""
-          }`}
-        >
-          <button
-            onClick={() => handleNavigate("/client/edit_password")}
-            className="flex items-center w-full px-2 text-left"
-          >
-            <FaLock className="text-red-400 w-5 h-5 mr-3" />
-            <span>Edit Password</span>
-          </button>
-        </li>
-
-        {/* Invoice */}
-        <li
-          className={`rounded hover:bg-blue-800 py-3 transition-all ${
-            pathname === "/client/invoice-details" ? "bg-blue-800" : ""
-          }`}
-        >
-          <button
-            onClick={() => handleNavigate("/client/invoice-details")}
-            className="flex items-center w-full px-2 text-left"
-          >
-            <FaFileInvoiceDollar className="text-yellow-400 w-5 h-5 mr-3" />
-            <span>Invoice</span>
-          </button>
-        </li>
-
-        {/* Service Dropdown */}
-        <li>
-          <button
-            onClick={() => toggleDropdown("service")}
-            className="flex items-center justify-between w-full px-2 py-3 hover:bg-blue-800 rounded-lg transition-all"
-          >
-            <span className="flex items-center">
-              <FaServicestack className="text-purple-400 w-5 h-5 mr-3" />
-              Service
-            </span>
-            {activeDropdown === "service" ? (
-              <MdKeyboardArrowDown size={20} />
+      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] min-h-screen bg-custom-dark-blue transition-transform duration-300 ${
+        sidebarToggle ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0`}
+      aria-label="Sidebar"
+    >
+      <div className="px-3 py-4 space-y-2">
+        {menus.map((menu, index) => (
+          <div key={index} className="py-1">
+            {menu.dropdown ? (
+              <div className="space-y-1">
+                <button
+                  onClick={() => toggleDropdown(menu.name)}
+                  className={`flex items-center justify-between w-full px-4 py-3 text-sm font-medium text-gray-200 rounded-lg hover:bg-blue-800/50 transition-colors ${
+                    activeDropdown === menu.name ? "bg-blue-800/50" : ""
+                  }`}
+                >
+                  <span className="flex items-center space-x-3">
+                    <menu.icon className={`w-5 h-5 ${menu.iconColor}`} />
+                    <span>{menu.name}</span>
+                  </span>
+                  <MdKeyboardArrowDown
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      activeDropdown === menu.name ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                <div
+                  className={`transition-all duration-200 overflow-hidden ${
+                    activeDropdown === menu.name
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="pl-4 space-y-1 mt-1">
+                    {menu.subMenus.map((submenu, subIndex) => (
+                      <button
+                        key={subIndex}
+                        onClick={() => handleNavigate(submenu.link)}
+                        className={`flex items-center w-full px-4 py-3 text-sm text-gray-300 rounded-lg hover:bg-blue-800/50 transition-colors ${
+                          pathname === submenu.link
+                            ? "bg-blue-800 text-white"
+                            : ""
+                        }`}
+                      >
+                        <span className="flex items-center space-x-3">
+                          {submenu.icon}
+                          <span>{submenu.name}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
             ) : (
-              <MdKeyboardArrowRight size={20} />
+              <button
+                onClick={() => handleNavigate(menu.path)}
+                className={`flex items-center w-full px-4 py-3 text-sm font-semibold text-gray-200 rounded-lg hover:bg-blue-800/50 transition-colors ${
+                  pathname === menu.path ? "bg-blue-800 text-white" : ""
+                }`}
+              >
+                <menu.icon className={`w-5 h-5 ${menu.iconColor} mr-3`} />
+                {menu.name}
+              </button>
             )}
-          </button>
-          {activeDropdown === "service" && (
-            <ul className="ml-6 list-none mt-2 space-y-1">
-              <li>
-                <button
-                  onClick={() => handleNavigate("/client/request-complain")}
-                  className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
-                    pathname === "/client/request-complain"
-                      ? "bg-blue-800"
-                      : ""
-                  }`}
-                >
-                  <FaCircle className="text-purple-400 w-3 h-3 mr-3" />
-                  Complain
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => handleNavigate("/client/upcoming")}
-                  className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
-                    pathname === "/client/upcoming" ? "bg-blue-800" : ""
-                  }`}
-                >
-                  <FaCircle className="text-purple-400 w-3 h-3 mr-3" />
-                  Upcoming
-                </button>
-              </li>
-            </ul>
-          )}
-        </li>
-      </ul>
+          </div>
+        ))}
+      </div>
     </aside>
   );
 };

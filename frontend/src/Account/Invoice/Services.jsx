@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../../config/api";
 import { toast } from "react-toastify";
+import {
+  FiPlus,
+  FiPackage,
+  FiDollarSign,
+  FiGrid,
+  FiHash,
+} from "react-icons/fi";
 
 const Services = () => {
   const [servicesFormData, setServicesFormData] = useState({
@@ -22,19 +29,18 @@ const Services = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("api/product/services", servicesFormData);
-      console.log("Services data added:", response.data);
-      toast.success("Data added successfully");
+      await api.post("api/product/services", servicesFormData);
+      toast.success("Service added successfully");
       setServicesFormData({
         categoryName: "",
         hsnCode: "",
         service: "",
         amount: "",
       });
-      fetchServices(); // Fetch the updated list of services
+      fetchServices();
     } catch (error) {
       console.error("Error adding services data:", error);
-      toast.error("Error adding data");
+      toast.error("Failed to add service");
     }
   };
 
@@ -44,7 +50,7 @@ const Services = () => {
       setCategories(response.data.categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      toast.error("Error fetching categories");
+      toast.error("Failed to load categories");
     }
   };
 
@@ -54,7 +60,7 @@ const Services = () => {
       setHsnCodes(response.data.hsnCodes);
     } catch (error) {
       console.error("Error fetching HSN codes:", error);
-      toast.error("Error fetching HSN codes");
+      toast.error("Failed to load HSN codes");
     }
   };
 
@@ -64,7 +70,7 @@ const Services = () => {
       setServices(response.data.services);
     } catch (error) {
       console.error("Error fetching services:", error);
-      toast.error("Error fetching services");
+      toast.error("Failed to load services");
     }
   };
 
@@ -75,141 +81,184 @@ const Services = () => {
   }, []);
 
   return (
-    <section className="p-4 md:ml-48 bg-blue-gray-50">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <form onSubmit={handleSubmit} className="flex flex-col">
-          <h1 className="text-3xl font-bold mb-6 pb-2 text-center uppercase border-b border-gray-300">
-            Services
-          </h1>
-          <div className="mb-4 relative">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Category Name:
-              <span className="text-red-600 font-bold">*</span>
-            </label>
-            <select
-              name="categoryName"
-              value={servicesFormData.categoryName}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    <div className="min-h-screen flex-1 max-w-full bg-gradient-to-br from-gray-50 to-gray-100 p-2 md:p-4 lg:p-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Form Section */}
+        <div className="bg-white rounded border overflow-hidden">
+          <div className="bg-gradient-to-r flex justify-center from-slate-100 to-slate-200 px-6 py-4">
+            <h1
+              id="header"
+              className="p-2 text-center font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700 text-2xl"
             >
-              <option value="">Select Category</option>
-              {categories.map((category) => (
-                <option key={category._id} value={category.categoryName}>
-                  {category.categoryName}
-                </option>
-              ))}
-            </select>
+              Services
+            </h1>
           </div>
-          <div className="mb-4 relative">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              HSN Code:
-              <span className="text-red-600 font-bold">*</span>
-            </label>
-            <select
-              name="hsnCode"
-              value={servicesFormData.hsnCode}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">Select HSN Code</option>
-              {hsnCodes.map((hsn) => (
-                <option key={hsn._id} value={hsn.hsnCode}>
-                  {hsn.hsnCode}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Service:
-              <span className="text-red-600 font-bold">*</span>
-            </label>
-            <input
-              type="text"
-              name="service"
-              value={servicesFormData.service}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Amount:
-              <span className="text-red-600 font-bold">*</span>
-            </label>
-            <input
-              type="number"
-              name="amount"
-              value={servicesFormData.amount}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              className="rounded-md my-4 bg-custom-blue px-4 py-2 text-sm text-white shadow-sm hover:bg-custom-hover-blue"
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md mt-6">
-        <h2 className="text-2xl font-bold mb-4 text-center uppercase border-b border-gray-300">
-          Services List
-        </h2>
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-300 divide-y divide-gray-300">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  S.No
-                </th>
-                <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Category Name
-                </th>
-                <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  HSN Code
-                </th>
-                <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Service
-                </th>
-                <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Amount
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-300">
-              {services.map((service, index) => (
-                <tr key={service._id}>
-                  <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {index + 1}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm text-gray-700">
-                    {service.categoryName}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm text-gray-700">
-                    {service.hsnCode}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm text-gray-700">
-                    {service.service}
-                  </td>
-                  <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm text-gray-700">
-                    {service.amount}
-                  </td>
+          <div className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Category Select */}
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <FiGrid className="mr-2" />
+                    Category Name
+                    <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <select
+                    name="categoryName"
+                    value={servicesFormData.categoryName}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2.5 rounded border border-gray-200 focus:border-blue-500 outline-none transition-colors bg-white"
+                  >
+                    <option value="">Select Category</option>
+                    {categories.map((category) => (
+                      <option key={category._id} value={category.categoryName}>
+                        {category.categoryName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* HSN Code Select */}
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <FiHash className="mr-2" />
+                    HSN Code
+                    <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <select
+                    name="hsnCode"
+                    value={servicesFormData.hsnCode}
+                    onChange={handleChange}
+                    required
+                    className="w-full px-4 py-2.5 rounded border border-gray-200 focus:border-blue-500 outline-none transition-colors bg-white"
+                  >
+                    <option value="">Select HSN Code</option>
+                    {hsnCodes.map((hsn) => (
+                      <option key={hsn._id} value={hsn.hsnCode}>
+                        {hsn.hsnCode}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Service Input */}
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <FiPackage className="mr-2" />
+                    Service
+                    <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="service"
+                    value={servicesFormData.service}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter service name"
+                    className="w-full px-4 py-2.5 rounded border border-gray-200 focus:border-blue-500 outline-none transition-colors bg-white"
+                  />
+                </div>
+
+                {/* Amount Input */}
+                <div className="relative">
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <FiDollarSign className="mr-2" />
+                    Amount
+                    <span className="text-red-500 ml-1">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    name="amount"
+                    value={servicesFormData.amount}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter amount"
+                    className="w-full px-4 py-2.5 rounded border border-gray-200 focus:border-blue-500 outline-none transition-colors bg-white"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="flex items-center px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium shadow-lg shadow-blue-500/30"
+                >
+                  <FiPlus className="mr-2" />
+                  Add Service
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* Table Section */}
+        <div className="bg-white rounded border overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-100">
+            <h2 className="text-xl font-bold text-gray-800">Services List</h2>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full overflow-x-auto">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    S.No
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Category
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    HSN Code
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Service
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-gray-200">
+                {services.map((service, index) => (
+                  <tr
+                    key={service._id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      {index + 1}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {service.categoryName}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {service.hsnCode}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {service.service}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      ₹{service.amount}
+                    </td>
+                  </tr>
+                ))}
+                {services.length === 0 && (
+                  <tr>
+                    <td
+                      colSpan="5"
+                      className="px-6 py-4 text-center text-gray-500"
+                    >
+                      No services found
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

@@ -1,11 +1,10 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { uid } from "uid";
-import { v4 as uuidv4} from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import InvoiceItem from "./InvoiceItem";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import InvoiceModal from "./InvoiceModal";
-
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB"); // 'en-GB' for dd/mm/yyyy format
@@ -14,7 +13,7 @@ const count = 1;
 const InvoiceForm = () => {
   const [customerData, setCustomerData] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
-  const [selectedCustomerId, setSelectedCustomerId] = useState("");  // state to store customerId
+  const [selectedCustomerId, setSelectedCustomerId] = useState(""); // state to store customerId
   const [invoiceData, setInvoiceData] = useState({
     invoiceNo: `IE/${count}`,
     date: today,
@@ -85,9 +84,11 @@ const InvoiceForm = () => {
   useEffect(() => {
     const fetchCustomer = async () => {
       try {
-        const customerResponse = await api.get("/api/customers/get/allCustomer");
+        const customerResponse = await api.get(
+          "/api/customers/get/allCustomer"
+        );
         console.log(customerResponse.data);
-        
+
         setCustomerData(customerResponse.data);
         setFilteredCustomers(customerResponse.data); // Initialize filteredCustomers
       } catch (error) {
@@ -155,7 +156,7 @@ const InvoiceForm = () => {
         gstName: customer.gstName,
         address: customer.address,
       },
-      customerId: customer._id,  // Set the customerId in the state
+      customerId: customer._id, // Set the customerId in the state
     }));
     setFilteredCustomers([]);
     setSelectedCustomerId(customer._id); // Set selectedCustomerId state
@@ -233,10 +234,13 @@ const InvoiceForm = () => {
     try {
       const invoicePayload = {
         ...invoiceData,
-        customerId: selectedCustomerId,  //  Include the customerId in the payload
-      }
-      
-      const response = await api.post("/api/invoices/create-invoice", invoicePayload);
+        customerId: selectedCustomerId, //  Include the customerId in the payload
+      };
+
+      const response = await api.post(
+        "/api/invoices/create-invoice",
+        invoicePayload
+      );
       toast.success("Invoice data submitted successfully");
       setSavedInvoiceData(response.data.invoiceData);
       setShowModal(true);
@@ -266,7 +270,7 @@ const InvoiceForm = () => {
         dispatchedThrough: "",
         destination: "",
         termsOfDelivery: "",
-        orderId: uuidv4(), 
+        orderId: uuidv4(),
         items: [
           {
             id: uid(),
@@ -284,365 +288,300 @@ const InvoiceForm = () => {
       toast.error("Failed to upload Invoice data");
     }
   };
+
+  const [isCustomerListOpen, setIsCustomerListOpen] = useState(false);
   // console.log(invoiceData.companyInfo);
   return (
-    <section className="p-2 md:ml-48 bg-blue-gray-50">
+    <section className="p-2 max-w-full flex-1 bg-blue-gray-50">
       <div className="p-2">
         <form
           className="flex flex-col flex-wrap justify-between"
           onSubmit={handleSubmit}
         >
-          {/* <div className="max-w-3xl p-2 bg-yellow-100 shadow-md rounded-lg"> */}
-          <h1 className="text-2xl font-bold mb-3 pb-2 text-center uppercase border-b border-gray-900 ">
-            Invoice
-          </h1>
-          <h2 className="text-xl text-center font-semibold mb-2 text-gray-800">
-            Company Information
-          </h2> 
-
-          <div className="flex flex-wrap mb-6 justify-between">
-            {/* FIELD - 1 */}
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                Company Name:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                type="text"
+          {/* <div className="max-w-3xl p-2 bg-yellow-100 shadow-md rounded"> */}
+          <div className="flex justify-center mb-6">
+            <h1
+              id="header"
+              className="p-2 text-center font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700 text-2xl"
+            >
+              Invoice
+            </h1>
+          </div>
+          <div className="bg-white rounded border p-6 mb-8">
+            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+              Company Information
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <InputField
+                label="Company Name"
                 value={invoiceData.companyInfo.companyName}
                 readOnly
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                required
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                E-Mail:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="E-Mail"
                 value={invoiceData.companyInfo.email}
                 readOnly
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md "
+                required
               />
-            </div>
-            
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                GSTIN/UIN:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="GSTIN/UIN"
                 value={invoiceData.companyInfo.gstin}
                 readOnly
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                required
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                CIN:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="CIN"
                 value={invoiceData.companyInfo.cin}
                 readOnly
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                required
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                Address:<span className="text-red-600 font-bold">*</span>
-              </label>
-            <textarea
-              value={invoiceData.companyInfo.address}
-              readOnly
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-            />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Current Date:
-              </label>
-              <input
-                type="text"
+              <div className="col-span-full">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Address <span className="text-red-600">*</span>
+                </label>
+                <textarea
+                  value={invoiceData.companyInfo.address}
+                  readOnly
+                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:outline-none focus:border-blue-500"
+                  rows={3}
+                />
+              </div>
+              <InputField
+                label="Current Date"
                 name="date"
                 value={invoiceData.date}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label
-                htmlFor="invoiceNo"
-                className=" text-gray-800 text-sm font-medium mx-1"
-              >
-                Invoice No:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Invoice No"
                 name="invoiceNo"
-                id="invoiceNo"
-                min="1"
-                step="1"
                 value={invoiceData.invoiceNo}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label
-                htmlFor="cashierName"
-                className=" text-gray-800 text-sm font-medium mx-1"
-              >
-                Cashier Name:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                required
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-                placeholder="Cashier name"
-                type="text"
+              <InputField
+                label="Cashier Name"
                 name="cashierName"
-                id="cashierName"
                 value={invoiceData.cashierName}
                 onChange={handleChange}
+                required
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Delivery Note:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Delivery Note"
                 name="deliveryNote"
                 value={invoiceData.deliveryNote}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                Mode of Payment:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                required
-                type="text"
+              <InputField
+                label="Mode of Payment"
                 name="modeOfPayment"
                 value={invoiceData.modeOfPayment}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
+                required
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                Reference No:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Reference No"
                 name="referenceNo"
                 value={invoiceData.referenceNo}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Buyer&apos;s Order No:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Buyer's Order No"
                 name="buyersOrderNo"
                 value={invoiceData.buyersOrderNo}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Dispatched Doc No:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Dispatched Doc No"
                 name="dispatchedDocNo"
                 value={invoiceData.dispatchedDocNo}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Dispatched Through:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Dispatched Through"
                 name="dispatchedThrough"
                 value={invoiceData.dispatchedThrough}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Destination:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Destination"
                 name="destination"
                 value={invoiceData.destination}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                Terms of Delivery:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Terms of Delivery"
                 name="termsOfDelivery"
                 value={invoiceData.termsOfDelivery}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className="text-gray-800 text-sm font-medium mx-1">
-                Order Id:
-              </label>
-              <input
-                type="text"
+              <InputField
+                label="Order Id"
                 name="orderId"
                 value={invoiceData.orderId}
                 onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
           </div>
 
-          {/* Buyer Details */}
-          <h2 className="text-xl text-center font-semibold mb-2 text-gray-800">
-            Buyer (Bill to)
-          </h2>
-          <div className="flex flex-wrap mb-6 justify-between">
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label className=" text-gray-800 text-sm font-medium mx-1">
-                Customer Name:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                required
-                type="text"
-                value={invoiceData.buyerDetails.customerName}
-                onChange={handleCustomerInputChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-              />
-              {invoiceData.buyerDetails.customerName &&
-                filteredCustomers.length > 0 && (
-                  <ul className="border border-gray-300 rounded-md mt-2 max-h-40 overflow-y-auto">
-                    {filteredCustomers.map((customer) => (
-                      <li
-                        key={customer._id}
-                        onClick={() => handleCustomerSelect(customer)}
-                        className="p-2 cursor-pointer bg-gray-100 hover:bg-blue-400"
-                      >
-                        {customer.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              {/* <select
-                  name="buyerDetails.customerName"
-                  value={invoiceData.buyerDetails.customerName}
-                  onChange={handleCustomerSelect} 
-                  className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          <div className="bg-white rounded border p-6 mb-8">
+            <h2 className="text-lg font-semibold text-gray-800 mb-6">
+              Buyer Details
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="relative">
+                <label
+                  htmlFor="customerName"
+                  className="block text-sm font-medium text-gray-700 mb-1"
                 >
-                  <option value="">Select Customer</option>
-                  {customerData.map((customer) => ( 
-                      <option key={customer._id} value={customer.name}>
-                        {customer.name}
-                      </option>
-                  ))}
-                </select> */}
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label
-                htmlFor="buyerDetails.mobile"
-                className=" text-gray-800 text-sm font-medium mx-1"
-              >
-                Mobile No:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                required
-                type="text"
-                name="buyerDetails.mobile"
-                id="buyerDetails.mobile"
-                value={invoiceData.buyerDetails.mobile}
-                onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label
-                htmlFor="buyerDetails.email"
-                className=" text-gray-800 text-sm font-medium mx-1"
-              >
-                Email:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                required
-                type="text"
-                name="buyerDetails.email"
-                id="buyerDetails.email"
-                value={invoiceData.buyerDetails.email}
-                onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full lg:w-1/4">
-              <label
-                htmlFor="buyerDetails.gstName"
-                className=" text-gray-800 text-sm font-medium mx-1"
-              >
-                GST Name:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <input
-                required
-                type="text"
-                name="buyerDetails.gstName"
-                id="buyerDetails.gstName"
-                value={invoiceData.buyerDetails.gstName}
-                onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-            <div className="flex flex-col p-1 text-start w-full ">
-              <label
-                htmlFor="buyerDetails.address"
-                className=" text-gray-800 text-sm font-medium mx-1"
-              >
-                Buyer Address:<span className="text-red-600 font-bold">*</span>
-              </label>
-              <textarea
-                required
-                name="buyerDetails.address"
-                value={invoiceData.buyerDetails.address}
-                onChange={handleChange}
-                className="mt-1 w-full p-2 border border-gray-300 rounded-md"
-              />
+                  Customer Name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  required
+                  id="customerName"
+                  type="text"
+                  value={invoiceData.buyerDetails.customerName}
+                  onChange={(e) => {
+                    handleCustomerInputChange(e);
+                    setIsCustomerListOpen(true);
+                  }}
+                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter customer name"
+                />
+                {isCustomerListOpen &&
+                  invoiceData.buyerDetails.customerName &&
+                  filteredCustomers.length > 0 && (
+                    <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                      {filteredCustomers.map((customer) => (
+                        <li
+                          key={customer._id}
+                          onClick={() => {
+                            handleCustomerSelect(customer);
+                            setIsCustomerListOpen(false);
+                          }}
+                          className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-600 hover:text-white transition duration-150 ease-in-out"
+                        >
+                          {customer.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+              </div>
+              <div>
+                <label
+                  htmlFor="buyerDetails.mobile"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Mobile No <span className="text-red-600">*</span>
+                </label>
+                <input
+                  required
+                  type="tel"
+                  name="buyerDetails.mobile"
+                  id="buyerDetails.mobile"
+                  value={invoiceData.buyerDetails.mobile}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter mobile number"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="buyerDetails.email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Email <span className="text-red-600">*</span>
+                </label>
+                <input
+                  required
+                  type="email"
+                  name="buyerDetails.email"
+                  id="buyerDetails.email"
+                  value={invoiceData.buyerDetails.email}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter email address"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="buyerDetails.gstName"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  GST Name <span className="text-red-600">*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  name="buyerDetails.gstName"
+                  id="buyerDetails.gstName"
+                  value={invoiceData.buyerDetails.gstName}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter GST name"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label
+                  htmlFor="buyerDetails.address"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Buyer Address <span className="text-red-600">*</span>
+                </label>
+                <textarea
+                  required
+                  name="buyerDetails.address"
+                  id="buyerDetails.address"
+                  value={invoiceData.buyerDetails.address}
+                  onChange={handleChange}
+                  rows={3}
+                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter buyer's address"
+                />
+              </div>
             </div>
           </div>
 
-          <div className="block w-full border-gray-300 rounded-md">
-            <p className="border-b text-center border-gray-900/10 mb-1 pb-2 mx-0">
-              Description of Goods:
-            </p>
-            <table className="w-full p-4 text-left">
-              <thead>
-                <tr className="border-b border-gray-900/10 text-sm md:text-base">
-                  <th className="text-center">ITEM</th>
-                  <th className="text-center">HSN</th>
-                  <th className="text-center">QTY</th>
-                  <th className="text-center">PRICE</th>
-                  <th className="text-center">ACTION</th>
+          <div className="bg-gray-50 overflow-x-auto max-w-full rounded p-6 space-y-6">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Invoice Items
+            </h2>
+            <table className="min-w-full overflow-x-auto divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Item
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    HSN
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Qty
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Price
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Action
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="bg-white divide-y divide-gray-200">
                 {invoiceData.items.map((item) => (
                   <InvoiceItem
                     key={item.id}
@@ -658,90 +597,126 @@ const InvoiceForm = () => {
               </tbody>
             </table>
             <button
-              className="rounded-md bg-blue-500 m-1 px-4 py-2 text-sm text-white shadow-sm hover:bg-blue-600"
               type="button"
               onClick={addItemHandler}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              + Add Item
+              Add Item
             </button>
-            <div className="flex flex-col items-end space-y-2 pt-6">
-              <div className="flex w-full justify-between">
-                <span className="font-bold text-start">Subtotal:</span>
-                <span>₹{subtotal.toFixed(2)}</span>
-              </div>
-              <div className="flex w-full justify-between">
-                <span className="font-bold">Discount:</span>
-                <span>
-                  ({invoiceData.discount || "0"}%)₹{discountAmount.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex w-full justify-between">
-                <span className="font-bold">Total Tax:</span>
-                <span>
-                  ({totalTaxRate || "0"}%)₹{taxAmount.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex w-full justify-between border-t mb-2 border-gray-900/10 pt-2">
-                <span className="font-bold">Total:</span>
-                <span className="font-bold">₹{total.toFixed(2)}</span>
-              </div>
+          </div>
+
+          {/* Totals */}
+          <div className="bg-gray-50 rounded p-6 space-y-4">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Invoice Summary
+            </h2>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium text-gray-500">
+                Subtotal:
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                ₹{subtotal.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium text-gray-500">
+                Discount ({invoiceData.discount || "0"}%):
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                ₹{discountAmount.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm font-medium text-gray-500">
+                Total Tax ({totalTaxRate || "0"}%):
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                ₹{taxAmount.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+              <span className="text-base font-semibold text-gray-900">
+                Total:
+              </span>
+              <span className="text-base font-semibold text-gray-900">
+                ₹{total.toFixed(2)}
+              </span>
             </div>
           </div>
-          <div className="space-y-4 py-2 border-t">
-            <div className="space-y-2">
-              <div className="flex w-full justify-between text-gray-800">
-                <label htmlFor="discount">Discount %</label>
+
+          {/* Tax and Discount Inputs */}
+          <div className="bg-gray-50 rounded p-6 space-y-4">
+            <h2 className="text-xl font-semibold text-gray-900">
+              Tax and Discount
+            </h2>
+            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-3">
+              <div>
+                <label
+                  htmlFor="discount"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Discount %
+                </label>
                 <input
-                  className="w-[200px] p-1 border border-gray-300 rounded-md"
                   type="number"
-                  name="discount"
                   id="discount"
-                  placeholder="0.00"
-                  min="0.00"
-                  step="1"
-                  max="100.00"
+                  name="discount"
                   value={invoiceData.discount}
                   onChange={handleChange}
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  className="w-full px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
                 />
               </div>
-              <div className="flex w-full justify-between text-gray-800">
-                <label htmlFor="cgst">CGST %</label>
+              <div>
+                <label
+                  htmlFor="cgst"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  CGST %
+                </label>
                 <input
-                  className="w-[200px] p-1 border border-gray-300 rounded-md"
-                  id="cgst"
                   type="number"
+                  id="cgst"
                   name="cgst"
-                  placeholder="0.00"
-                  min="0.00"
-                  step="0.01"
-                  max="100.00"
                   value={invoiceData.cgst}
                   onChange={handleChange}
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  className="w-full px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
                 />
               </div>
-              <div className="flex w-full justify-between text-gray-800">
-                <label htmlFor="sgst">SGST %</label>
+              <div>
+                <label
+                  htmlFor="sgst"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  SGST %
+                </label>
                 <input
-                  className="w-[200px] p-1 border border-gray-300 rounded-md"
                   type="number"
-                  name="sgst"
                   id="sgst"
-                  placeholder="0.00"
-                  min="0.00"
-                  step="0.01"
-                  max="100.00"
+                  name="sgst"
                   value={invoiceData.sgst}
                   onChange={handleChange}
+                  min="0"
+                  max="100"
+                  step="0.01"
+                  className="w-full px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
                 />
               </div>
             </div>
           </div>
+
+          {/* Submit Button */}
           <div className="flex justify-center">
             <button
-              className="rounded-md my-4 bg-custom-blue px-4 py-2 text-sm text-white shadow-sm hover:bg-custom-hover-blue"
               type="submit"
+              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Generate Bill
+              Generate Invoice
             </button>
           </div>
           {/* </div> */}
@@ -759,3 +734,25 @@ const InvoiceForm = () => {
 };
 
 export default InvoiceForm;
+
+// eslint-disable-next-line react/prop-types
+function InputField({ label, name, value, onChange, readOnly, required }) {
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        {label} {required && <span className="text-red-600">*</span>}
+      </label>
+      <input
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+        readOnly={readOnly}
+        required={required}
+        className={`w-full px-3 py-2 text-gray-700 border rounded focus:outline-none ${
+          readOnly ? "bg-gray-100" : "focus:border-blue-500"
+        }`}
+      />
+    </div>
+  );
+}

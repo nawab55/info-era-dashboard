@@ -1,15 +1,22 @@
-// routes/certificateRoutes.js
 const express = require("express");
 const router = express.Router();
 const {
   studentSubmissionForm,
   getStudentsSubmissionForm,
+  updateStudentSubmissionForm,
+  deleteStudentSubmissionForm,
 } = require("../../controllers/training/studentTraining.controller");
 
-// POST route to create a certificate
+// Create a new training form
 router.post("/student-training", studentSubmissionForm);
 
-// GET route to retrieve all certificates
-router.get("/get-all", getStudentsSubmissionForm);
+// Get all training forms
+router.get("/get-all-training", getStudentsSubmissionForm);
+
+// Update a training form by ID
+router.put("/update/:id", updateStudentSubmissionForm);
+
+// Delete a training form by ID
+router.delete("/delete/:id", deleteStudentSubmissionForm);
 
 module.exports = router;

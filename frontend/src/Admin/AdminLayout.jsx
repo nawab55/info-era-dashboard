@@ -1,25 +1,31 @@
-import { Outlet, useLocation } from "react-router-dom";
-import AdminDashboard from "./AdminDashboard";
-import Breadcrumb from "../Components/breadcrumb/BreadCrumb";
+import { Outlet } from "react-router-dom";
+import AdminNavbar from "./AdminNavbar";
+import AdminSidebar from "./AdminSidebar";
+import { useState } from "react";
 // import Sidebar from "./Sidebar";
 
 const AdminLayout = () => {
-  //   const [sidebarToggle, setSidebarToggle] = useState(false);
-  const location = useLocation();
-
-  console.log("Layout rendered, current location:", location.pathname);
+  const [sidebarToggle, setSidebarToggle] = useState(false);
 
   return (
-    <>
-      <div className=" bg-blue-50 ">
-        <AdminDashboard />
+    <div className="max-w-full">
+      <AdminNavbar
+        sidebarToggle={sidebarToggle}
+        setSidebarToggle={setSidebarToggle}
+      />
 
-        <main className="">
-          <Breadcrumb />
+      <main className="flex">
+        <div className="">
+          <AdminSidebar
+            sidebarToggle={sidebarToggle}
+            setSidebarToggle={setSidebarToggle}
+          />
+        </div>
+        <div className="flex-1 max-w-full overflow-auto">
           <Outlet />
-        </main>
-      </div>
-    </>
+        </div>
+      </main>
+    </div>
   );
 };
 

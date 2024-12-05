@@ -56,122 +56,135 @@ const ResetPassword = () => {
   };
 
   return (
-    <section className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 p-6">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-500 text-white px-6 py-2 rounded mb-6">
-        <div className="flex items-center mb-2">
-          <RiLockPasswordLine className="text-3xl mr-4" />
-          <div>
-            <h1 className="text-2xl font-bold">Reset Your Password</h1>
-            <p className="text-sm text-gray-200">
-              Stay secure by updating your password. Enter your details below to proceed.
-            </p>
+    <div className="min-h-screen bg-gradient-to-br flex-1 from-blue-100 to-indigo-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-7xl">
+        {/* Header */}
+        <div className="bg-white rounded-t-xl shadow-lg p-6 mb-1">
+          <div className="flex items-center space-x-4">
+            <RiLockPasswordLine className="text-4xl text-indigo-600" />
+            <div>
+              <h1 className="text-2xl font-bold text-gray-800">
+                Reset Your Password
+              </h1>
+              <p className="text-sm text-gray-600">
+                Stay secure by updating your password.
+              </p>
+            </div>
           </div>
+          <p className="mt-4 text-indigo-600 italic text-sm">
+            &quot;Your security matters! A strong password is your first line of
+            defense.&quot;
+          </p>
         </div>
-        <p className="text-gray-200 italic">
-        &quot;Your security matters! A strong password is your first line of defense.&quot;
-        </p>
+
+        {/* Form Section */}
+        <div className="bg-white rounded-b-xl shadow-lg p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Previous Password */}
+            <div className="relative">
+              <label className="text-gray-700 font-medium mb-2 flex items-center">
+                <AiOutlineLock className="mr-2 text-indigo-600" />
+                Previous Password
+              </label>
+              <div className="relative">
+              <input
+                type={showPassword.previous ? "text" : "password"}
+                className="w-full px-4 py-3 border border-gray-300 outline-none rounded focus:ring-2 focus:ring-blue-300  transition duration-200"
+                value={previousPassword}
+                onChange={(e) => setPreviousPassword(e.target.value)}
+                placeholder="Enter your previous password"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition duration-200"
+                onClick={() => togglePasswordVisibility("previous")}
+              >
+                {showPassword.previous ? (
+                  <HiOutlineEyeOff size={20} />
+                ) : (
+                  <HiOutlineEye size={20} />
+                )}
+              </button>
+              </div>
+            </div>
+
+            {/* New Password */}
+            <div className="relative">
+              <label className="text-gray-700 font-medium mb-2 flex items-center">
+                <AiOutlineLock className="mr-2 text-indigo-600" />
+                New Password
+              </label>
+             <div className="relative">
+             <input
+                type={showPassword.new ? "text" : "password"}
+                className="w-full px-4 py-3 border border-gray-300 outline-none rounded focus:ring-2 focus:ring-blue-300 transition duration-200"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter your new password"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition duration-200"
+                onClick={() => togglePasswordVisibility("new")}
+              >
+                {showPassword.new ? (
+                  <HiOutlineEyeOff size={20} />
+                ) : (
+                  <HiOutlineEye size={20} />
+                )}
+              </button>
+             </div>
+            </div>
+
+            {/* Confirm Password */}
+            <div className="relative">
+              <label className="text-gray-700 font-medium mb-2 flex items-center">
+                <AiOutlineCheckCircle className="mr-2 text-indigo-600" />
+                Confirm Password
+              </label>
+              <div className="relative">
+              <input
+                type={showPassword.confirm ? "text" : "password"}
+                className="w-full px-4 py-3 border border-gray-300 outline-none rounded focus:ring-2 focus:ring-blue-300  transition duration-200"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm your new password"
+                required
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-indigo-600 transition duration-200"
+                onClick={() => togglePasswordVisibility("confirm")}
+              >
+                {showPassword.confirm ? (
+                  <HiOutlineEyeOff size={20} />
+                ) : (
+                  <HiOutlineEye size={20} />
+                )}
+              </button>
+              </div>
+            </div>
+
+            {/* Error Message */}
+            {errorMessage && (
+              <p className="text-red-500 bg-red-100 px-4 py-2 rounded-lg text-center text-sm">
+                {errorMessage}
+              </p>
+            )}
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-3 px-4 rounded-lg shadow-md hover:from-indigo-700 hover:to-blue-600 transition duration-300 focus:ring-4 focus:ring-indigo-300"
+            >
+              Reset Password
+            </button>
+          </form>
+        </div>
       </div>
-
-      {/* Form Section */}
-      <div className="max-w-xl mx-auto bg-white rounded-lg shadow-lg p-8">
-        {/* Form */}
-        <form onSubmit={handleSubmit}>
-          {/* Previous Password */}
-          <div className="mb-6 relative">
-            <label className="text-gray-700 font-medium mb-2 flex items-center">
-              <AiOutlineLock className="mr-2 text-blue-700" />
-              Previous Password
-            </label>
-            <input
-              type={showPassword.previous ? "text" : "password"}
-              className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-              value={previousPassword}
-              onChange={(e) => setPreviousPassword(e.target.value)}
-              placeholder="Enter your previous password"
-              required
-            />
-            <div
-              className="absolute top-10 right-4 cursor-pointer text-gray-500 hover:text-blue-700"
-              onClick={() => togglePasswordVisibility("previous")}
-            >
-              {showPassword.previous ? (
-                <HiOutlineEyeOff size={24} />
-              ) : (
-                <HiOutlineEye size={24} />
-              )}
-            </div>
-          </div>
-
-          {/* New Password */}
-          <div className="mb-6 relative">
-            <label className="text-gray-700 font-medium mb-2 flex items-center">
-              <AiOutlineLock className="mr-2 text-blue-700" />
-              New Password
-            </label>
-            <input
-              type={showPassword.new ? "text" : "password"}
-              className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Enter your new password"
-              required
-            />
-            <div
-              className="absolute top-10 right-4 cursor-pointer text-gray-500 hover:text-blue-700"
-              onClick={() => togglePasswordVisibility("new")}
-            >
-              {showPassword.new ? (
-                <HiOutlineEyeOff size={24} />
-              ) : (
-                <HiOutlineEye size={24} />
-              )}
-            </div>
-          </div>
-
-          {/* Confirm Password */}
-          <div className="mb-6 relative">
-            <label className="text-gray-700 font-medium mb-2 flex items-center">
-              <AiOutlineCheckCircle className="mr-2 text-blue-700" />
-              Confirm Password
-            </label>
-            <input
-              type={showPassword.confirm ? "text" : "password"}
-              className="w-full px-4 py-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none transition"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="Confirm your new password"
-              required
-            />
-            <div
-              className="absolute top-10 right-4 cursor-pointer text-gray-500 hover:text-blue-700"
-              onClick={() => togglePasswordVisibility("confirm")}
-            >
-              {showPassword.confirm ? (
-                <HiOutlineEyeOff size={24} />
-              ) : (
-                <HiOutlineEye size={24} />
-              )}
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {errorMessage && (
-            <p className="text-red-500 bg-red-100 px-4 py-2 rounded mb-4 text-center">
-              {errorMessage}
-            </p>
-          )}
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="w-full bg-gradient-to-r from-blue-700 to-indigo-500 text-white py-3 px-4 rounded-lg shadow-md hover:opacity-90 transition focus:ring-4 focus:ring-indigo-300"
-          >
-            Reset Password
-          </button>
-        </form>
-      </div>
-    </section>
+    </div>
   );
 };
 

@@ -11,7 +11,6 @@ exports.createIbc = async (req, res) => {
       !gender ||
       !aadhaar ||
       !pan ||
-      !gst ||
       !email ||
       !mobile ||
       !state ||

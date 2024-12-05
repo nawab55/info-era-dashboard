@@ -120,107 +120,136 @@ const ClientHome = () => {
     fetchCustomerAndDashboardData();
   }, []);
 
+  const dashboardCards = [
+    {
+      label: "Total Tickets",
+      value: totalTickets || 0,
+      icon: "📋",
+      gradient: "from-blue-500 to-indigo-600"
+    },
+    {
+      label: "Closed Tickets",
+      value: dashboardData?.closedTickets || 0,
+      icon: "✅",
+      gradient: "from-green-500 to-emerald-600"
+    },
+    {
+      label: "Open Tickets",
+      value: dashboardData?.openTickets || 0,
+      icon: "🕒",
+      gradient: "from-yellow-500 to-orange-600"
+    },
+    {
+      label: "Services",
+      value: dashboardData?.services || 0,
+      icon: "🛠️",
+      gradient: "from-purple-500 to-fuchsia-600"
+    },
+    {
+      label: "Total Invoices",
+      value: totalInvoices || 0,
+      icon: "💰",
+      gradient: "from-teal-500 to-cyan-600"
+    }
+  ];
+
   return (
-    <section className="flex-1 overflow-x-scroll bg-gradient-to-br from-gray-50 to-gray-200 p-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-center bg-gradient-to-r from-blue-700 to-indigo-600 px-6 py-4 rounded shadow-lg">
-        <h1 className="text-xl md:text-3xl font-bold text-white">
+    <section className="min-h-screen flex-1 bg-gray-50 p-4 md:p-8 space-y-6">
+    {/* Header Section */}
+    <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white px-4 py-2 rounded shadow-2xl w-full md:w-auto">
+        <h1 className="text-xl font-semibold tracking-wide">
           Your Dashboard
         </h1>
-        <div className="flex items-center bg-white text-blue-700 px-3 py-2 rounded shadow-md">
-          <CiCalendar className="mr-2 text-xl" />
-          <span>{todayDate}</span>
-        </div>
       </div>
-
-      {/* Welcome Section */}
-      <div className="bg-white rounded-lg shadow-md p-6 my-6 text-center">
-        <h2 className="text-2xl md:text-3xl font-semibold text-indigo-800">
-          Welcome, {customer?.name || "Guest"}!
-        </h2>
-        <p className="text-gray-700 mt-2">
-          Here&apos;s an overview of your account and activities.
-        </p>
+      
+      <div className="flex items-center bg-white rounded border px-4 py-2 space-x-2">
+        <CiCalendar className="text-indigo-600" size={24} />
+        <span className="text-gray-700 font-medium">{todayDate}</span>
       </div>
+    </div>
 
-      {/* Dashboard Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[
-          {
-            label: "Total Tickets",
-            value: totalTickets || 0,
-            color: "bg-gradient-to-r from-blue-400 to-indigo-700 ",
-          },
-          {
-            label: "Closed Tickets",
-            value: dashboardData?.closedTickets || 0,
-            color: "bg-gradient-to-r from-red-400 to-red-700 ",
-          },
-          {
-            label: "Open Tickets",
-            value: dashboardData?.openTickets || 0,
-            color: "bg-gradient-to-r from-green-400 to-emerald-700",
-          },
-          {
-            label: "Services",
-            value: dashboardData?.services || 0,
-            color: "bg-gradient-to-r from-yellow-400 to-orange-700",
-          },
-          {
-            label: "Total Invoices",
-            value: totalInvoices || 0,
-            color: "bg-gradient-to-r from-purple-400 to-fuchsia-700",
-          },
-        ].map((card, index) => (
-          <CountUp key={index} start={0} end={card.value}>
-            {({ containerRef, countUpRef }) => (
-              <div
-                ref={containerRef}
-                className={`flex flex-col items-center justify-center p-6 rounded-lg shadow-md text-white ${card.color}`}
-              >
-                <h3 className="text-lg md:text-xl font-bold">{card.label}</h3>
-                <span
-                  ref={countUpRef}
-                  className="text-2xl md:text-3xl font-semibold mt-2"
-                />
-              </div>
-            )}
-          </CountUp>
-        ))}
-      </div>
+    {/* Welcome Section */}
+    <div className="bg-white rounded border p-6 text-center transition-shadow duration-300">
+      <h2 className="text-3xl font-bold text-indigo-800 mb-3">
+        Welcome, {customer?.name || "Guest"}!
+      </h2>
+      <p className="text-gray-600">
+        Here&apos;s an overview of your account and recent activities.
+      </p>
+    </div>
 
-      {/* Birthday Modal */}
-      {isBirthday && (
-        <Modal
-          isOpen={isModalOpen}
-          onRequestClose={() => setIsModalOpen(false)}
-          className="bg-white rounded-lg shadow-lg max-w-lg p-6 mx-auto mt-16"
-          overlayClassName="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center"
+    {/* Dashboard Cards */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {dashboardCards.map((card, index) => (
+        <div 
+          key={index} 
+          className={`
+            bg-gradient-to-br ${card.gradient} 
+            rounded-xl shadow-lg transform transition-all 
+            duration-300 hover:-translate-y-2 hover:shadow-2xl 
+            p-6 text-white flex flex-col items-center justify-center
+            ${index===dashboardCards.length-1?'col-span-2':''}
+          `}
         >
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-blue-900 mb-2">
-              Happy Birthday, {customer?.name}!
-            </h2>
-            <p className="text-lg text-gray-600 mb-6">
-              Wishing you a day filled with joy and happiness.
-            </p>
-            {birthdayImage && (
-              <img
-                src={birthdayImage}
-                alt="Random Birthday"
-                className="w-64 h-64 mx-auto mb-4 rounded-md"
-              />
-            )}
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="bg-blue-500 text-white px-6 py-2 rounded-md shadow-md hover:bg-blue-600"
-            >
-              Close
-            </button>
-          </div>
-        </Modal>
-      )}
-    </section>
+          <div className="text-4xl mb-3">{card.icon}</div>
+          <h3 className="text-lg font-semibold mb-2">{card.label}</h3>
+          <CountUp 
+            start={0} 
+            end={card.value} 
+            duration={1.5} 
+            className="text-3xl font-bold"
+          />
+        </div>
+      ))}
+    </div>
+
+    {/* Birthday Modal */}
+    <Modal
+      isOpen={isBirthday && isModalOpen}
+      onRequestClose={() => setIsModalOpen(false)}
+      className="fixed inset-0 flex items-center justify-center p-4"
+      overlayClassName="fixed inset-0 bg-black bg-opacity-50"
+    >
+      <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8 text-center relative">
+        <button 
+          onClick={() => setIsModalOpen(false)} 
+          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+        >
+          ✕
+        </button>
+        
+        <h2 className="text-4xl font-bold text-indigo-800 mb-4">
+          Happy Birthday, {customer?.name}!
+        </h2>
+        
+        <p className="text-gray-600 mb-6">
+          Wishing you a day filled with joy, laughter, and wonderful moments.
+        </p>
+        
+        {birthdayImage && (
+          <img 
+            src={birthdayImage} 
+            alt="Birthday Celebration" 
+            className="mx-auto rounded-xl mb-6 max-h-64 object-cover" 
+          />
+        )}
+        
+        <button 
+          onClick={() => setIsModalOpen(false)}
+          className="
+            bg-indigo-600 text-white 
+            px-8 py-3 rounded-lg 
+            hover:bg-indigo-700 
+            transition-colors 
+            font-semibold shadow-md
+          "
+        >
+          Close
+        </button>
+      </div>
+    </Modal>
+  </section>
   );
 };
 

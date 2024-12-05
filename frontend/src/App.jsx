@@ -19,7 +19,6 @@ import DailySheet from "./Employee/sidebarComponent/DailySheet";
 // Account Dashboard
 import AccountLayout from "./Account/AccountLayout";
 import Dashboard from "./Account/Dashboard";
-import Profile from "./Account/AccountSidebarComponent/Profile";
 import AddCategory from "./Account/Invoice/AddCategory";
 import AddHsnCode from "./Account/Invoice/AddHsnCode";
 import Services from "./Account/Invoice/Services";
@@ -31,7 +30,7 @@ import CustomerReports from "./Account/Invoice/CustomerReports";
 
 // HR Dashboard
 import HRLayout from "./HR/HRLayout";
-import DashboardOverview from "./HR/DashboardOverview";
+import HRHome from "./HR/HRHome";
 import EmpRegistrationForm from "./HR/Employee/EmpRegistrationForm";
 import Worksheet from "./HR/worksheet/Worksheet";
 import HRAttendance from "./HR/HRAttendance";
@@ -39,8 +38,6 @@ import ViewLeaveApplication from "./HR/Leave/ViewLeaveApplication";
 import Alerts from "./HR/notification/Alerts";
 import Issues from "./HR/notification/Issues";
 import ClientComplain from "./HR/notification/ClientComplain";
-// import AttendanceReport from "./HR/Report/AttendanceReport";
-// import Project from "./HR/Report/Project";
 import Domain from "./Account/AccountSidebarComponent/Domain";
 import DomainReports from "./Account/AccountSidebarComponent/DomainReports";
 import EmpRegReports from "./HR/Report/EmpRegReports";
@@ -57,11 +54,15 @@ import CollegeReports from "./Admin/adminComponents/reports/CollegeReports";
 import StudentReports from "./Admin/adminComponents/reports/StudentReports";
 import CertificateReports from "./Admin/adminComponents/reports/CertificateReports";
 import PrintCertificate from "./Admin/adminComponents/training/PrintCertificate";
+import JobsReports from "./Admin/adminComponents/reports/JobsReports";
+import TrainingReports from "./Admin/adminComponents/reports/TrainingReports";
+import ClientsQuery from "./Admin/adminComponents/reports/ClientsQuery";
 import PostJob from "./Admin/adminComponents/jobs/PostJob";
 import Activity from "./Admin/adminComponents/activity/Activity";
 import AddActivity from "./Admin/adminComponents/activity/AddActivity";
 import Ibc from "./Admin/adminComponents/co-partners/Ibc";
 import Bbc from "./Admin/adminComponents/co-partners/Bbc";
+import Contact from "./Admin/adminComponents/contact/Contact";
 
 // Client Dashboard
 import ClientLayout from "./client/ClientLayout";
@@ -103,16 +104,20 @@ function App() {
               path="certificate-reports"
               element={<CertificateReports />}
             />
+            <Route path="jobs-reports" element={<JobsReports />} />
+            <Route path="training-reports" element={<TrainingReports />} />
+            <Route path="client-query-reports" element={<ClientsQuery />} />
             <Route path="report_ibc" element={<Ibc />} />
             <Route path="report_bbc" element={<Bbc />} />
             <Route path="post-job" element={<PostJob />} />
             <Route path="activity" element={<Activity />} />
             <Route path="add-activity" element={<AddActivity />} />
+            <Route path="contact" element={<Contact />} />
           </Route>
 
           {/* HR Dashboard */}
           <Route path="/hr" element={<HRLayout />}>
-            <Route index element={<DashboardOverview />} />
+            <Route index element={<HRHome />} />
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
             <Route path="attendance" element={<HRAttendance />} />
@@ -128,11 +133,6 @@ function App() {
               path="report/view_worksheet"
               element={<WorksheetReports />}
             />
-            {/* <Route
-              path="report/view_attendance"
-              element={<AttendanceReport />}
-            /> */}
-            {/* <Route path="report/view_project" element={<Project />} /> */}
             <Route path="employee/type" element={<EmployeeType />} />
           </Route>
         </Route>
@@ -142,7 +142,6 @@ function App() {
           <Route path="/account" element={<AccountLayout />}>
             {/* <Route path="" element={<Dashboard />} /> */}
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="profile" element={<Profile />} />
             <Route path="product/addCategory" element={<AddCategory />} />
             <Route path="product/addHsnCode" element={<AddHsnCode />} />
             <Route path="product/services" element={<Services />} />

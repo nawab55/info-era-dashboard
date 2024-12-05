@@ -12,6 +12,7 @@ const formatDate = (date) => {
 };
 
 const CertificatePage = React.forwardRef(({ certificateData }, ref) => {
+  if(!certificateData)return null
   return (
     <div
       ref={ref}

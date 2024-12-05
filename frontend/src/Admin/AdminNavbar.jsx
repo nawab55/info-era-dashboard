@@ -1,26 +1,27 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import { FaBars, FaSearch, FaUserCircle } from "react-icons/fa";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { FaSignOutAlt, FaTimes, FaUserCircle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import api from "../config/api";
 import ProfileDetails from "../Components/Profile/ProfileDetails";
+import { User } from "lucide-react";
 
 const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [employeeDetails, setEmployeeDetails] = useState(null); // State for employee details
+  const [employeeDetails, setEmployeeDetails] = useState(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
+    sessionStorage.clear();
     navigate("/");
   };
 
   const handleProfile = async () => {
+    setIsProfileModalOpen(true);
     try {
       const token = sessionStorage.getItem("token");
-      // const decoded = JSON.parse(atob(token.split(".")[1]));
-      // const userId = decoded.user.userId;
       const userId = sessionStorage.getItem("userId");
       const response = await api.get(`/api/user/${userId}`, {
         headers: {
@@ -28,86 +29,109 @@ const AdminNavbar = ({ sidebarToggle, setSidebarToggle }) => {
         },
       });
       setEmployeeDetails(response.data.user);
-      setIsProfileModalOpen(true);
     } catch (error) {
       console.error("Error fetching employee details:", error);
     }
   };
-  // Employee Details 
 
   return (
     <>
-      <nav className="bg-custom-dark-blue px-4 flex justify-between fixed top-0 w-full z-10 h-16">
-        <div className="flex items-center text-xl">
-          <FaBars
-            className="text-white me-4 cursor-pointer block md:hidden"
+      <nav className="sticky top-0 w-full bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 z-20 h-16 shadow-md flex items-center px-4 md:px-8">
+        {/* Sidebar Toggle & Branding */}
+        <div className="flex items-center flex-1">
+          <HiMenuAlt3
+            size={26}
+            className="cursor-pointer text-white lg:hidden block"
             onClick={() => setSidebarToggle(!sidebarToggle)}
           />
-          <span className="hidden md:block text-white font-semibold">Dashboard</span>
+          <span className="hidden lg:block ml-3 text-lg font-bold text-white">
+            <img src="/infoera.png" alt="" className="h-10" />
+          </span>
         </div>
-        <div className="flex-1 flex items-center justify-center">
-          <p className=" text-xl text-white font-bold">
-            Admin Dashboard
-          </p>
-        </div>
-        <div className="flex items-center gap-x-5">
-          <div className="relative md:w-65">
-            <span className="relative md:absolute inset-y-0 left-0 flex items-center pl-2">
-              <button className="p-1 focus:outline-none text-gray-200 md:text-black">
-                <FaSearch />
-              </button>
-            </span>
-            <input
-              type="text"
-              className="w-full px-4 py-1 pl-12 rounded shadow outline-none hidden md:block"
-            />
-          </div>
-          <div className="relative">
-            <button
-              className="text-white group"
-              onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+
+        {/* User Menu */}
+        <div className="flex items-center gap-4">
+          <button
+            className="relative text-white"
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+          >
+            <User className="w-8 h-8" />
+            <div
+              className={`absolute right-full mt-2 bg-white rounded transition-all shadow-lg w-40 origin-top-right ${
+                isUserMenuOpen
+                  ? "scale-100 opacity-100 pointer-events-auto"
+                  : "scale-50 opacity-0 pointer-events-none"
+              }`}
             >
-              <FaUserCircle className="w-6 h-6 mt-1" />
-            </button>
-            {isUserMenuOpen && (
-              <div className="z-10 absolute bg-custom-blue rounded-lg shadow w-32 top-full right-0">
-                <ul className="py-2 text-sm text-gray-400 text-center">
-                  <li className="hover:text-white">
-                    <button onClick={handleProfile}>Profile</button>
-                  </li>
-                  <li className="hover:text-white">
-                    <button onClick={handleLogout}>Logout</button>
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+              <ul className="py-2 text-sm text-gray-700">
+                <li>
+                  <button
+                    className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
+                    onClick={handleProfile}
+                  >
+                    <User className="text-blue-500" />
+                    <span>Profile</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
+                    onClick={handleLogout}
+                  >
+                    <FaSignOutAlt className="text-red-500" />
+                    <span>Logout</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </button>
         </div>
       </nav>
 
       {/* Profile Modal */}
       {isProfileModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 mt-10 rounded shadow-lg w-full max-w-3xl overflow-auto relative">
-            <button 
-              onClick={() => setIsProfileModalOpen(false)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-red-700 text-3xl p-2"
-            >
-              &times;
-            </button>
-            <h2 className="text-xl font-bold mb-4">Profile Details</h2>
-            <div className="max-h-[calc(90vh-8rem)] overflow-auto">
-              {employeeDetails ? (
-                <ProfileDetails employee={employeeDetails} />
-              ) : (
-                <p>Profile Details not Getting..</p>
-              )}
-            </div>
-          </div>
-        </div>
+        <ProfileModal
+          isOpen={isProfileModalOpen}
+          onClose={() => setIsProfileModalOpen(false)}
+          employeeDetails={employeeDetails}
+        />
       )}
     </>
   );
 };
 
 export default AdminNavbar;
+
+const ProfileModal = ({ isOpen, onClose, employeeDetails }) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50">
+      <div className="bg-white p-8 rounded-lg shadow-2xl w-full max-w-3xl overflow-auto relative">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-red-600 text-2xl"
+        >
+          <FaTimes />
+        </button>
+
+        <div className="flex items-center space-x-4 mb-6">
+          <FaUserCircle className="text-blue-500 w-10 h-10" />
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Profile Details
+          </h2>
+        </div>
+
+        <div className="border-t border-gray-200 pt-4 max-h-[calc(90vh-8rem)] overflow-auto">
+          {employeeDetails ? (
+            <ProfileDetails employee={employeeDetails} />
+          ) : (
+            <p className="text-center text-gray-600">
+              Profile details not available.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};

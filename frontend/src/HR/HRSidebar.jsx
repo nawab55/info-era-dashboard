@@ -1,241 +1,176 @@
-/* eslint-disable react/prop-types */
-import { useEffect, useState } from "react";
-import { FaHome, FaChartLine, FaUsers } from "react-icons/fa";
-import { FaSheetPlastic } from "react-icons/fa6";
+import { useState } from "react";
+import { 
+  FaChartLine, 
+  FaUsers, 
+} from "react-icons/fa";
+import { FaSheetPlastic as SheetPlasticIcon } from "react-icons/fa6";
 import { GiCalendar } from "react-icons/gi";
 import { SiGoogleforms } from "react-icons/si";
 import { useLocation, useNavigate } from "react-router-dom";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { 
+  MdKeyboardArrowDown, 
+  MdDashboard 
+} from "react-icons/md";
 import { FcLeave } from "react-icons/fc";
 import { BiErrorCircle, BiCommentError } from "react-icons/bi";
 
+// eslint-disable-next-line react/prop-types
 const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
   const navigate = useNavigate();
-  const [showHRDropdown, setShowHRDropdown] = useState(false);
+  const { pathname } = useLocation();
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+  const toggleDropdown = (menuName) => {
+    setOpenDropdown(openDropdown === menuName ? null : menuName);
+  };
 
   const handleNavigate = (path) => {
     navigate(path);
-  };
-
-  const toggleHRDropdown = () => {
-    setShowHRDropdown((prev) => !prev);
-  };
-
-  const { pathname } = useLocation();
-
-  useEffect(() => {
     setSidebarToggle(false);
-  }, [pathname, setSidebarToggle]);
+  };
+
+  const menus = [
+    { 
+      name: "Dashboard", 
+      link: "/hr", 
+      icon: MdDashboard, 
+      color: "text-blue-500" 
+    },
+    { 
+      name: "Emp Registration", 
+      link: "/hr/register", 
+      icon: SiGoogleforms, 
+      color: "text-green-500" 
+    },
+    { 
+      name: "Work Sheet", 
+      link: "/hr/worksheet", 
+      icon: SheetPlasticIcon, 
+      color: "text-yellow-500" 
+    },
+    { 
+      name: "Attendance", 
+      link: "/hr/attendance", 
+      icon: GiCalendar, 
+      color: "text-red-500" 
+    },
+    { 
+      name: "Leave Applications", 
+      link: "/hr/leaves", 
+      icon: FcLeave, 
+      color: "text-teal-500" 
+    },
+    { 
+      name: "Alerts", 
+      link: "/hr/alerts", 
+      icon: BiErrorCircle, 
+      color: "text-red-500" 
+    },
+    { 
+      name: "Issues", 
+      link: "/hr/issues", 
+      icon: BiErrorCircle, 
+      color: "text-yellow-500" 
+    },
+    { 
+      name: "Client Complain", 
+      link: "/hr/client/complain", 
+      icon: BiCommentError, 
+      color: "text-purple-500" 
+    },
+    {
+      name: "Reports",
+      icon: FaChartLine,
+      color: "text-cyan-500",
+      dropdown: true,
+      subMenus: [
+        { 
+          name: "Emp Registration", 
+          link: "/hr/report/view_emp-registration", 
+          icon: FaUsers, 
+          color: "text-green-500" 
+        },
+        { 
+          name: "Work Sheet", 
+          link: "/hr/report/view_worksheet", 
+          icon: SheetPlasticIcon, 
+          color: "text-yellow-500" 
+        },
+      ]
+    },
+    { 
+      name: "Employee Type", 
+      link: "/hr/employee/type", 
+      icon: FaUsers, 
+      color: "text-indigo-500" 
+    },
+  ];
 
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <aside
-        className={`md:w-64 w-[60%] lg:static  fixed z-[2] min-h-screen bg-custom-dark-blue px-4 pt-4 transition-transform ${
-          sidebarToggle ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
-        aria-label="Sidebar"
-      >
-        <ul className="space-y-2 text-white min-h-full font-semibold">
-          {/* Dashboard Link */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <FaHome className="text-blue-400 w-5 h-5 mr-3" />
-              <span>Dashboard</span>
-            </button>
-          </li>
-
-          {/* Emp Registration */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/register" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/register")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <SiGoogleforms className="text-green-400 w-5 h-5 mr-3" />
-              <span>Emp Registration</span>
-            </button>
-          </li>
-
-          {/* Work Sheet */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/worksheet" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/worksheet")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <FaSheetPlastic className="text-yellow-400 w-5 h-5 mr-3" />
-              <span>Work Sheet</span>
-            </button>
-          </li>
-
-          {/* Attendance */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/attendance" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/attendance")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <GiCalendar className="text-red-400 w-5 h-5 mr-3" />
-              <span>Attendance</span>
-            </button>
-          </li>
-
-          {/* Leave Applications */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/leaves" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/leaves")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <FcLeave className="w-5 h-5 mr-3" />
-              <span>Leave Applications</span>
-            </button>
-          </li>
-
-          {/* Alerts */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/alerts" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/alerts")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <BiErrorCircle className="text-red-500 w-5 h-5 mr-3" />
-              <span>Alerts</span>
-            </button>
-          </li>
-
-          {/* Issues */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/issues" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/issues")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <BiErrorCircle className="text-yellow-500 w-5 h-5 mr-3" />
-              <span>Issues</span>
-            </button>
-          </li>
-
-          {/* Client Complain */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/client/complain" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/client/complain")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <BiCommentError className="text-purple-500 w-5 h-5 mr-3" />
-              <span>Client Complain</span>
-            </button>
-          </li>
-
-          {/* Report Dropdown */}
-          <li>
-            <button
-              onClick={toggleHRDropdown}
-              className="flex items-center justify-between w-full px-2 py-3 hover:bg-blue-800 rounded-lg transition-all"
-            >
-              <span className="flex items-center">
-                <FaChartLine className="text-cyan-400 w-5 h-5 mr-3" />
-                Report
-              </span>
-              <MdKeyboardArrowDown
-                className={`transform ${showHRDropdown ? "rotate-180" : ""}`}
-              />
-            </button>
-            {showHRDropdown && (
-              <ul className="ml-6 list-none mt-2 space-y-1">
-                <li>
-                  <button
-                    onClick={() =>
-                      handleNavigate("/hr/report/view_emp-registration")
-                    }
-                    className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
-                      pathname === "/hr/report/view_emp-registration"
-                        ? "bg-blue-800"
-                        : ""
+    <aside
+      onClick={(e) => e.stopPropagation()}
+      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] min-h-screen bg-custom-dark-blue transition-transform duration-300 ${
+        sidebarToggle ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0`}
+      aria-label="Sidebar"
+    >
+      <div className="px-3 py-4 space-y-1">
+        {menus.map((menu, index) => (
+          <div key={index} className="py-1">
+            {menu.dropdown ? (
+              <div className="space-y-1">
+                <button
+                  onClick={() => toggleDropdown(menu.name)}
+                  className={`flex items-center justify-between w-full px-4 py-2.5 text-sm font-medium text-gray-200 rounded hover:bg-blue-800/50 transition-colors ${
+                    openDropdown === menu.name ? "bg-blue-800/50" : ""
+                  }`}
+                >
+                  <span className="flex items-center space-x-3">
+                    <menu.icon className={`w-5 h-5 ${menu.color}`} />
+                    <span>{menu.name}</span>
+                  </span>
+                  <MdKeyboardArrowDown
+                    className={`w-5 h-5 transition-transform duration-200 ${
+                      openDropdown === menu.name ? "rotate-180" : ""
                     }`}
-                  >
-                    <FaUsers className="text-cyan-400 w-4 h-4 mr-2" />
-                    Emp Registration
-                  </button>
-                </li>
-                <li>
-                  <button
-                    onClick={() => handleNavigate("/hr/report/view_worksheet")}
-                    className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
-                      pathname === "/hr/report/view_worksheet"
-                        ? "bg-blue-800"
-                        : ""
-                    }`}
-                  >
-                    <FaSheetPlastic className="text-cyan-400 w-4 h-4 mr-2" />
-                    Work Sheet
-                  </button>
-                </li>
-                
-                {/* <li>
-                  <button
-                    onClick={() => handleNavigate("/hr/report/view_project")}
-                    className={`flex items-center w-full p-2 text-gray-300 hover:bg-blue-800 hover:text-white rounded-md ${
-                      pathname === "/hr/report/view_project"
-                        ? "bg-blue-800"
-                        : ""
-                    }`}
-                  >
-                    <FaChartLine className="text-cyan-400 w-4 h-4 mr-2" />
-                    Project
-                  </button>
-                </li> */}
-              </ul>
+                  />
+                </button>
+                <div
+                  className={`transition-all duration-200 overflow-hidden ${
+                    openDropdown === menu.name ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="pl-4 space-y-1 mt-1">
+                    {menu.subMenus.map((submenu, subIndex) => (
+                      <button
+                        key={subIndex}
+                        onClick={() => handleNavigate(submenu.link)}
+                        className={`flex items-center w-full px-4 py-2 text-sm text-gray-300 rounded hover:bg-blue-800/50 transition-colors ${
+                          pathname === submenu.link ? "bg-blue-800 text-white" : ""
+                        }`}
+                      >
+                        <submenu.icon className={`w-4 h-4 mr-3 ${submenu.color}`} />
+                        {submenu.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <button
+                onClick={() => handleNavigate(menu.link)}
+                className={`flex items-center w-full px-4 py-2.5 text-sm font-medium text-gray-200 rounded-lg hover:bg-blue-800/50 transition-colors ${
+                  pathname === menu.link ? "bg-blue-800 text-white" : ""
+                }`}
+              >
+                <menu.icon className={`w-5 h-5 mr-3 ${menu.color}`} />
+                {menu.name}
+              </button>
             )}
-          </li>
-
-          {/* Employee Type */}
-          <li
-            className={`rounded hover:bg-blue-800 py-3 transition-all ${
-              pathname === "/hr/employee/type" ? "bg-blue-800" : ""
-            }`}
-          >
-            <button
-              onClick={() => handleNavigate("/hr/employee/type")}
-              className="flex items-center w-full px-2 text-left"
-            >
-              <FaUsers className="text-indigo-400 w-5 h-5 mr-3" />
-              <span>Employee Type</span>
-            </button>
-          </li>
-        </ul>
-      </aside>
-    </div>
+          </div>
+        ))}
+      </div>
+    </aside>
   );
 };
 

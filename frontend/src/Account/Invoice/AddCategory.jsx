@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import api from "../../config/api";
 
-
 const AddCategory = () => {
   const [categoryData, setCategoryData] = useState({
     categoryName: "",
   });
-
   const [categories, setCategories] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -17,24 +16,26 @@ const AddCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
-      const response = await api.post('api/product/categories', categoryData);
-      console.log('Category added:', response.data);
+      await api.post("api/product/categories", categoryData);
       toast.success("Category added successfully");
       setCategoryData({ categoryName: "" });
-      fetchCategories(); // Fetch the updated list of categories
+      fetchCategories();
     } catch (error) {
-      console.error('Error adding category:', error);
+      console.error("Error adding category:", error);
       toast.error("Error adding category");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const fetchCategories = async () => {
     try {
-      const response = await api.get('api/product/categories');
+      const response = await api.get("api/product/categories");
       setCategories(response.data.categories);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
       toast.error("Error fetching categories");
     }
   };
@@ -44,68 +45,100 @@ const AddCategory = () => {
   }, []);
 
   return (
-    <section className="p-4 md:ml-48 bg-blue-gray-50">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <form onSubmit={handleSubmit} className="flex flex-col mb-6">
-          <h1 className="text-3xl font-bold mb-6 pb-2 text-center uppercase border-b border-gray-300">
+    <div className="min-h-screen flex-1 bg-gradient-to-br from-gray-100 to-gray-200 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Add Category Form */}
+        <div className="bg-white rounded border p-6 sm:p-8 transition-all duration-300 ">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">
             Add Product Category
-          </h1>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-medium mb-1">
-              Category Name:
-              <span className="text-red-600 font-bold">*</span>
-            </label>
-            <input
-              type="text"
-              name="categoryName"
-              value={categoryData.categoryName}
-              onChange={handleChange}
-              required
-              className="mt-1 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex justify-center">
-            <button
-              className="rounded-md my-4 bg-custom-blue px-4 py-2 text-sm text-white shadow-sm hover:bg-custom-hover-blue"
-              type="submit"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-2xl font-bold mb-4 text-center uppercase border-b border-gray-300">
+          </h2>
+
+          <form onSubmit={handleSubmit} className="flex items-end gap-2 mx-auto">
+            <div className="space-y-2 flex-1">
+              <label
+                htmlFor="categoryName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Category Name <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="categoryName"
+                name="categoryName"
+                value={categoryData.categoryName}
+                onChange={handleChange}
+                required
+                placeholder="Enter category name"
+                className="w-full px-4 py-2 rounded outline-none border border-gray-300  focus:border-blue-500 transition-all duration-200"
+              />
+            </div>
+
+            <div className="mt-6">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-2 px-6 rounded bg-blue-600 text-white font-medium
+                       hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/50 
+                       transition-all duration-200 transform 
+                       disabled:opacity-70 disabled:cursor-not-allowed "
+              >
+                {isSubmitting ? "Adding..." : "Add Category"}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Categories List */}
+        <div className="bg-white rounded border p-6 sm:p-8 transition-all duration-300 ">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">
             Categories List
           </h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-300 divide-y divide-gray-300">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    S.No
-                  </th>
-                  <th className="px-4 py-2 border border-gray-300 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Category Name
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-300">
-                {categories.map((category, index) => (
-                  <tr key={category._id}>
-                    <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {index + 1}
-                    </td>
-                    <td className="px-4 py-2 border border-gray-300 whitespace-nowrap text-sm text-gray-700">
-                      {category.categoryName}
-                    </td>
+
+          <div className="overflow-hidden rounded-lg border border-gray-200">
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="bg-gray-50 border-b border-gray-200">
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600 uppercase tracking-wider w-24">
+                      No.
+                    </th>
+                    <th className="text-left py-4 px-6 text-sm font-semibold text-gray-600 uppercase tracking-wider">
+                      Category Name
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                  {categories.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={2}
+                        className="text-center py-8 text-gray-500"
+                      >
+                        No categories found
+                      </td>
+                    </tr>
+                  ) : (
+                    categories.map((category, index) => (
+                      <tr
+                        key={category._id}
+                        className="hover:bg-gray-50 transition-colors duration-150"
+                      >
+                        <td className="py-4 px-6 text-sm font-medium text-gray-700">
+                          {index + 1}
+                        </td>
+                        <td className="py-4 px-6 text-sm text-gray-700">
+                          {category.categoryName}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

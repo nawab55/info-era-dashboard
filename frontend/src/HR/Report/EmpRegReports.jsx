@@ -36,31 +36,25 @@ const EmpRegReports = () => {
   };
 
   return (
-    <section className="flex-1 overflow-x-scroll bg-gradient-to-br from-gray-50 to-gray-200 p-4">
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-800 px-5 py-3 rounded-tl rounded-tr text-center text-white text-2xl font-semibold border-b-2 border-gray-700 shadow-md">
+    <section className="flex-1 bg-gray-50 p-4">
+      <div className="bg-blue-700 p-4 text-center text-white text-2xl font-bold border-b-2 border-gray-700 shadow-md">
         View All Employee Registration Reports
       </div>
 
-      <div className="pt-4">
+      <div className="p-4">
         <div className="overflow-x-auto pb-10">
-          <table className="lg:min-w-full min-w-[100%] max-w-fit overflow-x-auto bg-gradient-to-br from-gray-50 to-white border-collapse">
-            <thead className="border border-gray-300 font-medium bg-gradient-to-r from-blue-200 to-indigo-200 ">
+          <table className="min-w-full text-center text-sm bg-white shadow-lg rounded-lg">
+            <thead className="border-b border-gray-300 font-medium bg-gray-200 ">
               <tr className="text-gray-900 border font-bold text-lg  top-0">
-                <th className="px-2 py-3 border border-gray-300 text-nowrap text-base font-semibold">
-                  Sl. No
-                </th>
-                <th className="px-2 py-3 border border-gray-300 text-nowrap text-base font-semibold">
-                  Name
-                </th>
-                <th className="px-2 py-3 border border-gray-300 text-nowrap text-base font-semibold">
+                <th className="px-2 py-3 border border-gray-300">Sl. No</th>
+                <th className="px-2 py-3 border border-gray-300">Name</th>
+                <th className="px-2 py-3 border border-gray-300">
                   Date of Joining
                 </th>
-                <th className="px-2 py-3 border border-gray-300 text-nowrap text-base font-semibold">
+                <th className="px-2 py-3 border border-gray-300">
                   Designation
                 </th>
-                <th className="px-2 py-3 border border-gray-300 text-nowrap text-base font-semibold">
-                  Print
-                </th>
+                <th className="px-2 py-3 border border-gray-300">Print</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">

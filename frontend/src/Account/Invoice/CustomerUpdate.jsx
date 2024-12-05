@@ -2,6 +2,15 @@ import { useState, useEffect } from "react";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiCalendar,
+  FiMapPin,
+  FiFileText,
+} from "react-icons/fi";
+import { FaSave } from "react-icons/fa";
 
 const CustomerUpdate = () => {
   const { id } = useParams();
@@ -53,122 +62,103 @@ const CustomerUpdate = () => {
   };
 
   return (
-    <div className="p-4 md:ml-48">
-      <div className="bg-blue-gray-50 p-4 text-center text-2xl font-bold mb-6">
-        Update Customer
+    <div className="min-h-screen flex-1 bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto bg-white rounded border  overflow-hidden">
+        <div className="md:flex">
+          <div className="p-8 w-full">
+            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold mb-1">
+              Customer Management
+            </div>
+            <h1 className="block mt-1 text-2xl leading-tight font-bold text-gray-900 mb-6">
+              Update Customer
+            </h1>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {[
+                { name: "name", label: "Name", type: "text", icon: FiUser },
+                { name: "email", label: "Email", type: "email", icon: FiMail },
+                { name: "mobile", label: "Mobile", type: "tel", icon: FiPhone },
+                {
+                  name: "dob",
+                  label: "Date of Birth",
+                  type: "date",
+                  icon: FiCalendar,
+                },
+                {
+                  name: "gstNo",
+                  label: "GST No.",
+                  type: "text",
+                  icon: FiFileText,
+                },
+                {
+                  name: "gstName",
+                  label: "GST Name",
+                  type: "text",
+                  icon: FiFileText,
+                },
+              ].map((field) => (
+                <div key={field.name} className="relative">
+                  <label
+                    htmlFor={field.name}
+                    className="text-sm font-medium text-gray-700 mb-1 block"
+                  >
+                    {field.label}
+                  </label>
+                  <div className="mt-1 relative rounded-md ">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <field.icon
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <input
+                      type={field.type}
+                      name={field.name}
+                      id={field.name}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      className="focus:ring-1-indigo-500 focus:border-indigo-500 border block w-full pl-10 py-3 outline-none focus:ring-1-1 sm:text-sm border-gray-300 rounded-md transition duration-150 ease-in-out"
+                      required
+                    />
+                  </div>
+                </div>
+              ))}
+              <div className="relative">
+                <label
+                  htmlFor="address"
+                  className="text-sm font-medium text-gray-700 mb-1 block"
+                >
+                  Address
+                </label>
+                <div className="mt-1 relative rounded-md ">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-start pt-2 pointer-events-none">
+                    <FiMapPin
+                      className="h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <textarea
+                    id="address"
+                    name="address"
+                    rows={3}
+                    value={formData.address}
+                    onChange={handleChange}
+                    className="focus:ring-1-indigo-500 focus:border-indigo-500 pt-2 block w-full min-h-20 resize-none pl-10 outline-none border sm:text-sm border-gray-300 rounded-md transition duration-150 ease-in-out"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end" >
+                <button
+                  type="submit"
+                  className=" flex justify-center items-center gap-2 py-3 px-4 border border-transparent rounded  text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-1-2 focus:ring-1-offset-2 focus:ring-1-indigo-500 transition duration-150 ease-in-out transform"
+                >
+                  Update Customer <FaSave/>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-lg mx-auto bg-white p-6 shadow-lg rounded-lg"
-      >
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-gray-700">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="mobile" className="block text-gray-700">
-            Mobile
-          </label>
-          <input
-            type="tel"
-            id="mobile"
-            name="mobile"
-            value={formData.mobile}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 " htmlFor="gstName">
-            Date Of Birth
-          </label>
-          <input
-            type="date"
-            name="dob"
-            id="dob"
-            value={formData.dob}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="address" className="block text-gray-700">
-            Address
-          </label>
-          <textarea
-            id="address"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="gstNo" className="block text-gray-700">
-            GST No.
-          </label>
-          <input
-            type="text"
-            id="gstNo"
-            name="gstNo"
-            value={formData.gstNo}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="gstName" className="block text-gray-700">
-            GST Name
-          </label>
-          <input
-            type="text"
-            id="gstName"
-            name="gstName"
-            value={formData.gstName}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-indigo-500"
-            required
-          />
-        </div>
-        <div className="text-center">
-          <button
-            type="submit"
-            className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-700"
-          >
-            Update Customer
-          </button>
-        </div>
-      </form>
     </div>
   );
 };

@@ -1,11 +1,20 @@
 import { Outlet } from "react-router-dom";
-import AccountDashboard from "./AccountDashboard";
+import AccountNavbar from "./AccountNavbar";
+import AccountSidebar from "./AccountSidebar";
+import { useState } from "react";
 
 function AccountLayout() {
+  const [sidebarToggle, setSidebarToggle] = useState(false);
   return (
-    <div className="">
-      <AccountDashboard />
-      <main className="mt-16">
+    <div>
+      <AccountNavbar
+        setSidebarToggle={setSidebarToggle}
+      />
+      <main className="flex-1 flex">
+        <AccountSidebar
+          sidebarToggle={sidebarToggle}
+          setSidebarToggle={setSidebarToggle}
+        />
         <Outlet />
       </main>
     </div>

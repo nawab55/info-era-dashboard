@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
 import api from "../../../config/api";
-import { FaSpinner } from "react-icons/fa";
-// import { CiCalendar } from "react-icons/ci";
+import {
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  MapPin,
+  FileText,
+  ShieldCheck,
+  Loader2,
+  Edit,
+} from "lucide-react";
 
 const CustomerProfile = () => {
   const [customer, setCustomer] = useState(null);
@@ -30,98 +39,138 @@ const CustomerProfile = () => {
     fetchCustomer();
   }, []);
 
-  return (
-    <section className="flex-1 overflow-x-scroll bg-gradient-to-br from-gray-50 to-gray-200 p-4">
-      {/* Top Section */}
-      <div className="flex flex-wrap justify-between items-center bg-gradient-to-r from-blue-700 to-indigo-600 px-5 py-4 shadow-lg rounded-tl-lg rounded-tr-lg">
-        <h1 className="text-lg md:text-2xl font-bold text-white tracking-wide w-full md:w-auto text-center md:text-left">
-          User Profile
-        </h1>
-        {customer && (
-          <div className="flex items-center bg-white text-blue-700 px-4 py-2 rounded shadow-lg cursor-pointer hover:text-indigo-600 transition duration-300">
-            <img
-              src={customer.profileImage || "https://via.placeholder.com/50"}
-              alt="User"
-              className="w-10 h-10 object-cover rounded-full mr-3"
-            />
-            <span className="font-medium text-sm md:text-base">
-              {customer.name}
-            </span>
-          </div>
-        )}
-      </div>
+  const profileFields = [
+    {
+      icon: <User className="text-blue-500" size={24} />,
+      label: "Full Name",
+      value: customer?.name,
+    },
+    {
+      icon: <Mail className="text-green-500" size={24} />,
+      label: "Email Address",
+      value: customer?.email,
+    },
+    {
+      icon: <Phone className="text-purple-500" size={24} />,
+      label: "Contact Number",
+      value: customer?.mobile,
+    },
+    {
+      icon: <Calendar className="text-red-500" size={24} />,
+      label: "Date of Birth",
+      value: customer?.dob,
+    },
+    {
+      icon: <MapPin className="text-orange-500" size={24} />,
+      label: "Address",
+      value: customer?.address,
+    },
+    {
+      icon: <FileText className="text-teal-500" size={24} />,
+      label: "GST Number",
+      value: customer?.gstNo,
+    },
+    {
+      icon: <ShieldCheck className="text-indigo-500" size={24} />,
+      label: "Aadhar Number",
+      value: customer?.aadharNo,
+    },
+  ];
 
-      {/* Profile Information */}
-      <div className="bg-white rounded-lg shadow-lg p-8 mt-6">
-        <h2 className="text-2xl font-bold text-blue-900 border-b pb-4 mb-6">
-          Your Profile Information
-        </h2>
-      
-          
-        {loading ? (
-          // <p className="text-gray-600 text-center">
-          //   Loading customer details...
-          // </p>
-          <div className="w-full min-h-[70vh] flex justify-center items-center">
-          <FaSpinner size={25} className="animate-spin text-blue-700" />
-        </div>
-        ) : customer ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* <div className="text-center md:col-span-2">
-              {customer.profileImage ? (
+  const onEditProfile = () => {};
+  return (
+    <section className="bg-gradient-to-br flex-1 from-gray-50 to-gray-100 min-h-screen p-6">
+      <div className="max-w-6xl mx-auto">
+        {/* Profile Header */}
+        <div className="bg-white rounded border mb-8 overflow-hidden">
+          <div className="flex flex-col md:flex-row justify-between items-center p-6 bg-gradient-to-r from-blue-600 to-indigo-700">
+            <h1 className="text-2xl font-bold text-white tracking-wide">
+              User Profile
+            </h1>
+
+            {customer && (
+              <div className="flex items-center space-x-4">
                 <img
-                  src={customer.profileImage}
+                  src={
+                    customer.profileImage || "https://via.placeholder.com/50"
+                  }
                   alt="Profile"
-                  className="w-20 h-20 object-cover rounded-full mx-auto shadow-md"
+                  className="w-14 h-14 rounded-full object-cover ring-4 ring-white/30 transition-transform duration-300 hover:scale-110"
                 />
-              ) : (
-                <div className="w-40 h-40 rounded-full bg-gray-300 mx-auto flex items-center justify-center">
-                  <p className="text-gray-600">No Image</p>
+                <div>
+                  <p className="text-white font-semibold text-lg">
+                    {customer.name}
+                  </p>
+                  <p className="text-white/70 text-sm">{customer.email}</p>
                 </div>
-              )}
-            </div> */}
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">Name:</strong> {customer.name}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">Email:</strong>{" "}
-              {customer.email}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">Mobile:</strong>{" "}
-              {customer.mobile}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">Date of Birth:</strong>{" "}
-              {customer.dob}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">Address:</strong>{" "}
-              {customer.address}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">GST Number:</strong>{" "}
-              {customer.gstNo}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">GST Name:</strong>{" "}
-              {customer.gstName}
-            </p>
-            <p className="text-gray-700">
-              <strong className="text-indigo-600">Aadhar No:</strong>{" "}
-              {customer.aadharNo}
-            </p>
-            {/* <p className="text-gray-700">
-              <strong className="text-indigo-600 mr-4">Password:</strong>{" "}
-              {customer.password}
-            </p> */}
+              </div>
+            )}
           </div>
-        ) : (
-          <p className="text-red-500 text-center">
-            Failed to load customer details.
-          </p>
-        )}
-      </div>
+        </div>
+
+        {/* Profile Details */}
+        {/* <div className="box"> */}
+        <div className="bg-white m-[2px] rounded-md relative border p-8">
+          <div className="flex justify-between z-10 items-center border-b border-gray-200 pb-6 mb-8">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">
+                Profile Information
+              </h2>
+              <p className="text-gray-500 text-sm">
+                Detailed view of your personal information
+              </p>
+            </div>
+
+            {onEditProfile && (
+              <button
+                onClick={onEditProfile}
+                className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+              >
+                <Edit size={20} />
+                <span>Edit Profile</span>
+              </button>
+            )}
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <Loader2 className="animate-spin text-blue-600" size={56} />
+            </div>
+          ) : customer ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {profileFields.map((field, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-50 p-5 border overflow-hidden rounded flex items-center space-x-4 transform transition-all duration-300 "
+                >
+                  <div className="bg-white p-3 rounded-full shadow-md">
+                    {field.icon}
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 mb-1">
+                      {field.label}
+                    </p>
+                    <p className="text-md font-semibold max-w-full  text-gray-800">
+                      {field.value || "Not Provided"}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 bg-gray-50 rounded">
+              <p className="text-red-500 font-semibold text-lg">
+                Unable to load profile information
+              </p>
+              <p className="text-gray-500 mt-2">
+                Please check your connection or try again later
+              </p>
+            </div>
+          )}
+        </div>
+        </div>
+      
+      {/* </div> */}
     </section>
   );
 };

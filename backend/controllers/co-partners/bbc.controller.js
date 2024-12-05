@@ -3,7 +3,18 @@ const BBC = require("../../models/co-partners/bbc.model");
 // Create BBC entry
 exports.registerBBC = async (req, res) => {
   try {
-    const { name, company, gender, aadhaar, pan, gst, email, mobile, state, district } = req.body;
+    const {
+      name,
+      company,
+      gender,
+      aadhaar,
+      pan,
+      gst,
+      email,
+      mobile,
+      state,
+      district,
+    } = req.body;
 
     if (
       !name ||
@@ -11,7 +22,6 @@ exports.registerBBC = async (req, res) => {
       !gender ||
       !aadhaar ||
       !pan ||
-      !gst ||
       !email ||
       !mobile ||
       !state ||
@@ -42,7 +52,6 @@ exports.registerBBC = async (req, res) => {
       error,
     });
   }
-
 };
 
 // Fetch all BBC entries

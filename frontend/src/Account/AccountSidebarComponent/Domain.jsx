@@ -1,20 +1,31 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import api from "../../config/api";
 import { toast } from "react-toastify";
+import {
+  FiGlobe,
+  FiCalendar,
+  FiServer,
+  FiShield,
+  FiUser,
+  FiPhone,
+  FiMail,
+  FiMapPin,
+  FiDollarSign,
+} from "react-icons/fi";
 
 const Domain = () => {
   const [formData, setFormData] = useState({
-    domainName: '',
-    purchaseDate: '',
-    expiryDate: '',
-    hosting: '',
-    ssl: '',
-    customerName: '',
-    customerMobile: '',
-    whatsappNumber: '',
-    email: '',
-    address: '',
-    renewableAmount: '',
+    domainName: "",
+    purchaseDate: "",
+    expiryDate: "",
+    hosting: "",
+    ssl: "",
+    customerName: "",
+    customerMobile: "",
+    whatsappNumber: "",
+    email: "",
+    address: "",
+    renewableAmount: "",
   });
   // const [domains, setDomains] = useState([]);
 
@@ -30,38 +41,37 @@ const Domain = () => {
     e.preventDefault();
     // Send formData to the backend to store it in the database
     try {
-      const response = await api.post('/api/domain/create', formData);
-      console.log('Domain added:', response.data);
-      toast.success("Data added successfully")
+      const response = await api.post("/api/domain/create", formData);
+      console.log("Domain added:", response.data);
+      toast.success("Data added successfully");
       fetchDomains(); // Refresh the list of domains
       setFormData({
-        domainName: '',
-        purchaseDate: '',
-        expiryDate: '',
-        hosting: '',
-        ssl: '',
-        customerName: '',
-        customerMobile: '',
-        whatsappNumber: '',
-        email: '',
-        address: '',
-        renewableAmount: '',
+        domainName: "",
+        purchaseDate: "",
+        expiryDate: "",
+        hosting: "",
+        ssl: "",
+        customerName: "",
+        customerMobile: "",
+        whatsappNumber: "",
+        email: "",
+        address: "",
+        renewableAmount: "",
       });
     } catch (error) {
-      console.error('Error adding domain:', error);
-    } 
+      console.error("Error adding domain:", error);
+    }
   };
 
   const fetchDomains = async () => {
     try {
-      const response = await api.get('/api/domain/get');
+      const response = await api.get("/api/domain/get");
       console.log(response.data);
-      
+
       // setDomains(response.data.domains);
       // console.log(domains);
-      
     } catch (error) {
-      console.error('Error fetching domains:', error);
+      console.error("Error fetching domains:", error);
     }
   };
 
@@ -69,157 +79,136 @@ const Domain = () => {
     fetchDomains();
   }, []);
 
+  const inputFields = [
+    { name: "domainName", label: "Domain Name", type: "text", icon: FiGlobe },
+    {
+      name: "purchaseDate",
+      label: "Domain Purchase Date",
+      type: "date",
+      icon: FiCalendar,
+    },
+    {
+      name: "expiryDate",
+      label: "Domain Expiry Date",
+      type: "date",
+      icon: FiCalendar,
+    },
+    {
+      name: "hosting",
+      label: "Hosting",
+      type: "select",
+      icon: FiServer,
+      options: ["Yes", "No"],
+    },
+    {
+      name: "ssl",
+      label: "SSL",
+      type: "select",
+      icon: FiShield,
+      options: ["Yes", "No"],
+    },
+    {
+      name: "customerName",
+      label: "Customer Name",
+      type: "text",
+      icon: FiUser,
+    },
+    {
+      name: "customerMobile",
+      label: "Customer Mobile",
+      type: "tel",
+      icon: FiPhone,
+    },
+    {
+      name: "whatsappNumber",
+      label: "WhatsApp Number",
+      type: "tel",
+      icon: FiPhone,
+    },
+    { name: "email", label: "Email", type: "email", icon: FiMail },
+    { name: "address", label: "Address", type: "text", icon: FiMapPin },
+    {
+      name: "renewableAmount",
+      label: "Renewable Amount",
+      type: "number",
+      icon: FiDollarSign,
+    },
+  ];
+
   return (
-    <section className="md:ml-48 bg-blue-100 p-4 font-sans">
-      <h1 className="text-center font-bold text-2xl mb-4 text-black">Domain</h1>
-      <form 
-        className="max-w-7xl mx-auto px-8 py-8 bg-white shadow-lg shadow-blue-500/50 rounded-lg mb-8" 
-        onSubmit={handleSubmit}
-      >
-        <div className="flex flex-wrap -mx-3 mb-6">
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Domain Name</label>
-            <input
-              type="text"
-              name="domainName"
-              value={formData.domainName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Domain Purchase Date</label>
-            <input
-              type="date"
-              name="purchaseDate"
-              value={formData.purchaseDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Domain Expiry Date</label>
-            <input
-              type="date"
-              name="expiryDate"
-              value={formData.expiryDate}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Hosting</label>
-            <select
-              name="hosting"
-              id='hosting'
-              value={formData.hosting}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            >
-              <option value="">Select</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-
-            </select>
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">SSL</label>
-            <select
-              name="ssl"
-              id='ssl'
-              value={formData.ssl}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            >
-              <option value="">Select</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-
-            </select>
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Customer Name</label>
-            <input
-              type="text"
-              name="customerName"
-              value={formData.customerName}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Customer Mobile</label>
-            <input
-              type="tel"
-              name="customerMobile"
-              value={formData.customerMobile}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">WhatsApp Number</label>
-            <input
-              type="tel"
-              name="whatsappNumber"
-              value={formData.whatsappNumber}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-            />
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Address</label>
-            <input
-              type="address"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
-          
-         
-          <div className="w-full md:w-1/3 px-3 mb-4">
-            <label className="block text-black font-semibold">Renewable Amount</label>
-            <input
-              type="number"
-              name="renewableAmount"
-              value={formData.renewableAmount}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded shadow-md"
-              required
-            />
-          </div>
+    <section className="min-h-screen bg-gradient-to-br flex-1 from-blue-50 to-indigo-100 lg:p-4 p-2 font-sans">
+      <div className=" mx-auto">
+        <div className="flex justify-center mb-6">
+          <h1
+            id="header"
+            className="p-2 text-center font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700 text-2xl"
+          >
+            Domain Management
+          </h1>
         </div>
-        <div className='flex justify-center'>        
+        <form
+          className="bg-white rounded border overflow-hidden"
+          onSubmit={handleSubmit}
+        >
+          <div className="lg:p-8 p-4 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {inputFields.map((field) => (
+                <div key={field.name} className="space-y-1">
+                  <label
+                    htmlFor={field.name}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {field.label}
+                  </label>
+                  <div className="relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <field.icon
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    {field.type === "select" ? (
+                      <select
+                        id={field.name}
+                        name={field.name}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                        className="block w-full pl-10 pr-3 p-3 text-base border-gray-300 border focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                        required
+                      >
+                        <option value="">Select</option>
+                        {field.options?.map((option) => (
+                          <option key={option} value={option.toLowerCase()}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <input
+                        type={field.type}
+                        name={field.name}
+                        id={field.name}
+                        value={formData[field.name]}
+                        onChange={handleChange}
+                        className="block w-full pl-10 pr-3 p-3 text-base border-gray-300 border focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                        required
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
             <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              type="submit"
+              className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
             >
-            Submit
+              Submit
             </button>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </section>
   );
 };

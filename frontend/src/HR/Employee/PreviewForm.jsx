@@ -1,11 +1,6 @@
-/* eslint-disable react/prop-types */
-
-import { Image } from "react-bootstrap";
-import "../../index.css"; // Ensure this path is correct
+import {X} from "lucide-react";
 
 const PreviewForm = ({ isOpen, onClose, formData }) => {
-  if (!isOpen) return null;
-
   // Destructure formData
   const {
     name,
@@ -43,238 +38,301 @@ const PreviewForm = ({ isOpen, onClose, formData }) => {
   } = formData;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-lg p-4 max-w-4xl w-full relative">
-        <h2 className="text-xl font-bold mb-4">Preview Employee Form Data</h2>
-        <div className="overflow-y-auto" style={{ maxHeight: "80vh" }}>
-          <table className="table-auto w-full border-collapse">
-            <tbody>
-              <tr>
-                <td className="border px-4 py-2">Name</td>
-                <td className="border px-4 py-2">{name}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Father&apos;s Name</td>
-                <td className="border px-4 py-2">{fathersName}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Mother&apos;s Name</td>
-                <td className="border px-4 py-2">{mothersName}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Correspondence Address</td>
-                <td className="border px-4 py-2">{correspondenceAddress}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Permanent Address</td>
-                <td className="border px-4 py-2">{permanentAddress}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Mobile</td>
-                <td className="border px-4 py-2">{mobile}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Alternate Mobile</td>
-                <td className="border px-4 py-2">{altMobile}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Date of Birth</td>
-                <td className="border px-4 py-2">{dob}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Email</td>
-                <td className="border px-4 py-2">{email}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Gender</td>
-                <td className="border px-4 py-2">{gender}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Marital Status</td>
-                <td className="border px-4 py-2">{maritalStatus}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Aadhar Number</td>
-                <td className="border px-4 py-2">{aadharNo}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Aadhar Image</td>
-                <td className="border px-4 py-2 adhar-image">
-                  {aadhaarFrontImage && (
-                    <Image
-                      src={URL.createObjectURL(aadhaarFrontImage)}
-                      thumbnail
-                      className="custom-image"
-                    />
-                  )}
-                  {aadhaarBackImage && (
-                    <Image
-                      src={URL.createObjectURL(aadhaarBackImage)}
-                      thumbnail
-                      className="custom-image"
-                    />
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">PAN Number</td>
-                <td className="border px-4 py-2">{panNo}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">PAN Image</td>
-                <td className="border px-4 py-2">
-                  {panImage && (
-                    <Image
-                      src={URL.createObjectURL(panImage)}
-                      thumbnail
-                      className="custom-image"
-                    />
-                  )}
-                </td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Blood Group</td>
-                <td className="border px-4 py-2">{bloodGroup}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Date of Joining</td>
-                <td className="border px-4 py-2">{dateOfJoining}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Employee ID</td>
-                <td className="border px-4 py-2">{EmpId}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Emergency Contact Name</td>
-                <td className="border px-4 py-2">{emergencyContactName}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Emergency Contact Relation</td>
-                <td className="border px-4 py-2">{emergencyContactRelation}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Emergency Contact Mobile</td>
-                <td className="border px-4 py-2">{emergencyContactMobile}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Emergency Contact Address</td>
-                <td className="border px-4 py-2">{emergencyContactAddress}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Bank Account Name</td>
-                <td className="border px-4 py-2">{bankAccName}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Account Number</td>
-                <td className="border px-4 py-2">{accountNumber}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">IFSC Code</td>
-                <td className="border px-4 py-2">{ifscCode}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Branch Name</td>
-                <td className="border px-4 py-2">{branchName}</td>
-              </tr>
-              <tr>
-                <td className="border px-4 py-2">Declaration Date</td>
-                <td className="border px-4 py-2">{decDate}</td>
-              </tr>
-            </tbody>
-          </table>
+    <div className={`fixed ${isOpen?'opacity-100 pointer-events-auto':'opacity-0 pointer-events-none'} transition-opacity inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm`}>
+      <div className={`bg-white rounded-2xl shadow-2xl p-6 max-w-4xl w-full max-h-[90vh] relative transition-transform overflow-hidden ${isOpen?'scale-y-100':'scale-y-90'}` }>
+        <div className="flex justify-between items-center border-b pb-3 mb-4">
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Employee Details Preview
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-red-600 transition-colors duration-200"
+          >
+            <X size={32} />
+          </button>
+        </div>
 
-          {/* Family Details */}
-          <h4 className="mt-4">Family Details</h4>
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Name</th>
-                <th className="border px-4 py-2">Relation</th>
-                <th className="border px-4 py-2">Occupation</th>
-                <th className="border px-4 py-2">Date of Birth</th>
-              </tr>
-            </thead>
-            <tbody>
-              {familyDetails.map((familyMember, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">{familyMember.fname}</td>
-                  <td className="border px-4 py-2">{familyMember.frelation}</td>
-                  <td className="border px-4 py-2">{familyMember.foccupation}</td>
-                  <td className="border px-4 py-2">{familyMember.fdob}</td>
-                </tr>
+        <div
+          className="overflow-y-auto pr-4"
+          style={{ maxHeight: "calc(90vh - 120px)" }}
+        >
+          {/* Personal Information Section */}
+          <section className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+              Personal Information
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Name", value: name },
+                { label: "Father's Name", value: fathersName },
+                { label: "Mother's Name", value: mothersName },
+                { label: "Date of Birth", value: dob },
+                { label: "Gender", value: gender },
+                { label: "Marital Status", value: maritalStatus },
+                { label: "Blood Group", value: bloodGroup },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm">{label}</p>
+                  <p className="font-medium text-gray-900">{value}</p>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </section>
 
-          {/* Educational Details */}
-          <h4 className="mt-4">Educational Details</h4>
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Degree</th>
-                <th className="border px-4 py-2">University</th>
-                <th className="border px-4 py-2">Specialization</th>
-                <th className="border px-4 py-2">From Date</th>
-                <th className="border px-4 py-2">To Date</th>
-                <th className="border px-4 py-2">Percentage</th>
-              </tr>
-            </thead>
-            <tbody>
-              {educationalDetails.map((eduDetail, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">{eduDetail.edegree}</td>
-                  <td className="border px-4 py-2">{eduDetail.euniversity}</td>
-                  <td className="border px-4 py-2">{eduDetail.especialization}</td>
-                  <td className="border px-4 py-2">{eduDetail.efromDate}</td>
-                  <td className="border px-4 py-2">{eduDetail.etoDate}</td>
-                  <td className="border px-4 py-2">{eduDetail.epercentage}</td>
-                </tr>
+          {/* Contact Information Section */}
+          <section className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+              Contact Information
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Mobile", value: mobile },
+                { label: "Alternate Mobile", value: altMobile },
+                { label: "Email", value: email },
+                {
+                  label: "Correspondence Address",
+                  value: correspondenceAddress,
+                },
+                { label: "Permanent Address", value: permanentAddress },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm">{label}</p>
+                  <p className="font-medium text-gray-900">{value}</p>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </section>
 
-          {/* Employment Details */}
-          <h4 className="mt-4">Employment Details</h4>
-          <table className="table-auto w-full border-collapse">
-            <thead>
-              <tr>
-                <th className="border px-4 py-2">Company Name</th>
-                <th className="border px-4 py-2">Designation</th>
-                <th className="border px-4 py-2">From Date</th>
-                <th className="border px-4 py-2">To Date</th>
-                <th className="border px-4 py-2">Annual CTC</th>
-              </tr>
-            </thead>
-            <tbody>
-              {employmentDetails.map((empDetail, index) => (
-                <tr key={index}>
-                  <td className="border px-4 py-2">{empDetail.companyName}</td>
-                  <td className="border px-4 py-2">{empDetail.designation}</td>
-                  <td className="border px-4 py-2">{empDetail.empFromDate}</td>
-                  <td className="border px-4 py-2">{empDetail.empToDate}</td>
-                  <td className="border px-4 py-2">{empDetail.annualctc}</td>
-                </tr>
+          {/* Document Details Section */}
+          <section className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+              Document Details
+            </h3>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Aadhar Number", value: aadharNo },
+                { label: "PAN Number", value: panNo },
+                { label: "Employee ID", value: EmpId },
+                { label: "Date of Joining", value: dateOfJoining },
+                { label: "Declaration Date", value: decDate },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm">{label}</p>
+                  <p className="font-medium text-gray-900">{value}</p>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-4">
+              {aadhaarFrontImage && (
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm mb-2">
+                    Aadhar Front Image
+                  </p>
+                  <img
+                    src={URL.createObjectURL(aadhaarFrontImage)}
+                    className="w-full rounded-md shadow-sm"
+                    alt="Aadhar Front"
+                  />
+                </div>
+              )}
+              {aadhaarBackImage && (
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm mb-2">
+                    Aadhar Back Image
+                  </p>
+                  <img
+                    src={URL.createObjectURL(aadhaarBackImage)}
+                    className="w-full rounded-md shadow-sm"
+                    alt="Aadhar Back"
+                  />
+                </div>
+              )}
+              {panImage && (
+                <div className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm mb-2">PAN Image</p>
+                  <img
+                    src={URL.createObjectURL(panImage)}
+                    className="w-full rounded-md shadow-sm"
+                    alt="PAN"
+                  />
+                </div>
+              )}
+            </div>
+          </section>
 
-          {/* Signature Image */}
-          <h4 className="mt-4">Signature</h4>
+          {/* Family Details Table */}
+          {familyDetails && familyDetails.length > 0 && (
+            <section className="mb-6">
+              <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+                Family Details
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full bg-white shadow-sm rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Name
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Relation
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Occupation
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Date of Birth
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {familyDetails.map((member, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-4 py-3">{member.fname}</td>
+                        <td className="px-4 py-3">{member.frelation}</td>
+                        <td className="px-4 py-3">{member.foccupation}</td>
+                        <td className="px-4 py-3">{member.fdob}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+          {/* Educational Details Table */}
+          {educationalDetails && educationalDetails.length > 0 && (
+            <section className="mb-6">
+              <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+                Educational Details
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full bg-white shadow-sm rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Degree
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        University
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Specialization
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Duration
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Percentage
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {educationalDetails.map((edu, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-4 py-3">{edu.edegree}</td>
+                        <td className="px-4 py-3">{edu.euniversity}</td>
+                        <td className="px-4 py-3">{edu.especialization}</td>
+                        <td className="px-4 py-3">{`${edu.efromDate} - ${edu.etoDate}`}</td>
+                        <td className="px-4 py-3">{edu.epercentage}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+          {/* Employment Details Table */}
+          {employmentDetails && employmentDetails.length > 0 && (
+            <section className="mb-6">
+              <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+                Employment Details
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full bg-white shadow-sm rounded-lg overflow-hidden">
+                  <thead className="bg-gray-100">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Company Name
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Designation
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Duration
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Annual CTC
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {employmentDetails.map((emp, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-4 py-3">{emp.companyName}</td>
+                        <td className="px-4 py-3">{emp.designation}</td>
+                        <td className="px-4 py-3">{`${emp.empFromDate} - ${emp.empToDate}`}</td>
+                        <td className="px-4 py-3">{emp.annualctc}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          )}
+
+              {/* Emergency Contact Section */}
+              <section className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Emergency Contact Information</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Emergency Contact Name", value: emergencyContactName },
+                { label: "Relation", value: emergencyContactRelation },
+                { label: "Mobile", value: emergencyContactMobile },
+                { label: "Address", value: emergencyContactAddress }
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm">{label}</p>
+                  <p className="font-medium text-gray-900">{value}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Bank Details Section */}
+          <section className="mb-6">
+            <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">Bank Details</h3>
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: "Bank Account Name", value: bankAccName },
+                { label: "Account Number", value: accountNumber },
+                { label: "IFSC Code", value: ifscCode },
+                { label: "Branch Name", value: branchName }
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-gray-50 p-3 rounded-lg">
+                  <p className="text-gray-600 text-sm">{label}</p>
+                  <p className="font-medium text-gray-900">{value}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          {/* Signature */}
           {signature && (
-            <Image
-              src={URL.createObjectURL(signature)}
-              thumbnail
-              className="custom-image"
-            />
+            <section className="mb-6">
+              <h3 className="text-xl font-semibold text-gray-700 border-b pb-2 mb-4">
+                Signature
+              </h3>
+              <div className="bg-gray-50 p-3 rounded-lg flex justify-center">
+                <img
+                  src={URL.createObjectURL(signature)}
+                  alt="Employee Signature"
+                  className="max-h-40 rounded-md shadow-sm"
+                />
+              </div>
+            </section>
           )}
         </div>
-        <button
-          onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-red-800 text-3xl w-10 h-10 flex items-center justify-center"
-        >
-          &times;
-        </button>
-
       </div>
     </div>
   );
