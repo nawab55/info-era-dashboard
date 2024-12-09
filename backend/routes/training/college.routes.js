@@ -1,11 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const collegeController = require('../../controllers/training/college.controller');
+const {
+  createCollege,
+  getColleges,
+  deleteCollege,
+  getAllColleges,
+} = require("../../controllers/training/college.controller");
 
 // Route to create a new college
-router.post('/create-colleges', collegeController.createCollege);
+router.post("/create-colleges", createCollege);
 
-// Route to get all colleges
-router.get('/get-colleges', collegeController.getColleges);
+// Route to fetch all colleges with pagination
+router.get("/get-colleges", getColleges);
+// Route to fetch all colleges 
+router.get("/get-all-colleges", getAllColleges);
+
+// Route to delete a college by ID
+router.delete("/:id", deleteCollege);
 
 module.exports = router;

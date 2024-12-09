@@ -100,26 +100,63 @@ exports.studentSubmissionForm = async (req, res) => {
 };
 
 // Get all student training submissions
+// exports.getStudentsSubmissionForm = async (req, res) => {
+//   try {
+//     let students = await StudentTraining.find();
+
+//     students = students.map((form) => {
+//       // Convert the Mongoose model to a plain object
+//       const plainForm = form.toObject();
+//       return {
+//         ...plainForm,
+//         profilePhoto: {
+//           ...plainForm.profilePhoto,
+//           src: "/api/file/" + plainForm.profilePhoto.src,
+//         },
+//       };
+//     });
+
+//     return res.status(200).json({
+//       success: true,
+//       message: "Training submissions retrieved successfully.",
+//       submission: students,
+//     });
+//   } catch (error) {
+//     return res
+//       .status(500)
+//       .json({ success: false, message: "Internal server error." });
+//   }
+// };
+
+// Get paginated student training submissions
 exports.getStudentsSubmissionForm = async (req, res) => {
   try {
-    let students = await StudentTraining.find();
+    const { page = 1, limit = 10 } = req.query; // Default to page 1 and 10 items per page
+    const skip = (page - 1) * limit;
 
-    students = students.map((form) => {
-      // Convert the Mongoose model to a plain object
-      const plainForm = form.toObject();
-      return {
-        ...plainForm,
-        profilePhoto: {
-          ...plainForm.profilePhoto,
-          src: "/api/file/" + plainForm.profilePhoto.src,
-        },
-      };
-    });
+    const total = await StudentTraining.countDocuments();
+    const students = await StudentTraining.find()
+      .skip(skip)
+      .limit(parseInt(limit))
+      .lean(); // Fetch and convert directly to plain objects
+
+    const submissions = students.map((form) => ({
+      ...form,
+      profilePhoto: {
+        ...form.profilePhoto,
+        src: `/api/file/${form.profilePhoto.src}`,
+      },
+    }));
 
     return res.status(200).json({
       success: true,
       message: "Training submissions retrieved successfully.",
-      submission: students,
+      data: {
+        submissions,
+        total,
+        totalPages: Math.ceil(total / limit),
+        currentPage: parseInt(page),
+      },
     });
   } catch (error) {
     return res

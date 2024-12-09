@@ -8,6 +8,8 @@ import {
   Loader,
   Trash2,
   Eye,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
@@ -21,12 +23,12 @@ const JobsReports = () => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-
-  const filteredReports = jobReports.filter((job) =>
-    Object.values(job).some((value) =>
-      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
+  const [pagination, setPagination] = useState({
+    totalRecords: 0,
+    totalPages: 0,
+    currentPage: 1,
+    limit: 10,
+  });
 
   const columns = [
     { key: "name", label: "Name" },
@@ -43,21 +45,50 @@ const JobsReports = () => {
     { key: "resume", label: "Resume" },
   ];
 
-  useEffect(() => {
-    const fetchJobReports = async () => {
-      try {
-        setIsLoading(true);
-        const response = await api.get("/api/jobform/get-allJobForm");
-        setJobReports(response.data.data);
-      } catch (error) {
-        console.error("Error fetching job reports:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const filteredReports = jobReports.filter((job) =>
+    Object.values(job).some((value) =>
+      value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
-    fetchJobReports();
-  }, []);
+  useEffect(() => {
+    fetchJobReports(pagination.currentPage, pagination.limit);
+  }, [pagination.currentPage, pagination.limit]);
+
+  const fetchJobReports = async (page, limit) => {
+    try {
+      setIsLoading(true);
+      const response = await api.get(
+        `/api/jobform/get-allJobForm?page=${page}&limit=${limit}`
+      );
+      const { data, pagination } = response.data;
+      setJobReports(data);
+      setPagination((prev) => ({
+        ...prev,
+        ...pagination,
+      }));
+    } catch (error) {
+      console.error("Error fetching job reports:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   const fetchJobReports = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await api.get("/api/jobform/get-allJobForm");
+  //       setJobReports(response.data.data);
+  //     } catch (error) {
+  //       console.error("Error fetching job reports:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   fetchJobReports();
+  // }, []);
 
   const openModal = (id) => {
     setDeleteId(id);
@@ -91,6 +122,12 @@ const JobsReports = () => {
       });
     } finally {
       closeModal();
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= pagination.totalPages) {
+      setPagination((prev) => ({ ...prev, currentPage: newPage }));
     }
   };
 
@@ -176,7 +213,7 @@ const JobsReports = () => {
                         } hover:bg-blue-50 transition-colors duration-200`}
                       >
                         <td className="text-nowrap px-4 py-3 border">
-                          {index + 1}
+                          {(pagination.currentPage - 1) * 10 + index + 1}
                         </td>
                         {columns.map((column) => (
                           <td
@@ -229,6 +266,26 @@ const JobsReports = () => {
               </table>
             </div>
           )}
+        </div>
+        {/* Pagination */}
+        <div className="flex justify-between items-center py-4">
+          <button
+            onClick={() => handlePageChange(pagination.currentPage - 1)}
+            disabled={pagination.currentPage === 1}
+            className="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded flex items-center gap-2 disabled:opacity-50"
+          >
+            <ChevronLeft />
+          </button>
+          <span>
+            Page {pagination.currentPage} of {pagination.totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(pagination.currentPage + 1)}
+            disabled={pagination.currentPage === pagination.totalPages}
+            className="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded flex items-center gap-2 disabled:opacity-50"
+          >
+            <ChevronRight />
+          </button>
         </div>
       </div>
 

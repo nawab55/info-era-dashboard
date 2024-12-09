@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api, { API_BASE_URL } from "../../../config/api";
 import { toast } from "react-toastify";
 import Modal from "react-modal";
-import { Search, Trash2, FileSpreadsheet, Loader, Eye } from "lucide-react";
+import { Search, Trash2, FileSpreadsheet, Loader, Eye, ChevronLeft, ChevronRight } from "lucide-react";
 
 Modal.setAppElement("#root"); // Ensure accessibility for the modal
 
@@ -12,23 +12,29 @@ function TrainingReports() {
   const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchTrainingReports = async (page = 1) => {
+    try {
+      setIsLoading(true);
+      const response = await api.get(`/api/training/get-all-training?page=${page}&limit=10`);
+      const { data } = response.data;
+
+      setTrainingReports(data.submissions);
+      setTotalPages(data.totalPages);
+      setCurrentPage(data.currentPage);
+    } catch (error) {
+      console.error("Error fetching training reports:", error);
+      toast.error("Failed to fetch training reports.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTrainingReports = async () => {
-      try {
-        setIsLoading(true);
-        const response = await api.get("/api/training/get-all-training");
-        setTrainingReports(response.data.submission);
-      } catch (error) {
-        console.error("Error fetching training reports:", error);
-        toast.error("Failed to fetch training reports.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchTrainingReports();
-  }, []);
+    fetchTrainingReports(currentPage);
+  }, [currentPage]);
 
   const filteredReports = trainingReports.filter((report) =>
     Object.values(report).some((value) =>
@@ -66,6 +72,41 @@ function TrainingReports() {
     }
   };
 
+  const Pagination = () => (
+    <div className="flex items-center justify-center mt-4 space-x-2">
+      <button
+        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+        className={`px-3 py-2 rounded-lg ${
+          currentPage === 1 ? "bg-gray-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+        }`}
+        disabled={currentPage === 1}
+      >
+        <ChevronLeft />
+      </button>
+      {Array.from({ length: totalPages }, (_, i) => (
+        <button
+          key={i}
+          onClick={() => setCurrentPage(i + 1)}
+          className={`px-3 py-2 rounded-lg ${
+            currentPage === i + 1 ? "bg-indigo-600 text-white" : "bg-gray-200 hover:bg-indigo-400 text-gray-700"
+          }`}
+        >
+          {i + 1}
+        </button>
+      ))}
+      <button
+        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+        className={`px-3 py-2 rounded-lg ${
+          currentPage === totalPages ? "bg-gray-300 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+        }`}
+        disabled={currentPage === totalPages}
+      >
+        <ChevronRight />
+      </button>
+    </div>
+  );
+
+
   return (
     <section className="min-h-screen lg:p-6 p-2">
       <div className="rounded border overflow-hidden">
@@ -102,6 +143,7 @@ function TrainingReports() {
               </span>
             </div>
           ) : (
+            <>
             <div className="overflow-x-auto">
               <table className="w-full bg-white rounded border">
                 <thead className="bg-gray-700">
@@ -314,6 +356,8 @@ function TrainingReports() {
                 </tbody>
               </table>
             </div>
+            <Pagination />
+            </>
           )}
         </div>
       </div>

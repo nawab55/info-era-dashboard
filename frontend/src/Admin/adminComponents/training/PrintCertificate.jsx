@@ -17,8 +17,12 @@ const PrintCertificate = () => {
 
   const handleViewClick = async () => {
     try {
-      const response = await api.get(`/api/certificate/get-by-regno/${regNo}`);
-      setCertificateData(response.data);
+      const encodedRegNo = encodeURIComponent(regNo); // Encode the regNo
+      const response = await api.get(
+        `/api/certificate/get-by-regno/${encodedRegNo}`
+      );
+      setCertificateData(response.data.data);
+      console.log(certificateData);
       toast.success("Certificate found successfully!");
     } catch (error) {
       toast.error("Certificate not Found for this Registration Number.");

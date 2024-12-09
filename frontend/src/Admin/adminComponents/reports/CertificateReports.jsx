@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Modal from "react-modal";
 import { format } from "date-fns";
 import {
   Search,
@@ -6,43 +7,87 @@ import {
   Download,
   FileSpreadsheet,
   Loader,
+  Trash2,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import api from "../../../config/api";
+import { toast } from "react-toastify";
 
+Modal.setAppElement("#root");
 const CertificateReports = () => {
   const [certificates, setCertificates] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterOpen, setFilterOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
 
   const columns = [
-    { key: "year", label: "Year" },
+    { key: "studentName", label: "Student Name" },
     { key: "collegeName", label: "College Name" },
     { key: "regNo", label: "Registration No" },
-    { key: "studentName", label: "Student Name" },
+    { key: "year", label: "Year" },
     { key: "projectName", label: "Project Name" },
     { key: "language", label: "Language" },
-    { key: "toDate", label: "To Date" },
     { key: "fromDate", label: "From Date" },
+    { key: "toDate", label: "To Date" },
     { key: "payment", label: "Payment" },
     { key: "mobileNo", label: "Mobile No" },
   ];
 
   useEffect(() => {
     const fetchCertificates = async () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
-        const response = await api.get("/api/certificate/get-all");
-        setCertificates(response.data);
+        const response = await api.get(
+          `/api/certificate/get-all?page=${currentPage}`
+        );
+        if (response.data.success) {
+          setCertificates(response.data.certificates);
+          setTotalPages(response.data.totalPages);
+        } else {
+          toast.error(response.data.message);
+        }
       } catch (error) {
         console.error("Error fetching certificates:", error);
+        toast.error("Error fetching certificates.");
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchCertificates();
-  }, []);
+  }, [currentPage]);
+
+  const openModal = (id) => {
+    console.log("Opening modal for ID:", id);
+    setDeleteId(id);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setDeleteId(null);
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await api.delete(`/api/certificate/${deleteId}`);
+      if (response.data.success) {
+        toast.success(response.data.message);
+        setCertificates((prev) => prev.filter((cert) => cert._id !== deleteId));
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error("Error deleting certificate.");
+    } finally {
+      closeModal();
+    }
+  };
 
   const filteredCertificates = certificates.filter((cert) =>
     cert.studentName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -114,6 +159,9 @@ const CertificateReports = () => {
                         {column.label}
                       </th>
                     ))}
+                    <th className="px-4 py-3 text-left border-gray-300 text-nowrap">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -126,10 +174,28 @@ const CertificateReports = () => {
                         } hover:bg-blue-50 transition-colors duration-200`}
                       >
                         <td className="whitespace-nowrap px-4 py-3 border">
-                          {index + 1}
+                          {(currentPage - 1) * 10 + index + 1}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-3 border">
-                          {cert.year}
+                        {columns.map((col) => (
+                          <td
+                            key={col.key}
+                            className="whitespace-nowrap border px-4 py-3"
+                          >
+                            {col.key === "fromDate" || col.key === "toDate"
+                              ? format(new Date(cert[col.key]), "dd/MM/yyyy")
+                              : cert[col.key]}
+                          </td>
+                        ))}
+                        <td className="px-4 py-3 text-center whitespace-nowrap border">
+                          <button
+                            onClick={() => openModal(cert._id)}
+                            className="text-red-600 hover:text-red-800"
+                          >
+                            <Trash2 size={20} />
+                          </button>
+                        </td>
+                        {/* <td className="whitespace-nowrap px-4 py-3 border">
+                          {cert.studentName}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
                           {cert.collegeName}
@@ -138,7 +204,7 @@ const CertificateReports = () => {
                           {cert.regNo}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
-                          {cert.studentName}
+                          {cert.year}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
                           {cert.projectName}
@@ -147,17 +213,17 @@ const CertificateReports = () => {
                           {cert.language}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
-                          {format(new Date(cert.toDate), "MM/dd/yyyy")}
+                          {format(new Date(cert.fromDate), "dd/MM/yyyy")}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
-                          {format(new Date(cert.fromDate), "MM/dd/yyyy")}
+                          {format(new Date(cert.toDate), "dd/MM/yyyy")}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
                           {cert.payment}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 border">
                           {cert.mobileNo}
-                        </td>
+                        </td> */}
                       </tr>
                     ))
                   ) : (
@@ -181,7 +247,60 @@ const CertificateReports = () => {
             </div>
           )}
         </div>
+        {/* Pagination */}
+        <div className="flex justify-between items-center p-4">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            className="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded flex items-center gap-2 disabled:opacity-50"
+          >
+            <ChevronLeft size={20} />
+            Prev
+          </button>
+          <span className="font-medium text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            className="bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded flex items-center gap-2 disabled:opacity-50"
+          >
+            Next
+            <ChevronRight size={20} />
+          </button>
+        </div>
       </div>
+      {/* Delete Confirmation Modal */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Delete Confirmation"
+        className="bg-white p-6 rounded shadow-lg max-w-md mx-auto"
+        overlayClassName="fixed inset-0 bg-black/50 flex justify-center items-center"
+      >
+        <div className="p-6">
+          <h2 className="text-lg font-bold">Confirm Deletion</h2>
+          <p className="text-gray-700 mt-4">
+            Are you sure you want to delete this certificate?
+          </p>
+          <div className="mt-6 flex justify-end gap-4">
+            <button
+              onClick={closeModal}
+              className="px-4 py-2 bg-gray-300 rounded"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2 bg-red-600 text-white rounded"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 };

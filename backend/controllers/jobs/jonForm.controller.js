@@ -65,10 +65,17 @@ const createJobForm = async (req, res) => {
 
 // Get all job forms
 const getAllJobsForm = async (req, res) => {
+  const { page = 1, limit = 10 } = req.query; // Default to page 1 and limit 10
   try {
-    let forms = await jobForm.find(); // Fetch Mongoose models
+    const totalRecords = await jobForm.countDocuments(); // Total number of job forms
+    const totalPages = Math.ceil(totalRecords / limit);
 
-    forms = forms.map((form) => {
+    let forms = await jobForm
+      .find()
+      .skip((page - 1) * limit)
+      .limit(Number(limit)); // Fetch Mongoose models
+
+    const formattedForms = forms.map((form) => {
       // Convert the Mongoose model to a plain object
       const plainForm = form.toObject();
       return {
@@ -83,7 +90,13 @@ const getAllJobsForm = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: "Job forms retrieved successfully.",
-      data: forms,
+      data: formattedForms,
+      pagination: {
+        totalRecords,
+        totalPages,
+        currentPage: Number(page),
+        limit: Number(limit),
+      },
     });
   } catch (error) {
     console.error(error);
