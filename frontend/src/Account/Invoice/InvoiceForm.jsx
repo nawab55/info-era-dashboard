@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { uid } from "uid";
 import { v4 as uuidv4 } from "uuid";
-import InvoiceItem from "./InvoiceItem";
+// import InvoiceItem from "./InvoiceItem";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import InvoiceModal from "./InvoiceModal";
@@ -13,6 +13,7 @@ const count = 1;
 const InvoiceForm = () => {
   const [customerData, setCustomerData] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
+  const [isCustomerListOpen, setIsCustomerListOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState(""); // state to store customerId
   const [invoiceData, setInvoiceData] = useState({
     invoiceNo: `IE/${count}`,
@@ -61,6 +62,8 @@ const InvoiceForm = () => {
 
   const [showModal, setShowModal] = useState(false); //state to controll modal visibility
   const [savedInvoiceData, setSavedInvoiceData] = useState(null); // state to store the saved invoice data
+  const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]); // Filtered services for dropdown
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -87,8 +90,6 @@ const InvoiceForm = () => {
         const customerResponse = await api.get(
           "/api/customers/get/allCustomer"
         );
-        console.log(customerResponse.data);
-
         setCustomerData(customerResponse.data);
         setFilteredCustomers(customerResponse.data); // Initialize filteredCustomers
       } catch (error) {
@@ -96,6 +97,19 @@ const InvoiceForm = () => {
       }
     };
     fetchCustomer();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const response = await api.get("api/product/services");
+      setServices(response.data.services);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      toast.error("Failed to load services");
+    }
+  };
+  useEffect(() => {
+    fetchServices();
   }, []);
 
   const handleChange = (e) => {
@@ -113,6 +127,42 @@ const InvoiceForm = () => {
       }
       return { ...prevData, [name]: value };
     });
+  };
+
+  const handleServiceInputChange = (e, itemId) => {
+    const { value } = e.target;
+    setInvoiceData((prevData) => ({
+      ...prevData,
+      items: prevData.items.map((item) =>
+        item.id === itemId ? { ...item, name: value } : item
+      ),
+    }));
+
+    if (value) {
+      const filtered = services.filter((service) =>
+        service.categoryName.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredServices(filtered);
+    } else {
+      setFilteredServices([]);
+    }
+  };
+
+  const handleServiceSelect = (selectedService, itemId) => {
+    setInvoiceData((prevData) => ({
+      ...prevData,
+      items: prevData.items.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              name: selectedService.categoryName,
+              hsn: selectedService.hsnCode,
+              price: selectedService.amount,
+            }
+          : item
+      ),
+    }));
+    setFilteredServices([]); // Clear the dropdown after selection
   };
 
   const handleCustomerInputChange = (e) => {
@@ -245,9 +295,11 @@ const InvoiceForm = () => {
       setSavedInvoiceData(response.data.invoiceData);
       setShowModal(true);
 
-      const newInvoiceNo = `IE/${
-        parseInt(invoiceData.invoiceNo.split("/")[1]) + 1
-      }`;
+      // Properly increment the invoice number
+      const currentInvoiceNo = invoiceData.invoiceNo.split("/")[1]; // Extract the numeric part
+      const incrementedNumber = parseInt(currentInvoiceNo, 10) + 1; // Increment
+      const newInvoiceNo = `IE/${incrementedNumber}`; // Concatenate back
+
       setInvoiceData((prevData) => ({
         ...prevData,
         invoiceNo: newInvoiceNo,
@@ -289,8 +341,6 @@ const InvoiceForm = () => {
     }
   };
 
-  const [isCustomerListOpen, setIsCustomerListOpen] = useState(false);
-  // console.log(invoiceData.companyInfo);
   return (
     <section className="p-2 max-w-full flex-1 bg-blue-gray-50">
       <div className="p-2">
@@ -583,16 +633,99 @@ const InvoiceForm = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {invoiceData.items.map((item) => (
-                  <InvoiceItem
-                    key={item.id}
-                    id={item.id}
-                    name={item.name}
-                    hsn={item.hsn}
-                    qty={item.qty}
-                    price={item.price}
-                    onDeleteItem={deleteItemHandler}
-                    onEditItem={editItemHandler}
-                  />
+                  // <InvoiceItem
+                  //   key={item.id}
+                  //   id={item.id}
+                  //   name={item.name}
+                  //   hsn={item.hsn}
+                  //   qty={item.qty}
+                  //   price={item.price}
+                  //   onDeleteItem={deleteItemHandler}
+                  //   onEditItem={editItemHandler}
+                  // />
+                  <tr key={item.id}>
+                    <td className="pr-0 md:pr-2 py-1 md:py-2 relative">
+                      <input
+                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        type="text"
+                        id={item.id}
+                        name="name"
+                        value={item.name}
+                        onChange={(e) => handleServiceInputChange(e, item.id)}
+                      />
+                      {filteredServices.length > 0 && (
+                        <ul className="absolute z-10 bg-white border border-gray-300 rounded w-full mt-1 max-h-48 overflow-y-auto">
+                          {filteredServices.map((service) => (
+                            <li
+                              key={service._id}
+                              className="px-1 md:px-4 py-2 cursor-pointer hover:bg-gray-100"
+                              onClick={() =>
+                                handleServiceSelect(service, item.id)
+                              }
+                            >
+                              {service.categoryName}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </td>
+                    <td className="px-1 md:px-4 py-1 md:py-2">
+                      <input
+                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        type="text"
+                        name="hsn"
+                        value={item.hsn}
+                        // onChange={editItemHandler}
+                        readOnly
+                      />
+                    </td>
+                    <td className="px-1 md:px-4 py-1 md:py-2">
+                      <input
+                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        type="number"
+                        id={item.id}
+                        name="qty"
+                        min="1"
+                        value={item.qty}
+                        onChange={editItemHandler}
+                      />
+                    </td>
+                    <td className="px-1 md:px-4 py-1 md:py-2">
+                      <input
+                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        type="number"
+                        name="price"
+                        min="0.00"
+                        step="0.01"
+                        value={item.price}
+                        // onChange={editItemHandler}
+                        readOnly
+                      />
+                    </td>
+                    <td className="px-2 md:px-4 py-1 md:py-2 text-center">
+                      <button
+                        className="rounded-md bg-red-500 px-2 py-1 text-white shadow-sm hover:bg-red-600"
+                        type="button"
+                        onClick={() => deleteItemHandler(item.id)}
+                      >
+                        {/* Delete */}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                          />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>

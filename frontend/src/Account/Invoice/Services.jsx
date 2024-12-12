@@ -17,13 +17,28 @@ const Services = () => {
     amount: "",
   });
 
-  const [categories, setCategories] = useState([]);
   const [hsnCodes, setHsnCodes] = useState([]);
   const [services, setServices] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setServicesFormData({ ...servicesFormData, [name]: value });
+    if (name === "categoryName") {
+      // Find the corresponding HSN code based on the selected category
+      const selectedCategory = hsnCodes.find(
+        (data) => data.categoryName === value
+      );
+      setServicesFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+        hsnCode: selectedCategory ? selectedCategory.hsnCode : "",
+      }));
+    } else {
+      setServicesFormData({ ...servicesFormData, [name]: value });
+      // setServicesFormData((prevState) => ({
+      //   ...prevState,
+      //   [name]: value,
+      // }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -44,16 +59,6 @@ const Services = () => {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const response = await api.get("api/product/categories");
-      setCategories(response.data.categories);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      toast.error("Failed to load categories");
-    }
-  };
-
   const fetchHsnCodes = async () => {
     try {
       const response = await api.get("api/product/hsncodes");
@@ -67,6 +72,7 @@ const Services = () => {
   const fetchServices = async () => {
     try {
       const response = await api.get("api/product/services");
+      console.log(response.data.services);
       setServices(response.data.services);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -75,7 +81,6 @@ const Services = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
     fetchHsnCodes();
     fetchServices();
   }, []);
@@ -112,9 +117,9 @@ const Services = () => {
                     className="w-full px-4 py-2.5 rounded border border-gray-200 focus:border-blue-500 outline-none transition-colors bg-white"
                   >
                     <option value="">Select Category</option>
-                    {categories.map((category) => (
-                      <option key={category._id} value={category.categoryName}>
-                        {category.categoryName}
+                    {hsnCodes.map((data) => (
+                      <option key={data._id} value={data.categoryName}>
+                        {data.categoryName}
                       </option>
                     ))}
                   </select>
@@ -127,20 +132,15 @@ const Services = () => {
                     HSN Code
                     <span className="text-red-500 ml-1">*</span>
                   </label>
-                  <select
+                  <input
+                    type="text"
+                    required
                     name="hsnCode"
                     value={servicesFormData.hsnCode}
                     onChange={handleChange}
-                    required
                     className="w-full px-4 py-2.5 rounded border border-gray-200 focus:border-blue-500 outline-none transition-colors bg-white"
-                  >
-                    <option value="">Select HSN Code</option>
-                    {hsnCodes.map((hsn) => (
-                      <option key={hsn._id} value={hsn.hsnCode}>
-                        {hsn.hsnCode}
-                      </option>
-                    ))}
-                  </select>
+                    placeholder="Enter HSN code"
+                  />
                 </div>
 
                 {/* Service Input */}
