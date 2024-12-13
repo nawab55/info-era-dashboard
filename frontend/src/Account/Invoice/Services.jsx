@@ -72,7 +72,7 @@ const Services = () => {
   const fetchServices = async () => {
     try {
       const response = await api.get("api/product/services");
-      console.log(response.data.services);
+      // console.log(response.data.services);
       setServices(response.data.services);
     } catch (error) {
       console.error("Error fetching services:", error);

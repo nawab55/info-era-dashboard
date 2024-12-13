@@ -30,16 +30,36 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
   };
 
   const menus = [
-    { name: "Dashboard", link: "/account/dashboard", icon: MdDashboard, color: "text-yellow-500" },
+    {
+      name: "Dashboard",
+      link: "/account/dashboard",
+      icon: MdDashboard,
+      color: "text-yellow-500",
+    },
     {
       name: "Product",
       icon: FaProductHunt,
       color: "text-red-500",
       dropdown: true,
       subMenus: [
-        { name: "Add Category", link: "/account/product/addCategory", icon: FaPlus, color: "text-green-500" },
-        { name: "Add HSN Code", link: "/account/product/addHsnCode", icon: FaTags, color: "text-purple-500" },
-        { name: "Add Services", link: "/account/product/services", icon: FaTools, color: "text-blue-500" },
+        {
+          name: "Add Category",
+          link: "/account/product/addCategory",
+          icon: FaPlus,
+          color: "text-green-500",
+        },
+        {
+          name: "Add HSN Code",
+          link: "/account/product/addHsnCode",
+          icon: FaTags,
+          color: "text-purple-500",
+        },
+        {
+          name: "Add Services",
+          link: "/account/product/services",
+          icon: FaTools,
+          color: "text-blue-500",
+        },
       ],
     },
     {
@@ -48,14 +68,44 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
       color: "text-teal-500",
       dropdown: true,
       subMenus: [
-        { name: "New Customer", link: "/account/customer/addCustomer", icon: FiUserPlus, color: "text-orange-500" },
-        { name: "Customer Report", link: "/account/customer/customerReport", icon: FaChartBar, color: "text-pink-500" },
+        {
+          name: "New Customer",
+          link: "/account/customer/addCustomer",
+          icon: FiUserPlus,
+          color: "text-orange-500",
+        },
+        {
+          name: "Customer Report",
+          link: "/account/customer/customerReport",
+          icon: FaChartBar,
+          color: "text-pink-500",
+        },
       ],
     },
-    { name: "Domain", link: "/account/domain", icon: FaGlobe, color: "text-blue-600" },
-    { name: "Domain Report", link: "/account/domain/report", icon: FaFileAlt, color: "text-indigo-500" },
-    { name: "Generate Bill", link: "/account/invoiceForm", icon: GiMoneyStack, color: "text-green-600" },
-    { name: "Invoice Report", link: "/account/invoiceReports", icon: FaChartBar, color: "text-pink-600" },
+    {
+      name: "Domain",
+      link: "/account/domain",
+      icon: FaGlobe,
+      color: "text-blue-600",
+    },
+    {
+      name: "Domain Report",
+      link: "/account/domain/report",
+      icon: FaFileAlt,
+      color: "text-indigo-500",
+    },
+    {
+      name: "Generate Bill",
+      link: "/account/invoiceForm",
+      icon: GiMoneyStack,
+      color: "text-green-600",
+    },
+    {
+      name: "Invoice Report",
+      link: "/account/invoiceReports",
+      icon: FaChartBar,
+      color: "text-pink-600",
+    },
   ];
 
   return (
@@ -89,7 +139,9 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
                 </button>
                 <div
                   className={`transition-all duration-200 overflow-hidden ${
-                    openDropdown === menu.name ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    openDropdown === menu.name
+                      ? "max-h-96 opacity-100"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
                   <div className="pl-4 space-y-1 mt-1">
@@ -98,10 +150,14 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
                         key={subIndex}
                         onClick={() => handleNavigate(submenu.link)}
                         className={`flex items-center w-full px-4 py-2 text-sm text-gray-300 rounded-lg hover:bg-blue-800/50 transition-colors ${
-                          pathname === submenu.link ? "bg-blue-800 text-white" : ""
+                          pathname === submenu.link
+                            ? "bg-blue-800 text-white"
+                            : ""
                         }`}
                       >
-                        <submenu.icon className={`w-4 h-4 mr-3 ${submenu.color}`} />
+                        <submenu.icon
+                          className={`w-4 h-4 mr-3 ${submenu.color}`}
+                        />
                         {submenu.name}
                       </button>
                     ))}

@@ -7,10 +7,8 @@ function AccountLayout() {
   const [sidebarToggle, setSidebarToggle] = useState(false);
   return (
     <div>
-      <AccountNavbar
-        setSidebarToggle={setSidebarToggle}
-      />
-      <main className="flex-1 flex">
+      <AccountNavbar setSidebarToggle={setSidebarToggle} />
+      <main className=" flex flex-1 ">
         <AccountSidebar
           sidebarToggle={sidebarToggle}
           setSidebarToggle={setSidebarToggle}

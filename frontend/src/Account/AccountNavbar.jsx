@@ -9,7 +9,6 @@ import { User } from "lucide-react";
 import { FaPencilAlt } from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 
-
 const AccountNavbar = ({ setSidebarToggle }) => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
@@ -70,22 +69,22 @@ const AccountNavbar = ({ setSidebarToggle }) => {
             >
               <ul className="py-2 text-sm text-gray-700">
                 <li>
-                  <button
+                  <div
                     className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
                     onClick={handleProfile}
                   >
                     <User className="text-blue-500" />
                     <span>Profile</span>
-                  </button>
+                  </div>
                 </li>
                 <li>
-                  <button
+                  <div
                     className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt className="text-red-500" />
                     <span>Logout</span>
-                  </button>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -104,11 +103,20 @@ const AccountNavbar = ({ setSidebarToggle }) => {
 };
 
 export default AccountNavbar;
-const ProfileModal= ({ isOpen, onClose, employeeDetails }) => {
-
+const ProfileModal = ({ isOpen, onClose, employeeDetails }) => {
   return (
-    <div className={`fixed inset-0 bg-black ${isOpen?'opacity-100 pointer-events-auto':'opacity-0 pointer-events-none'} transition-opacity bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50 p-4`}>
-      <div className={`bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden transition-all duration-300 ease-in-out transform scale-95  ${isOpen?'scale-100':'scale-90'}`}>
+    <div
+      className={`fixed inset-0 bg-black ${
+        isOpen
+          ? "opacity-100 pointer-events-auto"
+          : "opacity-0 pointer-events-none"
+      } transition-opacity bg-opacity-50 backdrop-blur-sm flex justify-center items-center z-50 p-4`}
+    >
+      <div
+        className={`bg-white rounded-2xl shadow-2xl w-full max-w-4xl overflow-hidden transition-all duration-300 ease-in-out transform scale-95  ${
+          isOpen ? "scale-100" : "scale-90"
+        }`}
+      >
         <div className="relative p-6 md:p-8">
           <button
             onClick={onClose}

@@ -65,8 +65,9 @@ const Domain = () => {
 
   const fetchDomains = async () => {
     try {
-      const response = await api.get("/api/domain/get");
-      console.log(response.data);
+      await api.get("/api/domain/get");
+      // const response = await api.get("/api/domain/get");
+      // console.log(response.data);
 
       // setDomains(response.data.domains);
       // console.log(domains);

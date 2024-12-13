@@ -8,7 +8,7 @@ import InvoiceModal from "./InvoiceModal";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB"); // 'en-GB' for dd/mm/yyyy format
-const count = 1;
+// const count = 1;
 
 const InvoiceForm = () => {
   const [customerData, setCustomerData] = useState([]);
@@ -16,7 +16,8 @@ const InvoiceForm = () => {
   const [isCustomerListOpen, setIsCustomerListOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState(""); // state to store customerId
   const [invoiceData, setInvoiceData] = useState({
-    invoiceNo: `IE/${count}`,
+    // invoiceNo: `IE/${count}`,
+    invoiceNo: "",
     date: today,
     cashierName: "",
     buyerDetails: {
@@ -69,6 +70,9 @@ const InvoiceForm = () => {
     const fetchInvoices = async () => {
       try {
         const response = await api.get("/api/invoices/get-invoices");
+        // console.log("invoiceNumber: ", response.data.latestInvoiceNo);
+        // console.log("invoiceDetails: ", response.data.invoices);
+
         setInvoiceData((prevData) => ({
           ...prevData,
           invoiceNo: response.data.latestInvoiceNo,
@@ -296,13 +300,14 @@ const InvoiceForm = () => {
       setShowModal(true);
 
       // Properly increment the invoice number
-      const currentInvoiceNo = invoiceData.invoiceNo.split("/")[1]; // Extract the numeric part
-      const incrementedNumber = parseInt(currentInvoiceNo, 10) + 1; // Increment
-      const newInvoiceNo = `IE/${incrementedNumber}`; // Concatenate back
+      // const currentInvoiceNo = invoiceData.invoiceNo.split("/")[1]; // Extract the numeric part
+      // const incrementedNumber = parseInt(currentInvoiceNo, 10) + 1; // Increment
+      // const newInvoiceNo = `IE/${incrementedNumber}`; // Concatenate back
 
       setInvoiceData((prevData) => ({
         ...prevData,
-        invoiceNo: newInvoiceNo,
+        // invoiceNo: newInvoiceNo,
+        invoiceNo: prevData.invoiceNo,
         cashierName: "",
         buyerDetails: {
           customerName: "",

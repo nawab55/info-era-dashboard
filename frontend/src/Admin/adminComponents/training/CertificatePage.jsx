@@ -12,7 +12,7 @@ const formatDate = (date) => {
 };
 
 const CertificatePage = React.forwardRef(({ certificateData }, ref) => {
-  if(!certificateData)return null
+  if (!certificateData) return null;
   return (
     <div
       ref={ref}
@@ -28,7 +28,7 @@ const CertificatePage = React.forwardRef(({ certificateData }, ref) => {
       </div>
 
       {/* Main Content */}
-      <div className="text-center mt-[-2.5rem]">  
+      <div className="text-center mt-[-2.5rem]">
         <div className="w-full mb-2">
           <div className="flex justify-center">
             <img src={logo} alt="Company Logo" className="" />
@@ -36,6 +36,10 @@ const CertificatePage = React.forwardRef(({ certificateData }, ref) => {
           <h4 className="mt-[-0.625rem] text-lg font-semibold">
             Info Era Software Services Pvt. Ltd.
           </h4>
+          <h2>ISO: 9001:2015, 27001:2013</h2>
+          <p>CIN No: U72300BR20114PTC022956</p>
+          <p>email: info@infoera.in</p>
+          <p>website: www.infoera.in</p>
         </div>
 
         <div className="w-full mb-2">
@@ -49,26 +53,28 @@ const CertificatePage = React.forwardRef(({ certificateData }, ref) => {
 
         <div className="w-full mb-2">
           <p className="text-lg">
-            This is to certify that <b>{certificateData.studentName}</b>, a
-            student of <b>{certificateData.course}</b> Final Year from
-            <b> {certificateData.collegeName}</b> has successfully completed his
-            internship at <b>Info Era Software Services Pvt. Ltd.</b>
-            Patna from <b>{formatDate(certificateData.fromDate)}</b> to{" "}
+            This certificate is proudly awarded to
+            <b>{certificateData.studentName}</b>, for the completion of
+            <b>{certificateData.projectName} </b> on{" "}
+            <b>{certificateData.topic} topic</b> with Info Era Software Services
+            Pvt. Ltd. we congratulate you for your outstanding performance in
+            this training program from{" "}
+            <b>{formatDate(certificateData.fromDate)}</b> to{" "}
             <b>{formatDate(certificateData.toDate)}</b>.
           </p>
         </div>
 
         <div className="w-full mb-2">
           <p className="text-lg">
-            This work entitled <b>{certificateData.projectName}</b> done by{" "}
-            <b>{certificateData.studentName}</b>, his conduct and performance
-            during this period was excellent.
+            This Training done by <b>{certificateData.studentName}</b>
+            {/* <b>{certificateData.projectName}</b> */},during this period was
+            excellent.
           </p>
         </div>
 
         <div className="w-full mb-2">
           <p className="text-lg italic">
-            &quot;We wish him all the best in his future endeavors&quot;
+            &quot;We wish you all the best for your future endeavors&quot;
           </p>
         </div>
 

@@ -12,7 +12,7 @@ const DomainReports = () => {
     const fetchDomains = async () => {
       try {
         const response = await api.get("/api/domain/get");
-        console.log(response.data);
+        // console.log(response.data);
         setDomains(response.data.domains);
         setFilteredDomains(response.data.domains); // Initially show all domains
       } catch (error) {
@@ -41,7 +41,7 @@ const DomainReports = () => {
     filterDomainsByMonth();
   }, [year, month, domains]);
 
-  console.log(filteredDomains);
+  // console.log(filteredDomains);
 
   const handleYearChange = (e) => {
     setYear(parseInt(e.target.value));
