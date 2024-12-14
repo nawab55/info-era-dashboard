@@ -69,13 +69,11 @@ const getCertificateByRegNo = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Certificate not found" });
     }
-    res
-      .status(200)
-      .json({
-        success: true,
-        data: certificate,
-        message: "Certificate has been deleted",
-      });
+    res.status(200).json({
+      success: true,
+      data: certificate,
+      message: "Certificate has been found seccesfully",
+    });
   } catch (error) {
     res.status(500).json({
       message: "There was an error retrieving the certificate",

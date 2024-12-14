@@ -7,6 +7,7 @@ import { Search, Printer, X, FileText } from "lucide-react";
 
 const PrintCertificate = () => {
   const [regNo, setRegNo] = useState("");
+  const [studentData, setStudentData] = useState("");
   const [certificateData, setCertificateData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const certificateRef = useRef();
@@ -22,7 +23,12 @@ const PrintCertificate = () => {
         `/api/certificate/get-by-regno/${encodedRegNo}`
       );
       setCertificateData(response.data.data);
-      console.log(certificateData);
+
+      const studentResponse = await api.get(
+        `/api/student/get-student/${encodedRegNo}`
+      );
+      setStudentData(studentResponse.data.student);
+      console.log(studentData);
       toast.success("Certificate found successfully!");
     } catch (error) {
       toast.error("Certificate not Found for this Registration Number.");
@@ -33,6 +39,12 @@ const PrintCertificate = () => {
 
   const handlePrint = useReactToPrint({
     content: () => certificateRef.current,
+    documentTitle: certificateData?.studentName || "Certificate", // Dynamic title based on student name
+    onBeforeGetContent: () => {
+      if (!certificateData?.studentName) {
+        toast.warn("Student name is missing, using default certificate title.");
+      }
+    },
   });
 
   const openModal = () => {
@@ -105,18 +117,7 @@ const PrintCertificate = () => {
                       ].map((header) => (
                         <th
                           key={header}
-                          className="
-                       px-6 py-4 
-                       text-left 
-                       text-xs 
-                       font-semibold 
-                       text-gray-600 
-                       uppercase 
-                       tracking-wider
-                       sticky 
-                       top-0 
-                       bg-gray-50
-                     "
+                          className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-widersticky top-0 bg-gray-50"
                         >
                           {header}
                         </th>
@@ -126,15 +127,7 @@ const PrintCertificate = () => {
 
                   {/* Table Body */}
                   <tbody className="divide-y divide-gray-100">
-                    <tr
-                      className="
-                   hover:bg-gray-50 border
-                   transition-colors 
-                   duration-200 
-                   group
-                   cursor-default
-                 "
-                    >
+                    <tr className="hover:bg-gray-50 border transition-colors duration-200 group cursor-default">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <FileText
@@ -150,16 +143,7 @@ const PrintCertificate = () => {
                         {certificateData.collegeName}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className="
-                     bg-blue-50 
-                     text-blue-600 
-                     px-3 py-1 
-                     rounded-full 
-                     text-xs 
-                     font-medium
-                   "
-                        >
+                        <span className="bg-blue-50 text-blue-600 px-3 py-1 rounded-full text-xs font-medium">
                           {certificateData.regNo}
                         </span>
                       </td>
@@ -167,34 +151,14 @@ const PrintCertificate = () => {
                         {certificateData.projectName}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span
-                          className="
-                     bg-green-50 
-                     text-green-600 
-                     px-3 py-1 
-                     rounded-full 
-                     text-xs 
-                     font-medium
-                   "
-                        >
+                        <span className="bg-green-50 text-green-600 px-3 py-1 rounded-full text-xs font-medium">
                           {certificateData.year}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <button
                           onClick={openModal}
-                          className="
-                       flex items-center 
-                       bg-blue-500 
-                       text-white 
-                       px-4 py-2 
-                       rounded-lg 
-                       hover:bg-blue-600 
-                       transition-colors 
-                       shadow-md 
-                       hover:shadow-lg 
-                       group
-                     "
+                          className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors shadow-md hover:shadow-lg group"
                         >
                           <Printer
                             className="mr-2 group-hover:rotate-12 transition-transform"
@@ -221,7 +185,7 @@ const PrintCertificate = () => {
         } bg-opacity-50 flex justify-center items-center z-50 p-4`}
       >
         <div
-          className={`bg-white w-full max-w-4xl h-[90%] rounded overflow-hidden ${
+          className={`bg-white w-full max-w-4xl h-[100%] rounded overflow-hidden ${
             isModalOpen ? "scale-100" : "scale-95"
           } transition-transform flex flex-col`}
         >
@@ -241,6 +205,7 @@ const PrintCertificate = () => {
             <CertificatePage
               ref={certificateRef}
               certificateData={certificateData}
+              studentData={studentData}
             />
           </div>
 

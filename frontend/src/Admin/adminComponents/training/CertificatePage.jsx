@@ -11,97 +11,98 @@ const formatDate = (date) => {
     .replace(/\//g, "/");
 };
 
-const CertificatePage = React.forwardRef(({ certificateData }, ref) => {
-  if (!certificateData) return null;
-  return (
-    <div
-      ref={ref}
-      className="flex flex-col justify-between h-screen border border-gray-300 p-0"
-    >
-      {/* Header Image */}
-      <div>
-        <img
-          src={headerImage}
-          alt="Certificate Header"
-          className="w-full h-48"
-        />
-      </div>
+const CertificatePage = React.forwardRef(
+  ({ certificateData, studentData }, ref) => {
+    if (!certificateData) return null;
 
-      {/* Main Content */}
-      <div className="text-center mt-[-2.5rem]">
-        <div className="w-full mb-2">
-          <div className="flex justify-center">
-            <img src={logo} alt="Company Logo" className="" />
-          </div>
-          <h4 className="mt-[-0.625rem] text-lg font-semibold">
-            Info Era Software Services Pvt. Ltd.
-          </h4>
-          <h2>ISO: 9001:2015, 27001:2013</h2>
-          <p>CIN No: U72300BR20114PTC022956</p>
-          <p>email: info@infoera.in</p>
-          <p>website: www.infoera.in</p>
-        </div>
-
-        <div className="w-full mb-2">
-          <h1 className="text-4xl font-bold">CERTIFICATE</h1>
-          <h2 className="text-2xl">OF COMPLETION</h2>
-        </div>
-
-        <div className="w-full mb-2">
-          <h3 className="text-2xl font-semibold">To Whom It May Concern</h3>
-        </div>
-
-        <div className="w-full mb-2">
-          <p className="text-lg">
-            This certificate is proudly awarded to
-            <b>{certificateData.studentName}</b>, for the completion of
-            <b>{certificateData.projectName} </b> on{" "}
-            <b>{certificateData.topic} topic</b> with Info Era Software Services
-            Pvt. Ltd. we congratulate you for your outstanding performance in
-            this training program from{" "}
-            <b>{formatDate(certificateData.fromDate)}</b> to{" "}
-            <b>{formatDate(certificateData.toDate)}</b>.
-          </p>
-        </div>
-
-        <div className="w-full mb-2">
-          <p className="text-lg">
-            This Training done by <b>{certificateData.studentName}</b>
-            {/* <b>{certificateData.projectName}</b> */},during this period was
-            excellent.
-          </p>
-        </div>
-
-        <div className="w-full mb-2">
-          <p className="text-lg italic">
-            &quot;We wish you all the best for your future endeavors&quot;
-          </p>
-        </div>
-
-        <div className="w-full mt-8">
-          <div className="flex justify-end">
-            <div className="w-1/3 border-t border-black pt-2">
-              <h4 className="text-center">
-                RAHUL RAJ
-                <br />
-                <span className="text-sm font-light">MANAGING DIRECTOR</span>
+    return (
+      <div
+        ref={ref}
+        className="flex flex-col justify-between h-screen border border-gray-300 p-6 bg-white"
+      >
+        {/* Header Section */}
+        <div className="flex justify-between items-center">
+          {/* Logo and Company Info */}
+          <div className="">
+            <img src={logo} alt="Company Logo" className="h-16 " />
+            <div className="text-sm leading-normal">
+              <h4 className="text-xl font-semibold text-nowrap">
+                Info Era Software Services Pvt. Ltd.
               </h4>
+              <h2 className="text-base font-medium">
+                ISO: 9001:2015, 27001:2013
+              </h2>
+              <p className="text-base">CIN No: U72300BR20114PTC022956</p>
+              <p className="text-base">Email: info@infoera.in</p>
+              <p className="text-base">Website: www.infoera.in</p>
+            </div>
+          </div>
+
+          {/* Header Image */}
+          <div className=" h-full">
+            <img
+              src={headerImage}
+              alt="Certificate Header"
+              className="w-full h-full"
+            />
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="text-center">
+          <h1 className="text-4xl font-bold mb-4">CERTIFICATE OF COMPLETION</h1>
+          <h3 className="text-2xl font-semibold mb-6">
+            To Whom It May Concern
+          </h3>
+
+          <div className=" text-justify text-lg leading-relaxed px-12">
+            <p className="mb-0">
+              This certificate is proudly awarded to{" "}
+              <b>{certificateData.studentName}</b> for the completion of the{" "}
+              <b>{certificateData.projectName}</b> on{" "}
+              <b>{studentData.trainingTopic}</b> with Info Era Software Services
+              Pvt. Ltd.{" "}
+            </p>
+            <p className="mb-1">
+              We Congratulate you for your outstanding performance in this
+              training program, conducted from{" "}
+              <b>{formatDate(certificateData.fromDate)}</b> to{" "}
+              <b>{formatDate(certificateData.toDate)}</b>.
+            </p>
+
+            <p className="mb-4">
+              During this period, the training undertaken by{" "}
+              <b>{certificateData.studentName}</b> was evaluated as excellent.
+            </p>
+
+            <p className="italic text-center mt-8">
+              &quot;We wish you all the best for your future endeavors.&quot;
+            </p>
+          </div>
+
+          {/* Signature Section */}
+          <div className="flex justify-start mt-20 px-12">
+            <div className="text-center">
+              <div className="border-t border-black pt-2 w-48">
+                <h4 className="text-lg font-medium">RAHUL RAJ</h4>
+                <p className="text-sm font-light">MANAGING DIRECTOR</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Footer Image */}
-      <div>
-        <img
-          src={footerImage}
-          alt="Certificate Footer"
-          className="w-full h-20"
-        />
+        {/* Footer Section */}
+        <div>
+          <img
+            src={footerImage}
+            alt="Certificate Footer"
+            className="w-full h-auto"
+          />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 // Assigning a display name to the component to avoid the ESLint warning
 CertificatePage.displayName = "CertificatePage";

@@ -14,18 +14,18 @@ exports.authenticate = async (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     // Determine if the token belongs to a User or a Customer
-    if(decoded.user && decoded.user.userId){
-       // The token belongs to a User
+    if (decoded.user && decoded.user.userId) {
+      // The token belongs to a User
       const user = await User.findById(decoded.user.userId);
-      if(user) {
+      if (user) {
         req.user = user;
         return next();
       }
     } else if (decoded.id) {
-       // The token belongs to a Customer
-      const customer = await Customer.findById(decoded.id); 
+      // The token belongs to a Customer
+      const customer = await Customer.findById(decoded.id);
       // console.log("customer details -> ",customer);
-      
+
       if (customer) {
         req.customer = customer;
         return next();
@@ -44,3 +44,16 @@ exports.isAdmin = (req, res, next) => {
   }
   next();
 };
+// Middleware to validate registration number before query
+// exports.validateRegNo = (req, res, next) => {
+//   const regNo = decodeURIComponent(req.params.regNo);
+//   const regNoPattern = /^[A-Z]{2}\/[A-Z]{3}\/\d{3}$/;
+
+//   if (!regNoPattern.test(regNo)) {
+//     return res.status(400).json({
+//       message: "Invalid registration number format",
+//     });
+//   }
+
+//   next();
+// };

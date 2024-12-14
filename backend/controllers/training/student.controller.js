@@ -75,6 +75,30 @@ exports.getStudents = async (req, res) => {
   }
 };
 
+exports.getStudentByRegistrationNo = async (req, res, next) => {
+  try {
+    const { regNo } = req.params;
+    const student = await Student.findOne({ registrationNo: regNo });
+    if (!student) {
+      return res.status(404).json({
+        success: false,
+        message: "Student not found with this registration no.",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      student,
+      message: "student has been found with this registration",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message:
+        "There was an error retrieving the student with this registration",
+      error: error.message,
+    });
+  }
+};
+
 // Delete student
 exports.deleteStudent = async (req, res) => {
   const { id } = req.params;
