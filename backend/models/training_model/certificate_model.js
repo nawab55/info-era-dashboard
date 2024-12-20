@@ -17,8 +17,9 @@ const certificateSchema = new mongoose.Schema(
       unique: true,
       trim: true, // Remove whitespace
       uppercase: true, // Normalize case
-      match: [/^[A-Z]{2}\/[A-Z]{3}\/\d{3}$/, "Invalid registration number format",],
+      match: [/^[A-Z]{2}-[A-Z]{3}-\d+$/, "Invalid registration number format"],
     },
+
     studentName: {
       type: String,
       required: true,

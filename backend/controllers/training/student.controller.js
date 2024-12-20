@@ -3,12 +3,18 @@ const Student = require("../../models/training_model/student_model");
 // Generate next registration number
 const generateRegistrationNo = async () => {
   const lastStudent = await Student.findOne().sort({ createdAt: -1 });
-  if (!lastStudent) return "IE/EDU/001";
+  if (!lastStudent) return "IE-EDU-001";
 
   const lastRegNo = lastStudent.registrationNo;
-  const [prefix, count] = lastRegNo.split("/").slice(-2);
-  const newCount = String(parseInt(count) + 1).padStart(3, "0");
-  return `IE/EDU/${newCount}`;
+  const match = lastRegNo.match(/IE-EDU-(\d+)/);
+
+  if (!match) throw new Error("Invalid registration number format");
+
+  const lastCount = parseInt(match[1], 10);
+  const newCount = lastCount + 1;
+  // Pad the number with leading zeros based on its length
+  const paddedCount = newCount.toString();
+  return `IE-EDU-${paddedCount}`;
 };
 
 // Create a new student
@@ -34,7 +40,7 @@ exports.createStudent = async (req, res) => {
 exports.getLatestRegistration = async (req, res) => {
   try {
     const latestStudent = await Student.findOne().sort({ createdAt: -1 });
-    const latest = latestStudent ? latestStudent.registrationNo : "IE/EDU/001";
+    const latest = latestStudent ? latestStudent.registrationNo : "IE-EDU-001";
     res.status(200).json({ success: true, latest });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });

@@ -50,10 +50,10 @@ const CertificatePage = React.forwardRef(
 
         {/* Main Content */}
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">CERTIFICATE OF COMPLETION</h1>
-          <h3 className="text-2xl font-semibold mb-6">
-            To Whom It May Concern
-          </h3>
+          <h3 className="text-2xl font-bold mb-4">To Whom It May Concern</h3>
+          <h1 className="text-2xl font-semibold mb-6">
+            CERTIFICATE OF COMPLETION
+          </h1>
 
           <div className=" text-justify text-lg leading-relaxed px-12">
             <p className="mb-0">

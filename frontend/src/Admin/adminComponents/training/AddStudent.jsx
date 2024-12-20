@@ -23,7 +23,7 @@ const AddStudent = () => {
     course: "",
     studentName: "",
     branch: "",
-    registrationNo: "IE/EDU/001", // Default initial format
+    registrationNo: "IE-EDU-001", // Default initial format
     yearSession: "",
     rollNo: "",
     semester: "",
@@ -127,7 +127,6 @@ const AddStudent = () => {
           emailId: "",
           language: "",
         });
-
       } catch (error) {
         console.error("There was an error adding the student:", error);
         toast.error("Failed to add student");
@@ -431,7 +430,7 @@ const InputField = ({
             }
             transition-all duration-300 ease-in-out
           `}
-        readOnly={readOnly} 
+        readOnly={readOnly}
       />
       {errors[name] && (
         <p className="text-red-500 text-xs mt-1 absolute">{errors[name]}</p>

@@ -6,6 +6,7 @@ const path = require("path");
 const mongodb = require("mongodb");
 const multer = require("multer");
 const fs = require("fs");
+// const { CORS, CORS1, CORS2, CORS3, CORS4 } = process.env;
 
 const userRoutes = require("./routes/user/user.routes");
 const employeeTypeRoutes = require("./routes/user/employeeType.routes");
@@ -31,7 +32,7 @@ const complainRoutes = require("./routes/customer/complain.routes");
 const notificationRoutes = require("./routes/notification/notification.routes");
 const queryRoutes = require("./routes/contactQuery/query.routes");
 const contactRoutes = require("./routes/contactQuery/contact.routes");
-const consultingRoutes = require("./routes/consulting/consulting.routes")
+const consultingRoutes = require("./routes/consulting/consulting.routes");
 
 dotenv.config();
 
@@ -43,9 +44,22 @@ const PORT = process.env.PORT || 5454;
 
 // Connect to the database
 connectDB();
+const corsOptions = {
+  origin: [
+    process.env.CORS,
+    process.env.CORS1,
+    process.env.CORS2,
+    process.env.CORS3,
+    process.env.CORS4,
+  ],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // Allow cookies and other credentials
+};
 
 // Middleware
-app.use(cors());
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use("/uploads", express.static("uploads")); // Serve static files from the 'uploads' directory
 
@@ -209,9 +223,6 @@ app.listen(PORT, async () => {
   // await connectDb();
   console.log(`Server running on port ${PORT}`);
 });
-
-
-
 
 // Update the route to accept multiple files
 // app.post("/api/upload-multiple", upload.array("files", 10), async (req, res) => {

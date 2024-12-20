@@ -18,17 +18,15 @@ const PrintCertificate = () => {
 
   const handleViewClick = async () => {
     try {
-      const encodedRegNo = encodeURIComponent(regNo); // Encode the regNo
-      const response = await api.get(
-        `/api/certificate/get-by-regno/${encodedRegNo}`
-      );
+      // const encodedRegNo = encodeURIComponent(regNo); // Encode the regNo
+      const response = await api.get(`/api/certificate/get-by-regno/${regNo}`);
       setCertificateData(response.data.data);
 
       const studentResponse = await api.get(
-        `/api/student/get-student/${encodedRegNo}`
+        `/api/student/get-student/${regNo}`
       );
       setStudentData(studentResponse.data.student);
-      console.log(studentData);
+      // console.log(studentData);
       toast.success("Certificate found successfully!");
     } catch (error) {
       toast.error("Certificate not Found for this Registration Number.");
