@@ -9,6 +9,6 @@ const router = express.Router();
 
 router.post("/create", createContact);
 router.get("/get-all", getAllContact);
-router.delete("/create/:id", deleteContact);
+router.delete("/delete/:id", deleteContact);
 
 module.exports = router;
