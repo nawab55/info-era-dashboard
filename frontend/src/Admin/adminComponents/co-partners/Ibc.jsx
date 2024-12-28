@@ -7,6 +7,7 @@ import {
   FileSpreadsheet,
 } from "lucide-react";
 import api from "../../../config/api";
+import { toast } from "react-toastify";
 
 const IbcTable = () => {
   const [ibcList, setIbcList] = useState([]);
@@ -54,14 +55,22 @@ const IbcTable = () => {
   }
 
   // Delete handler
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     // Implement your delete logic here
-    const updatedList = ibcList.filter((ibc) => ibc._id !== id);
-    setIbcList(updatedList);
-  };
+    try {
+      await api.delete(`/api/co-partners/ibc/delete/${id}`);
+      toast.success("IBC deleted successfully");
+      const updatedList = ibcList.filter((ibc) => ibc._id !== id);
+      setIbcList(updatedList);
+    } catch (error) {
+      console.error("Error deleting IBC data", error);
+      toast.error("Error deleting IBC data");
+    }
+    
+  }; 
 
   return (
-    <div className="flex-1 max-w-full lg:p-10 p-2">
+    <div className="flex-1 max-w-full min-h-screen lg:p-10 p-2">
       <div className="max-w-6xl mx-auto bg-white rounded border overflow-hidden">
         {/* Header with Search and Actions */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 flex flex-col md:flex-row justify-between items-center">
@@ -101,7 +110,7 @@ const IbcTable = () => {
 
         {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] table-auto">
+          <table className="w-full table-auto">
             <thead className="bg-gray-100 border-b">
               <tr>
                 {[

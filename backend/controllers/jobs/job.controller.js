@@ -40,6 +40,24 @@ const getAllJobs = async (req, res) => {
     }
 };
 
+// Get a single job-details by ID
+
+const getJobById = async (req, res) => {
+    try {
+        const jobId = req.params.id;
+
+        const job = await Job.findById(jobId);
+
+        if (!job) {
+            return res.status(404).json({ error: "Job not found" });
+        }
+
+        res.status(200).json({ job, success: true });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch job details", details: error.message });
+    }
+};
+
 // Update a job by ID
 const updateJob = async (req, res) => {
     try {
@@ -88,6 +106,7 @@ const deleteJob = async (req, res) => {
 module.exports = {
     createJob,
     getAllJobs,
+    getJobById,
     updateJob,
     deleteJob,
 }

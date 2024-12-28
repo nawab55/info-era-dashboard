@@ -8,6 +8,9 @@ router.post("/post-job", jobController.createJob);
 // Route to get all jobs (with pagination)
 router.get("/get-all-jobs", jobController.getAllJobs);
 
+// Route to get a single job-details by ID
+router.get("/:id", jobController.getJobById);
+
 // Route to update a job by ID
 router.put("/:id", jobController.updateJob);
 

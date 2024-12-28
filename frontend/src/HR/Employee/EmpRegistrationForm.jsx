@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
 import api from "../../config/api";
@@ -146,42 +147,94 @@ const EmpRegistrationForm = () => {
       if (!formData.emergencyContactAddress)
         newErrors.emergencyContactAddress = "Required";
     } else if (currentPage === 2) {
-      formData.familyDetails.forEach((familyMember, index) => {
-        if (!familyMember.fname)
-          newErrors[`familyDetails[${index}].fname`] = "Required";
-        if (!familyMember.frelation)
-          newErrors[`familyDetails[${index}].frelation`] = "Required";
-      });
-    } else if (currentPage === 3) {
-      formData.educationalDetails.forEach((educationalDetail, index) => {
-        if (!educationalDetail.edegree)
-          newErrors[`educationalDetails[${index}][edegree]`] = "Required";
-        if (!educationalDetail.euniversity)
-          newErrors[`educationalDetails[${index}][euniversity]`] = "Required";
-        if (!educationalDetail.especialization)
-          newErrors[`educationalDetails[${index}][especialization]`] =
-            "Required";
-        if (!educationalDetail.efromDate)
-          newErrors[`educationalDetails[${index}][efromDate]`] = "Required";
-        if (!educationalDetail.etoDate)
-          newErrors[`educationalDetails[${index}][etoDate]`] = "Required";
-        if (!educationalDetail.epercentage)
-          newErrors[`educationalDetails[${index}][epercentage]`] = "Required";
-      });
+      if (formData.familyDetails && formData.familyDetails.length > 0) {
+        const firstFamilyMember = formData.familyDetails[0];
+    
+        if (!firstFamilyMember.fname) {
+          newErrors[`familyDetails[0].fname`] = "Required";
+        }
+    
+        if (!firstFamilyMember.frelation || !firstFamilyMember.frelation[0]) {
+          newErrors[`familyDetails[0].frelation`] = "Required";
+        }
+      }
+    } 
+    else if (currentPage === 3) {
+      if (formData.educationalDetails && formData.educationalDetails.length > 0) {
+        const firstEducationalDetail = formData.educationalDetails[0];
+    
+        if (!firstEducationalDetail.edegree[0]) {
+          newErrors[`educationalDetails[0][edegree]`] = "Required";
+        }
+        if (!firstEducationalDetail.euniversity[0]) {
+          newErrors[`educationalDetails[0][euniversity]`] = "Required";
+        }
+        if (!firstEducationalDetail.especialization[0]) {
+          newErrors[`educationalDetails[0][especialization]`] = "Required";
+        }
+        if (!firstEducationalDetail.efromDate[0]) {
+          newErrors[`educationalDetails[0][efromDate]`] = "Required";
+        }
+        if (!firstEducationalDetail.etoDate[0]) {
+          newErrors[`educationalDetails[0][etoDate]`] = "Required";
+        }
+        if (!firstEducationalDetail.epercentage[0]) {
+          newErrors[`educationalDetails[0][epercentage]`] = "Required";
+        }
+      }
     } else if (currentPage === 4) {
-      formData.employmentDetails.forEach((employmentDetail, index) => {
-        if (!employmentDetail.companyName)
-          newErrors[`employmentDetails[${index}][companyName]`] = "Required";
-        if (!employmentDetail.designation)
-          newErrors[`employmentDetails[${index}][designation]`] = "Required";
-        if (!employmentDetail.empFromDate)
-          newErrors[`employmentDetails[${index}][empFromDate]`] = "Required";
-        if (!employmentDetail.empToDate)
-          newErrors[`employmentDetails[${index}][empToDate]`] = "Required";
-        if (!employmentDetail.annualctc)
-          newErrors[`employmentDetails[${index}][annualctc]`] = "Required";
-      });
-    } else if (currentPage === 5) {
+      if (formData.employmentDetails && formData.employmentDetails.length > 0) {
+        const firstEmploymentDetail = formData.employmentDetails[0];
+    
+        if (!firstEmploymentDetail.companyName[0]) {
+          newErrors[`employmentDetails[0][companyName]`] = "Required";
+        }
+        if (!firstEmploymentDetail.designation[0]) {
+          newErrors[`employmentDetails[0][designation]`] = "Required";
+        }
+        if (!firstEmploymentDetail.empFromDate[0]) {
+          newErrors[`employmentDetails[0][empFromDate]`] = "Required";
+        }
+        if (!firstEmploymentDetail.empToDate[0]) {
+          newErrors[`employmentDetails[0][empToDate]`] = "Required";
+        }
+        if (!firstEmploymentDetail.annualctc[0]) {
+          newErrors[`employmentDetails[0][annualctc]`] = "Required";
+        }
+      }
+    }
+    
+    // else if (currentPage === 3) {
+    //   formData.educationalDetails.forEach((educationalDetail, index) => {
+    //     if (!educationalDetail.edegree[0])
+    //       newErrors[`educationalDetails[${index}][edegree]`] = "Required";
+    //     if (!educationalDetail.euniversity[0])
+    //       newErrors[`educationalDetails[${index}][euniversity]`] = "Required";
+    //     if (!educationalDetail.especialization[0])
+    //       newErrors[`educationalDetails[${index}][especialization]`] =
+    //         "Required";
+    //     if (!educationalDetail.efromDate[0])
+    //       newErrors[`educationalDetails[${index}][efromDate]`] = "Required";
+    //     if (!educationalDetail.etoDate[0])
+    //       newErrors[`educationalDetails[${index}][etoDate]`] = "Required";
+    //     if (!educationalDetail.epercentage[0])
+    //       newErrors[`educationalDetails[${index}][epercentage]`] = "Required";
+    //   });
+    // } else if (currentPage === 4) {
+    //   formData.employmentDetails.forEach((employmentDetail, index) => {
+    //     if (!employmentDetail.companyName[0])
+    //       newErrors[`employmentDetails[${index}][companyName]`] = "Required";
+    //     if (!employmentDetail.designation[0])
+    //       newErrors[`employmentDetails[${index}][designation]`] = "Required";
+    //     if (!employmentDetail.empFromDate[0])
+    //       newErrors[`employmentDetails[${index}][empFromDate]`] = "Required";
+    //     if (!employmentDetail.empToDate[0])
+    //       newErrors[`employmentDetails[${index}][empToDate]`] = "Required";
+    //     if (!employmentDetail.annualctc[0])
+    //       newErrors[`employmentDetails[${index}][annualctc]`] = "Required";
+    //   });
+    // } 
+    else if (currentPage === 5) {
       if (!formData.bankAccName) newErrors.bankAccName = "Required";
       if (!formData.accountNumber) newErrors.accountNumber = "Required";
       if (!formData.ifscCode) newErrors.ifscCode = "Required";
@@ -203,6 +256,7 @@ const EmpRegistrationForm = () => {
   // };
   const handleFileChange = (e) => {
     const { name, files } = e.target;
+    // console.log(files)
     setFormData((prevData) => ({
       ...prevData,
       [name]: files[0],
@@ -211,6 +265,8 @@ const EmpRegistrationForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    // console.log(name, ":", value);
+    
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -386,7 +442,7 @@ const EmpRegistrationForm = () => {
                     />
 
                     <CustomInput
-                      label={"Alternative Mobile No."}
+                      label={"Date Of Birth."}
                       name={"dob"}
                       type="date"
                       value={formData.dob}
@@ -466,7 +522,7 @@ const EmpRegistrationForm = () => {
                       name={"aadhaarFrontImage"}
                       type="file"
                       accept="image/*"
-                      onChange={handleChange}
+                      onChange={handleFileChange}
                       error={errors.aadhaarFrontImage}
                     />
                     <CustomInput
@@ -474,7 +530,7 @@ const EmpRegistrationForm = () => {
                       name={"aadhaarBackImage"}
                       type="file"
                       accept="image/*"
-                      onChange={handleChange}
+                      onChange={handleFileChange}
                       error={errors.aadhaarBackImage}
                     />
 
@@ -505,7 +561,7 @@ const EmpRegistrationForm = () => {
                       name={"panImage"}
                       type="file"
                       accept="image/*"
-                      onChange={handleChange}
+                      onChange={handleFileChange}
                       error={errors.panImage}
                     />
 
@@ -583,9 +639,9 @@ const EmpRegistrationForm = () => {
                   />
                   <CustomInput
                     label={"Mobile Number"}
-                    name={"emergencyContactRelation"}
+                    name={"emergencyContactMobile"}
                     type="text"
-                    placeholder="Enter Relation.."
+                    placeholder="Enter Number.."
                     value={formData.emergencyContactMobile}
                     onChange={handleChange}
                     error={errors.emergencyContactMobile}
@@ -1187,7 +1243,7 @@ const EmpRegistrationForm = () => {
                   onClick={openPreview}
                 >
                   Preview
-                </button> */}
+              </button> */}
             </div>
             {/* Save Button - only visible on the last page */}
             {currentPage === totalPages && (
@@ -1440,7 +1496,7 @@ function CustomSelect({ label, options, selectedOption, onChange, error }) {
         >
           {options.map((option, index) => (
             <li
-              key={option._id}
+              key={option._id || index}
               id={`option-${index}`}
               role="option"
               aria-selected={selectedOption === option}

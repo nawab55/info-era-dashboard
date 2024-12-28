@@ -55,3 +55,20 @@ exports.getAllIbc = async (req, res) => {
       .json({ message: "Error fetching IBC registrations", error });
   }
 };
+
+// Delete IBC registration by its ID
+
+exports.deleteIbc = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedIbc = await Ibc.findByIdAndDelete(id);
+
+    if (!deletedIbc) {
+      return res.status(404).json({ message: "IBC not found" });
+    }
+
+    res.status(200).json({ message: "IBC deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting IBC", error });
+  }
+};

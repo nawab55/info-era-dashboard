@@ -14,6 +14,10 @@ const registerEmployee = async (req, res) => {
     formData.aadhaarBackImage = req.files && req.files.aadhaarBackImage ? `${baseUrl}${req.files.aadhaarBackImage[0].filename}` : formData.aadhaarBackImage;
     formData.panImage = req.files && req.files.panImage ? `${baseUrl}${req.files.panImage[0].filename}` : formData.panImage;
 
+    // Convert role field to lowercase
+    if (formData.role) {
+      formData.role = formData.role.toLowerCase();
+    }
     // Check if user already exists
     let user = await User.findOne({ email: formData.email });
     if (user) {

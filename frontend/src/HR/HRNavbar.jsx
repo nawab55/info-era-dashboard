@@ -73,22 +73,22 @@ const HRNavbar = ({ setSidebarToggle }) => {
             >
               <ul className="py-2 text-sm text-gray-700">
                 <li>
-                  <button
+                  <div
                     className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
                     onClick={handleProfile}
                   >
                     <User className="text-blue-500" />
                     <span>Profile</span>
-                  </button>
+                  </div>
                 </li>
                 <li>
-                  <button
+                  <div
                     className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt className="text-red-500" />
                     <span>Logout</span>
-                  </button>
+                  </div>
                 </li>
               </ul>
             </div>

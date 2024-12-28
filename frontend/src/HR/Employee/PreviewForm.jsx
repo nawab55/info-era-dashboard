@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 import {X} from "lucide-react";
 
 const PreviewForm = ({ isOpen, onClose, formData }) => {
+  if (!isOpen) return null;
   // Destructure formData
   const {
     name,
@@ -37,6 +39,14 @@ const PreviewForm = ({ isOpen, onClose, formData }) => {
     signature,
   } = formData;
 
+    // Helper to safely create URLs
+    // const getPreviewURL = (file) => {
+    //   if (file instanceof File || file instanceof Blob) {
+    //     return URL.createObjectURL(file);
+    //   }
+    //   return ""; // Fallback or default image URL
+    // };
+
   return (
     <div className={`fixed ${isOpen?'opacity-100 pointer-events-auto':'opacity-0 pointer-events-none'} transition-opacity inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm`}>
       <div className={`bg-white rounded-2xl shadow-2xl p-6 max-w-4xl w-full max-h-[90vh] relative transition-transform overflow-hidden ${isOpen?'scale-y-100':'scale-y-90'}` }>
@@ -53,8 +63,8 @@ const PreviewForm = ({ isOpen, onClose, formData }) => {
         </div>
 
         <div
-          className="overflow-y-auto pr-4"
-          style={{ maxHeight: "calc(90vh - 120px)" }}
+          className="overflow-y-auto pr-4  max-h-[70vh]"
+          // style={{ maxHeight: "calc(90vh - 120px)" }}
         >
           {/* Personal Information Section */}
           <section className="mb-6">
@@ -152,6 +162,7 @@ const PreviewForm = ({ isOpen, onClose, formData }) => {
                   <p className="text-gray-600 text-sm mb-2">PAN Image</p>
                   <img
                     src={URL.createObjectURL(panImage)}
+                    // src={getPreviewURL(panImage)}
                     className="w-full rounded-md shadow-sm"
                     alt="PAN"
                   />
@@ -326,6 +337,7 @@ const PreviewForm = ({ isOpen, onClose, formData }) => {
               <div className="bg-gray-50 p-3 rounded-lg flex justify-center">
                 <img
                   src={URL.createObjectURL(signature)}
+                  // src={getPreviewURL(signature)}
                   alt="Employee Signature"
                   className="max-h-40 rounded-md shadow-sm"
                 />
