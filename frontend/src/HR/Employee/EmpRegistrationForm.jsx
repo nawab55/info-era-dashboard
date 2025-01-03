@@ -4,6 +4,7 @@ import { FiChevronDown } from "react-icons/fi";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import PreviewForm from "./PreviewForm";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const EmpRegistrationForm = () => {
   const [formData, setFormData] = useState({
@@ -353,7 +354,7 @@ const EmpRegistrationForm = () => {
       }
     } catch (error) {
       console.error("Error submitting the form:", error);
-      toast.error("Failed to submit the form.");
+      toast.error("Failed to submit the form.", error.message);
     }
   };
 
@@ -459,6 +460,7 @@ const EmpRegistrationForm = () => {
                       onChange={handleChange}
                       error={errors.email}
                     />
+
                     <CustomInput
                       label={"Password"}
                       placeholder="Enter Password"
@@ -1056,6 +1058,7 @@ const EmpRegistrationForm = () => {
                           </td>
                           <td className="py-3 px-4 border border-gray-300">
                             <CustomInput
+                              type="text"
                               label="Annual CTC"
                               name={`employmentDetails[${index}][annualctc]`}
                               value={empDetail.annualctc || ""}
@@ -1289,6 +1292,12 @@ function CustomInput({
   error,
   onChange,
 }) {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible((prevState) => !prevState);
+  };
+  const isPasswordField = type === "password";
+
   return (
     <div className="flex-1 mb-4">
       <label
@@ -1299,7 +1308,8 @@ function CustomInput({
       </label>
       <div className="relative">
         <input
-          type={type}
+          // type={type}
+          type={isPasswordField && isPasswordVisible ? "text" : type}
           id={name}
           name={name}
           value={value}
@@ -1309,6 +1319,15 @@ function CustomInput({
             error ? "border-red-500 focus:ring-red-500" : "border-gray-300"
           }`}
         />
+        {isPasswordField && (
+          <button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+          >
+            {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+          </button>
+        )}
         {error && <span className=" text-red-500 text-sm">{error}</span>}
       </div>
     </div>

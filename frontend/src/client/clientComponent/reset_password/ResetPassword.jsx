@@ -56,7 +56,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br flex-1 from-blue-100 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br flex-1 from-blue-100 to-indigo-100 flex  justify-center p-6">
       <div className="w-full max-w-7xl">
         {/* Header */}
         <div className="bg-white rounded-t-xl shadow-lg p-6 mb-1">

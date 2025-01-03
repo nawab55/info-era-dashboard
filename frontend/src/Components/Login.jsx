@@ -55,7 +55,7 @@ const Login = () => {
       }
     } catch (error) {
       // Handle error during request
-      toast.info(`Login failed due to ${error.response.data.message}`);
+      toast.info(`Login failed ${error.message}`);
       console.error("Error during login request", error);
     }
   };

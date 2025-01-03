@@ -42,7 +42,11 @@ const Navbar = ({ setSidebarToggle }) => {
 
   return (
     <>
-      <nav className="sticky top-0 w-full bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 z-20 h-16 shadow-lg flex items-center px-4 md:px-8">
+      <nav className="sticky top-0 w-full bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 z-20 h-16 shadow-lg flex items-center px-4 md:px-8"
+        style={{
+          background: "linear-gradient(to right, #ebf8ff, #3182ce, #2c5282, #1a365d)",
+        }}
+      >
         <div className="flex flex-1 items-center">
           <HiMenuAlt3
             size={26}
@@ -69,22 +73,22 @@ const Navbar = ({ setSidebarToggle }) => {
             >
               <ul className="py-2 text-sm text-gray-700">
                 <li>
-                  <button
+                  <div
                     className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
                     onClick={handleProfile}
                   >
                     <User className="text-blue-500" />
                     <span>Profile</span>
-                  </button>
+                  </div>
                 </li>
                 <li>
-                  <button
+                  <div
                     className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt className="text-red-500" />
                     <span>Logout</span>
-                  </button>
+                  </div>
                 </li>
               </ul>
             </div>

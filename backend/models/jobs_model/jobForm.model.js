@@ -52,6 +52,10 @@ const jobFormSchema = new mongoose.Schema(
       fileType: String,
       fileName: String,
     },
+    // resume: {
+    //   type: String,
+    //   required: true, // Validate file type and size in middleware
+    // }
   },
   { timestamps: true }
 );

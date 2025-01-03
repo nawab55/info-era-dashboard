@@ -1,8 +1,8 @@
 import axios from "axios";
-// const LOCALHOST = "https://api.infoera.in";  
-const LOCALHOST = "http://localhost:5454";
+// const BACKEND_API = "https://api.infoera.in";  
+const BACKEND_API = "http://localhost:5454";
 
-export const API_BASE_URL = LOCALHOST;
+export const API_BASE_URL = BACKEND_API;
 
 const api = axios.create({
   baseURL: API_BASE_URL,

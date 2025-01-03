@@ -72,7 +72,7 @@ const loginUser = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const user = await User.findById(userId).select('-password -mobile');  // Exclude password,mobile from the response
+    const user = await User.findById(userId).select('-password');  // Exclude password,mobile from the response
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });

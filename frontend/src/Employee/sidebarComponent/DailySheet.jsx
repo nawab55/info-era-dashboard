@@ -37,7 +37,7 @@ const DailySheet = () => {
       const response = await api.get(`/api/worksheet/view/${empId}`, {
         params: { date },
       });
-      // console.log(response.data);
+      console.log(response.data);
       if (response.data) {
         setFormData({
           date: response.data[0].date,

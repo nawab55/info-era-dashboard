@@ -42,7 +42,11 @@ const AccountNavbar = ({ setSidebarToggle }) => {
 
   return (
     <>
-      <nav className="sticky top-0 w-full bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 z-20 h-16 shadow-lg flex items-center px-4 md:px-8">
+      <nav className="sticky top-0 w-full bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 z-20 h-16 shadow-lg flex items-center px-4 md:px-8"
+         style={{
+          background: "linear-gradient(to right, #ebf8ff, #3182ce, #2c5282, #1a365d)",
+        }}
+      >
         <div className="flex flex-1 items-center">
           <HiMenuAlt3
             size={26}

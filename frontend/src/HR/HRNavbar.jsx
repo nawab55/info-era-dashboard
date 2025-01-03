@@ -34,6 +34,7 @@ const HRNavbar = ({ setSidebarToggle }) => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response.data.user);
       setEmployeeDetails(response.data.user);
     } catch (error) {
       console.error("Error fetching employee details:", error);
@@ -43,9 +44,9 @@ const HRNavbar = ({ setSidebarToggle }) => {
   return (
     <>
       <nav className="sticky top-0 w-full z-20 h-16 shadow-lg flex items-center px-4 md:px-8"
-      style={{
-        background: "linear-gradient(to right, #ebf8ff, #3182ce, #2c5282, #1a365d)",
-      }}
+        style={{
+          background: "linear-gradient(to right, #ebf8ff, #3182ce, #2c5282, #1a365d)",
+        }}
       >
         <div className="flex flex-1 items-center">
           <HiMenuAlt3

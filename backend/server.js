@@ -59,8 +59,9 @@ const corsOptions = {
 
 // Middleware
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads")); // Serve static files from the 'uploads' directory
 
 app.get("/", (req, res) => {
@@ -109,9 +110,13 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+   storage: storage, 
+   limits: { fileSize: 2 * 1024 * 1024 } // Limit file size to 2MB
+});
 
 const client = new mongodb.MongoClient(process.env.MONGO_URI);
+// const client = new mongodb.MongoClient(process.env.MONGO_UPLOAD_URI);
 
 client.connect((err) => {
   if (err) {
@@ -127,6 +132,9 @@ const bucket = new mongodb.GridFSBucket(db, { bucketName: "myCustomBucket" });
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
   const { fileType } = req.body;
+  console.log("File received:", file);
+  console.log("FileType received:", fileType);
+
   if (!fileType) {
     return res
       .status(400)
@@ -143,7 +151,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
     const { filename, path } = file;
     const uploadStream = bucket.openUploadStream(filename, {
       chunkSizeBytes: 102400,
-      metadata: { field: "fileType", value: fileType },
+      metadata: { fileld: "fileType", value: fileType },
     });
 
     fs.createReadStream(path)
@@ -163,6 +171,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
           fileId: uploadStream.id,
         });
       });
+      console.log("File Uploaded to Database", uploadStream)
   } catch (error) {
     console.error(error);
     return res
