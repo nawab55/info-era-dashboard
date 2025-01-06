@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Modal from "react-modal";
+import { FiCalendar, FiDollarSign, FiSmile } from "react-icons/fi";
 import api from "../config/api";
 
 // Ensure the app element is set for accessibility with react-modal
@@ -10,6 +11,11 @@ const EmpHome = () => {
   const [isBirthday, setIsBirthday] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [birthdayImage, setBirthdayImage] = useState(""); // Store random birthday image
+  // const [dummyStats, setDummyStats] = useState({
+  //   attendance: 92,
+  //   leaves: 8,
+  //   salary: 50000,
+  // });
 
   // Fetch a random birthday image from Unsplash
   const fetchRandomBirthdayImage = async () => {
@@ -60,23 +66,33 @@ const EmpHome = () => {
 
   return (
     <section className="flex-1 bg-blue-gray-50 px-4 py-6">
-      <div className="bg-teal-200 p-5 text-center text-gray-700 shadow-lg">Home</div>
-      <div className="flex justify-between px-8 bg-orange-100 mt-4 py-5 text-gray-700 shadow-lg">
-        <h1>Attendance</h1>
-        <div>Value</div>
+       <div className="text-center bg-gradient-to-r from-teal-500 to-blue-500 text-white p-6 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-semibold">Welcome, {employee?.name || "Employee"}!</h1>
+        <p className="text-lg mt-2">Here&apos;s your dashboard overview</p>
       </div>
-      <div className="flex justify-between px-8 bg-lime-100 mt-4 py-5 text-center text-gray-700 shadow-lg">
-        <h1>Leave</h1>
-        <div>Value</div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+      <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+          <FiCalendar className="text-teal-500 text-4xl mx-auto" />
+          <h2 className="text-xl font-semibold mt-4">Attendance</h2>
+          <p className="text-lg mt-2">{70}%</p>
+          {/* <p className="text-lg mt-2">{dummyStats.attendance}%</p> */}
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+          <FiSmile className="text-orange-500 text-4xl mx-auto" />
+          <h2 className="text-xl font-semibold mt-4">Leaves Taken</h2>
+          <p className="text-lg mt-2">{5}</p>
+          {/* <p className="text-lg mt-2">{dummyStats.leaves}</p> */}
+        </div>
+        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+          <FiDollarSign className="text-yellow-500 text-4xl mx-auto" />
+          <h2 className="text-xl font-semibold mt-4">Salary</h2>
+          <p className="text-lg mt-2">₹{40000}</p>
+          {/* <p className="text-lg mt-2">₹{dummyStats.salary}</p> */}
+        </div>
+
       </div>
-      <div className="flex justify-between px-8 bg-yellow-100 mt-4 py-5 text-center text-gray-700 shadow-lg">
-        <h1>Salary</h1>
-        <div>Value</div>
-      </div>
-      <div className="bg-amber-100 mt-4 py-5 text-center text-gray-700 shadow-lg">Box 1</div>
-      <div className="bg-cyan-100 mt-4 py-5 text-center text-gray-700 shadow-lg">Box 2</div>
-      <div className="bg-green-100 mt-4 py-5 text-center text-gray-700 shadow-lg">Box 3</div>
-      <div className="bg-green-100 mt-4 py-5 text-center text-gray-700 shadow-lg">Box 4</div>
+      
 
       {isBirthday && (
         <Modal

@@ -76,6 +76,8 @@ import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetail
 import Complain from "./client/clientComponent/service/Complain";
 import AuthLogin from "./Components/AuthLogin";
 import NotFound from "./NotFound";
+import ForgotPassword from "./Components/ForgotPassword";
+import UpdatePassword from "./Components/ResetPassword";
 
 function App() {
   return (
@@ -87,6 +89,8 @@ function App() {
           <Route path="/" element={<Login />} />
         </Route>
         <Route path="/client_login" element={<ClientLogin />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:userId/:token" element={<UpdatePassword />} />
         {/* <Route path="/register" element={<Register />} /> */}
         {/* <Route path="/" element={<Home />} /> */}
 
@@ -160,16 +164,16 @@ function App() {
           </Route>
 
           {/* Employee Dashboard  */}
-          <Route path="/employee" element={<Layout />}>
-            <Route index element={<EmpHome />} />
-            <Route path="worklist" element={<WorkList />} />
-            <Route path="dailysheet" element={<DailySheet />} />
-            <Route path="attendance/add" element={<Attendance />} />
-            <Route path="attendance/view" element={<ViewAttendance />} />
-            <Route path="leaves" element={<LeaveApplication />} />
-            <Route path="alerts" element={<Notification />} />
-            <Route path="report-problem" element={<ReportAProblem />} />
-          </Route>
+            <Route path="/employee" element={<Layout />}>
+              <Route index element={<EmpHome />} />
+              <Route path="worklist" element={<WorkList />} />
+              <Route path="dailysheet" element={<DailySheet />} />
+              <Route path="attendance/add" element={<Attendance />} />
+              <Route path="attendance/view" element={<ViewAttendance />} />
+              <Route path="leaves" element={<LeaveApplication />} />
+              <Route path="alerts" element={<Notification />} />
+              <Route path="report-problem" element={<ReportAProblem />} />
+            </Route>
         </Route>
 
         {/* Client Dashboard */}

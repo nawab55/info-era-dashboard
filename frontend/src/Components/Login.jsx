@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 // import axios from "axios";
 import { toast } from "react-toastify";
 import api from "../config/api";
@@ -22,6 +22,7 @@ const Login = () => {
   };
 
   const navigate = useNavigate();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -55,7 +56,7 @@ const Login = () => {
       }
     } catch (error) {
       // Handle error during request
-      toast.info(`Login failed ${error.message}`);
+      toast.info(`Login failed Something went wrong`);
       console.error("Error during login request", error);
     }
   };
@@ -138,12 +139,13 @@ const Login = () => {
                       Remember me
                     </span>
                   </label>
-                  <a
-                    href="#"
-                    className="text-sm text-indigo-600 hover:text-indigo-700"
+                  <NavLink
+                    to="/forgot-password"
+                    className="text-sm text-indigo-600 hover:text-indigo-700 hover:underline"
+                    // target="_blank"
                   >
                     Forgot password?
-                  </a>
+                  </NavLink>
                 </div>
 
                 <div>

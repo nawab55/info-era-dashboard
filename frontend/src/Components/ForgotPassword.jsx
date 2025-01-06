@@ -1,0 +1,84 @@
+import { useState } from "react";
+import api from "../config/api";
+import { toast } from "react-toastify";
+import { FiMail } from "react-icons/fi";
+
+const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await api.post("api/user/forgot-password", { email });
+      toast.success(response.data.message);
+      setEmail("");
+    } catch (error) {
+      toast(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+      console.log(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div
+      className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-contain bg-center px-4 lg:px-0 lg:gap-16"
+      style={{
+        backgroundImage: `url('/forgotbg-image.webp')`,
+      }}
+    >
+      {/* Image Section */}
+      <div className="lg:w-[35%] mb-8 lg:mb-0">
+        <img
+          src="/forgot-password.png"
+          alt="Forgot Password Illustration"
+          className="w-full max-w-md mx-auto lg:max-w-full rounded-lg"
+        />
+      </div>
+
+      {/* Form Section */}
+      <div className="lg:w-1/2 bg-white p-8 rounded-lg border w-full max-w-md shadow-lg">
+        <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
+          Forgot Password
+        </h2>
+        <p className="text-gray-600 mb-6 text-justify">
+          Enter your email address below and we will send you a link to reset
+          your password.
+        </p>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="relative">
+            <FiMail
+              className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"
+              size={20}
+            />
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className={`w-full py-2 text-white font-semibold rounded-md ${
+              loading
+                ? "bg-blue-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            } transition`}
+          >
+            {loading ? "Sending..." : "Send Reset Link"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ForgotPassword;

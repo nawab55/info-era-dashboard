@@ -237,7 +237,7 @@ const Worksheet = () => {
             </div>
 
             {/* Conditional Fields */}
-            {selectedType === "Software Engineer" && (
+            {(selectedType === "Software Engineer" || selectedType === "Software Developer") && (
               <>
                 <div className="">
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
