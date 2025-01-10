@@ -5,9 +5,11 @@ import "./index.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { WorkProvider } from "./context/WorkContext.jsx";
+import { UserProvider } from "./context/UserContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <UserProvider>
     <WorkProvider>
       <App />
       <ToastContainer
@@ -24,5 +26,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         bodyClassName="toastBody"
       />
     </WorkProvider>
+    </UserProvider>
   </React.StrictMode>
 );

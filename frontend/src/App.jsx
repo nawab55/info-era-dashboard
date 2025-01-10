@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+// import "./App.css";
 import Login from "./Components/Login";
 // import Register from "./Components/Register";
 import AuthGuard from "./Components/AuthGuard";
@@ -43,6 +43,8 @@ import DomainReports from "./Account/AccountSidebarComponent/DomainReports";
 import EmpRegReports from "./HR/Report/EmpRegReports";
 import WorksheetReports from "./HR/Report/WorksheetReports";
 import EmployeeType from "./HR/Employee/EmployeeType";
+import ExcelForm from "./HR/worksheet/ExcelForm";
+
 
 // Admin Dashboard
 import AdminLayout from "./Admin/AdminLayout";
@@ -78,6 +80,8 @@ import AuthLogin from "./Components/AuthLogin";
 import NotFound from "./NotFound";
 import ForgotPassword from "./Components/ForgotPassword";
 import UpdatePassword from "./Components/ResetPassword";
+import UploadFile from "./HR/worksheet/UploadFile";
+import ViewAndEditFile from "./HR/worksheet/ViewAndEditFile";
 
 function App() {
   return (
@@ -126,6 +130,9 @@ function App() {
             <Route index element={<HRHome />} />
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
+            <Route path="worksheet/excel" element={<ExcelForm />} />
+            <Route path="worksheet/upload" element={<UploadFile />} />
+            <Route path="worksheet/view-edit" element={<ViewAndEditFile />} />
             <Route path="attendance" element={<HRAttendance />} />
             <Route path="leaves" element={<ViewLeaveApplication />} />
             <Route path="alerts" element={<Alerts />} />

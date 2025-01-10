@@ -17,44 +17,55 @@ const createWorksheet = async (req, res) => {
   try {
     const { empId, empName, designation, date, projectName, work } = req.body;
     const { file } = req;
-    
+
+    // Create a new worksheet object
     const newWorksheet = new Worksheet({
       empId,
       empName,
       designation,
       date,
+      projectName,
+      work,
     });
 
-    // If projectName and work exist, it means the type is Developer
-    if (projectName && work) {
-      newWorksheet.projectName = projectName;
-      newWorksheet.work = work;
-    }
-
-    // If file exists, it means the type is Telecaller
+    // If file exists, parse it
     if (file) {
       const buffer = file.buffer;
       const workbook = XLSX.read(buffer, { type: "buffer" });
-      const firstSheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[firstSheetName];
-      
-      // Convert the worksheet to JSON and store it in the excelData field
-      const excelData = XLSX.utils.sheet_to_json(worksheet);
-      // Map excelData to schema format
-      const formattedData = excelData.slice(0).map((row, index) => {
-        console.log('Row:', row); // Log each row for inspection
-        return {
+
+      // Initialize an empty array to store all sheet data
+      let allSheetsData = [];
+
+      // Iterate through all sheet names and store data
+      workbook.SheetNames.forEach((sheetName) => {
+        const worksheet = workbook.Sheets[sheetName];
+        const excelData = XLSX.utils.sheet_to_json(worksheet); // Parse sheet data into JSON
+
+        // Format the sheet data into the correct schema format
+        const formattedData = excelData.map((row, index) => ({
           sNo: index + 1,
-          firstName: row['First Name'], // Access properties by their correct keys
-          lastName: row['Last Name'],
-          gender: row['Gender'],
-          country: row['Country'],
-          age: row['Age'],
-          date: row['Date'],
-          id: row['Id'],
-        };
+          domainName: row['domain_name'] || "", 
+          creationDate: row['create_date'] || "",
+          expiryDate: row['expiry_date'] || "",
+          domainRegistrarName: row['domain_registrar_name'] || "",
+          registrantName: row['registrant_name'] || "",
+          registrantCompany: row['registrant_company'] || "",
+          registrantCity: row['registrant_city'] || "",
+          registrantState: row['registrant_state'] || "",
+          registrantZip: row['registrant_zip'] || "",
+          registrantCountry: row['registrant_country'] || "",
+          registrantEmail: row['registrant_email'] || "",
+          registrantPhone: row['registrant_phone'] || "",
+          response: row['Response'] || "",
+          remark: row['remark'] || "",
+          action: row['action'] || "",
+        }));
+
+        // Push formatted data to the allSheetsData array
+        allSheetsData.push({ sheetName, data: formattedData });
       });
-      newWorksheet.excelData = formattedData; // Store the actual data, not just the object IDs
+      // Now assign the formatted data to the excelData field in the worksheet
+      newWorksheet.excelData = allSheetsData.flatMap(sheet => sheet.data);
     }
 
     // Save the new worksheet to the database
@@ -62,9 +73,12 @@ const createWorksheet = async (req, res) => {
 
     res.status(201).json(savedWorksheet);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Error creating worksheet", error: error.message });
   }
 };
+
+
 // Get worksheet by employee ID and date
 const getWorksheetByDate = async (req, res) => {
   try {
@@ -90,20 +104,17 @@ const getWorksheetData = async (req, res) => {
   try {
     const { empId } = req.params;
     const worksheetData = await Worksheet.find({ empId });
-    if (!worksheetData) {
-      return res.status(404).json({ message: "worksheet not found " });
+    if (!worksheetData || worksheetData.length === 0) {
+      return res.status(404).json({ message: "No worksheet data found" });
     }
-    res
-      .status(200)
-      .json({
+
+    res.status(200).json({
         worksheetData,
         message: "data getting for worksheet is successfully",
       });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({ message: "Error fetching worksheet", error: error.message });
+    res.status(500).json({ message: "Error fetching worksheet", error: error.message });
   }
 };
 
@@ -120,8 +131,8 @@ const updateWorksheet = async (req, res) => {
     }
 
     // Update the worksheet fields
-    worksheet.projectName = projectName;
-    worksheet.work = work;
+    // worksheet.projectName = projectName;
+    // worksheet.work = work;
     worksheet.workDone = workDone;
 
     // Save the updated worksheet

@@ -37,13 +37,13 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-fuchsia-200 via-violet-200 to-slate-100 py-12 px-6">
-      <div className="max-w-md w-full bg-white p-8 rounded-lg shadow-lg border border-gray-300">
-        <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Reset Password</h2>
+    <div className="flex items-center justify-center min-h-screen px-6 py-12 bg-gradient-to-r from-fuchsia-200 via-violet-200 to-slate-100">
+      <div className="w-full max-w-md p-8 bg-white border border-gray-300 rounded-lg shadow-lg">
+        <h2 className="mb-6 text-3xl font-semibold text-center text-gray-800">Reset Password</h2>
         <form onSubmit={handleSubmit}>
           {/* New Password Field */}
-          <div className="mb-6 relative">
-            <label htmlFor="password" className="block text-gray-700 font-medium mb-2">New Password</label>
+          <div className="relative mb-6">
+            <label htmlFor="password" className="block mb-2 font-medium text-gray-700">New Password</label>
             <input
               type={isPasswordVisible ? 'text' : 'password'}
               id="password"
@@ -55,15 +55,15 @@ const UpdatePassword = () => {
             />
             <span
               onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-              className="absolute right-3 top-1/2  text-gray-500 cursor-pointer"
+              className="absolute text-gray-500 cursor-pointer right-3 top-12"
             >
               {isPasswordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
             </span>
           </div>
 
           {/* Confirm Password Field */}
-          <div className="mb-6 relative">
-            <label htmlFor="confirmPassword" className="block text-gray-700 font-medium mb-2">Confirm Password</label>
+          <div className="relative mb-6">
+            <label htmlFor="confirmPassword" className="block mb-2 font-medium text-gray-700">Confirm Password</label>
             <input
               type={isConfirmPasswordVisible ? 'text' : 'password'}
               id="confirmPassword"
@@ -75,7 +75,7 @@ const UpdatePassword = () => {
             />
             <span
               onClick={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}
-              className="absolute right-3 top-1/2  text-gray-500 cursor-pointer"
+              className="absolute text-gray-500 cursor-pointer right-3 top-12"
             >
               {isConfirmPasswordVisible ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
             </span>
@@ -84,7 +84,7 @@ const UpdatePassword = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full py-3 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             Reset Password
           </button>

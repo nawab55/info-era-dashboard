@@ -1,9 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import api from "../../config/api";
 
 const CustomerForm = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     mobile: "",
@@ -14,8 +14,8 @@ const CustomerForm = () => {
     aadharNo: "",
     profileImage: null,
   });
-  const [modalOpen, setModalOpen] = React.useState(false);
-  const [submittedData, setSubmittedData] = React.useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [submittedData, setSubmittedData] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -51,6 +51,7 @@ const CustomerForm = () => {
 
       // Set submitted customer data to display in modal
       setSubmittedData(response.data.newCustomer);
+      console.log(response.data.newCustomer);
       // Open modal after successful submission
       setModalOpen(true);
 
@@ -78,19 +79,19 @@ const CustomerForm = () => {
   const labelClasses = "block text-sm font-medium text-gray-700 mb-1";
 
   return (
-    <div className="flex-1 bg-gray-50 lg:p-6 p-2 min-h-screen">
-      <div className="mx-auto bg-white rounded border border-gray-100 lg:p-8 p-4">
+    <div className="flex-1 min-h-screen p-2 bg-gray-50 lg:p-6">
+      <div className="p-4 mx-auto bg-white border border-gray-100 rounded lg:p-8">
         <div className="flex justify-center mb-6">
           <h1
             id="header"
-            className="p-2 text-center font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700 text-2xl"
+            className="p-2 text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700"
           >
             Customer Details
           </h1>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <label className={labelClasses} htmlFor="name">
                 Name
@@ -226,7 +227,7 @@ const CustomerForm = () => {
                 name="profileImage"
                 id="profileImage"
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded bg-gray-50 focus:bg-white transition-all duration-200 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600 file:cursor-pointer"
+                className="w-full px-4 py-3 transition-all duration-200 border border-gray-200 rounded outline-none bg-gray-50 focus:bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600 file:cursor-pointer"
                 accept="image/*"
               />
             </div>
@@ -235,7 +236,7 @@ const CustomerForm = () => {
           <div className="flex justify-center mt-8">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-3 px-8 rounded hover:bg-blue-600 transition duration-200 font-medium shadow-sm hover:shadow-md"
+              className="px-8 py-3 font-medium text-white transition duration-200 bg-blue-500 rounded shadow-sm hover:bg-blue-600 hover:shadow-md"
             >
               Submit Details
             </button>
@@ -244,9 +245,9 @@ const CustomerForm = () => {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4">
-          <div className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6">
-            <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50">
+          <div className="bg-white rounded-xl max-w-lg w-full max-h-[80vh] overflow-y-auto p-6">
+            <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
               Submitted Details
             </h2>
             {submittedData && (
@@ -257,7 +258,7 @@ const CustomerForm = () => {
                       <span className="text-sm font-medium text-gray-500 capitalize">
                         {key.replace(/([A-Z])/g, " $1").trim()}
                       </span>
-                      <span className="text-gray-800 mt-1">{value}</span>
+                      <span className="mt-1 text-gray-800">{value}</span>
                     </div>
                   ) : (
                     value && (
@@ -266,9 +267,9 @@ const CustomerForm = () => {
                           Profile Image
                         </span>
                         <img
-                          src={URL.createObjectURL(value)}
+                          src={value}
                           alt="Profile"
-                          className="mt-2 h-24 w-24 object-cover rounded"
+                          className="object-cover w-24 h-24 mt-2 rounded"
                         />
                       </div>
                     )
@@ -278,7 +279,7 @@ const CustomerForm = () => {
             )}
 
             <button
-              className="mt-6 w-full bg-blue-500 text-white py-3 px-4 rounded hover:bg-blue-600 transition duration-200 font-medium"
+              className="w-full px-4 py-3 mt-6 font-medium text-white transition duration-200 bg-blue-500 rounded hover:bg-blue-600"
               onClick={closeModal}
             >
               Close

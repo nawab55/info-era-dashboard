@@ -66,28 +66,28 @@ const EmpHome = () => {
 
   return (
     <section className="flex-1 bg-blue-gray-50 px-4 py-6">
-       <div className="text-center bg-gradient-to-r from-teal-500 to-blue-500 text-white p-6 rounded-lg shadow-lg">
+       <div className="text-center bg-gradient-to-r from-teal-500 to-blue-500 text-white p-6 rounded-lg border">
         <h1 className="text-2xl font-semibold">Welcome, {employee?.name || "Employee"}!</h1>
         <p className="text-lg mt-2">Here&apos;s your dashboard overview</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-      <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+      <div className="bg-white p-6 rounded-lg border text-center">
           <FiCalendar className="text-teal-500 text-4xl mx-auto" />
           <h2 className="text-xl font-semibold mt-4">Attendance</h2>
-          <p className="text-lg mt-2">{70}%</p>
+          <p className="text-lg mt-2"></p>
           {/* <p className="text-lg mt-2">{dummyStats.attendance}%</p> */}
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+        <div className="bg-white p-6 rounded-lg border text-center">
           <FiSmile className="text-orange-500 text-4xl mx-auto" />
           <h2 className="text-xl font-semibold mt-4">Leaves Taken</h2>
-          <p className="text-lg mt-2">{5}</p>
+          <p className="text-lg mt-2"></p>
           {/* <p className="text-lg mt-2">{dummyStats.leaves}</p> */}
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+        <div className="bg-white p-6 rounded-lg border text-center">
           <FiDollarSign className="text-yellow-500 text-4xl mx-auto" />
           <h2 className="text-xl font-semibold mt-4">Salary</h2>
-          <p className="text-lg mt-2">₹{40000}</p>
+          <p className="text-lg mt-2"></p>
           {/* <p className="text-lg mt-2">₹{dummyStats.salary}</p> */}
         </div>
 

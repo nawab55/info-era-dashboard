@@ -260,8 +260,8 @@ const forgotPassword = async (req, res) => {
       expiresIn: "15m"
     });
 
-    // const resetLink = `${LINK_URL1}/${user._id}/${token}`;
-    const resetLink = `${LINK_URL}/${user._id}/${token}`;
+    const resetLink = `${LINK_URL1}/${user._id}/${token}`;
+    // const resetLink = `${LINK_URL}/${user._id}/${token}`;
 
     // Configure nodemailer
     const transporter = nodemailer.createTransport({

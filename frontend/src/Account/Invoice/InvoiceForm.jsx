@@ -347,26 +347,26 @@ const InvoiceForm = () => {
   };
 
   return (
-    <section className="p-2 max-w-full flex-1 bg-blue-gray-50">
+    <section className="flex-1 max-w-full p-2 bg-blue-gray-50">
       <div className="p-2">
         <form
           className="flex flex-col flex-wrap justify-between"
           onSubmit={handleSubmit}
         >
-          {/* <div className="max-w-3xl p-2 bg-yellow-100 shadow-md rounded"> */}
+          {/* <div className="max-w-3xl p-2 bg-yellow-100 rounded shadow-md"> */}
           <div className="flex justify-center mb-6">
             <h1
               id="header"
-              className="p-2 text-center font-bold text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700 text-2xl"
+              className="p-2 text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700"
             >
               Invoice
             </h1>
           </div>
-          <div className="bg-white rounded border p-6 mb-8">
-            <h2 className="text-xl font-semibold text-gray-800 mb-6">
+          <div className="p-6 mb-8 bg-white border rounded">
+            <h2 className="mb-6 text-xl font-semibold text-gray-800">
               Company Information
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
               <InputField
                 label="Company Name"
                 value={invoiceData.companyInfo.companyName}
@@ -392,13 +392,13 @@ const InvoiceForm = () => {
                 required
               />
               <div className="col-span-full">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   Address <span className="text-red-600">*</span>
                 </label>
                 <textarea
                   value={invoiceData.companyInfo.address}
                   readOnly
-                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:outline-none focus:border-blue-500"
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:outline-none focus:border-blue-500"
                   rows={3}
                 />
               </div>
@@ -479,15 +479,15 @@ const InvoiceForm = () => {
             </div>
           </div>
 
-          <div className="bg-white rounded border p-6 mb-8">
-            <h2 className="text-lg font-semibold text-gray-800 mb-6">
+          <div className="p-6 mb-8 bg-white border rounded">
+            <h2 className="mb-6 text-lg font-semibold text-gray-800">
               Buyer Details
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="relative">
                 <label
                   htmlFor="customerName"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block mb-1 text-sm font-medium text-gray-700"
                 >
                   Customer Name <span className="text-red-600">*</span>
                 </label>
@@ -500,13 +500,13 @@ const InvoiceForm = () => {
                     handleCustomerInputChange(e);
                     setIsCustomerListOpen(true);
                   }}
-                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:border-blue-500 focus:outline-none"
                   placeholder="Enter customer name"
                 />
                 {isCustomerListOpen &&
                   invoiceData.buyerDetails.customerName &&
                   filteredCustomers.length > 0 && (
-                    <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                    <ul className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                       {filteredCustomers.map((customer) => (
                         <li
                           key={customer._id}
@@ -514,7 +514,7 @@ const InvoiceForm = () => {
                             handleCustomerSelect(customer);
                             setIsCustomerListOpen(false);
                           }}
-                          className="cursor-pointer select-none relative py-2 pl-3 pr-9 hover:bg-indigo-600 hover:text-white transition duration-150 ease-in-out"
+                          className="relative py-2 pl-3 transition duration-150 ease-in-out cursor-pointer select-none pr-9 hover:bg-indigo-600 hover:text-white"
                         >
                           {customer.name}
                         </li>
@@ -525,7 +525,7 @@ const InvoiceForm = () => {
               <div>
                 <label
                   htmlFor="buyerDetails.mobile"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block mb-1 text-sm font-medium text-gray-700"
                 >
                   Mobile No <span className="text-red-600">*</span>
                 </label>
@@ -536,14 +536,14 @@ const InvoiceForm = () => {
                   id="buyerDetails.mobile"
                   value={invoiceData.buyerDetails.mobile}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:border-blue-500 focus:outline-none"
                   placeholder="Enter mobile number"
                 />
               </div>
               <div>
                 <label
                   htmlFor="buyerDetails.email"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block mb-1 text-sm font-medium text-gray-700"
                 >
                   Email <span className="text-red-600">*</span>
                 </label>
@@ -554,14 +554,14 @@ const InvoiceForm = () => {
                   id="buyerDetails.email"
                   value={invoiceData.buyerDetails.email}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:border-blue-500 focus:outline-none"
                   placeholder="Enter email address"
                 />
               </div>
               <div>
                 <label
                   htmlFor="buyerDetails.gstName"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block mb-1 text-sm font-medium text-gray-700"
                 >
                   GST Name <span className="text-red-600">*</span>
                 </label>
@@ -572,14 +572,14 @@ const InvoiceForm = () => {
                   id="buyerDetails.gstName"
                   value={invoiceData.buyerDetails.gstName}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:border-blue-500 focus:outline-none"
                   placeholder="Enter GST name"
                 />
               </div>
               <div className="md:col-span-2">
                 <label
                   htmlFor="buyerDetails.address"
-                  className="block text-sm font-medium text-gray-700 mb-1"
+                  className="block mb-1 text-sm font-medium text-gray-700"
                 >
                   Buyer Address <span className="text-red-600">*</span>
                 </label>
@@ -590,14 +590,14 @@ const InvoiceForm = () => {
                   value={invoiceData.buyerDetails.address}
                   onChange={handleChange}
                   rows={3}
-                  className="w-full px-3 py-2 text-gray-700 border resize-none rounded focus:border-blue-500 focus:outline-none"
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:border-blue-500 focus:outline-none"
                   placeholder="Enter buyer's address"
                 />
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-50 overflow-x-auto max-w-full rounded p-6 space-y-6">
+          <div className="max-w-full p-6 space-y-6 overflow-x-auto rounded bg-gray-50">
             <h2 className="text-xl font-semibold text-gray-900">
               Invoice Items
             </h2>
@@ -606,31 +606,31 @@ const InvoiceForm = () => {
                 <tr>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                   >
                     Item
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                   >
                     HSN
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                   >
                     Qty
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                   >
                     Price
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                   >
                     Action
                   </th>
@@ -649,9 +649,9 @@ const InvoiceForm = () => {
                   //   onEditItem={editItemHandler}
                   // />
                   <tr key={item.id}>
-                    <td className="pr-0 md:pr-2 py-1 md:py-2 relative">
+                    <td className="relative py-1 pr-0 md:pr-2 md:py-2">
                       <input
-                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        className="w-full px-1 py-2 text-gray-700 border rounded md:px-3 focus:border-blue-500 focus:outline-none"
                         type="text"
                         id={item.id}
                         name="name"
@@ -659,11 +659,11 @@ const InvoiceForm = () => {
                         onChange={(e) => handleServiceInputChange(e, item.id)}
                       />
                       {filteredServices.length > 0 && (
-                        <ul className="absolute z-10 bg-white border border-gray-300 rounded w-full mt-1 max-h-48 overflow-y-auto">
+                        <ul className="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 rounded max-h-48">
                           {filteredServices.map((service) => (
                             <li
                               key={service._id}
-                              className="px-1 md:px-4 py-2 cursor-pointer hover:bg-gray-100"
+                              className="px-1 py-2 cursor-pointer md:px-4 hover:bg-gray-100"
                               onClick={() =>
                                 handleServiceSelect(service, item.id)
                               }
@@ -674,9 +674,9 @@ const InvoiceForm = () => {
                         </ul>
                       )}
                     </td>
-                    <td className="px-1 md:px-4 py-1 md:py-2">
+                    <td className="px-1 py-1 md:px-4 md:py-2">
                       <input
-                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        className="w-full px-1 py-2 text-gray-700 border rounded md:px-3 focus:border-blue-500 focus:outline-none"
                         type="text"
                         name="hsn"
                         value={item.hsn}
@@ -684,9 +684,9 @@ const InvoiceForm = () => {
                         readOnly
                       />
                     </td>
-                    <td className="px-1 md:px-4 py-1 md:py-2">
+                    <td className="px-1 py-1 md:px-4 md:py-2">
                       <input
-                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        className="w-full px-1 py-2 text-gray-700 border rounded md:px-3 focus:border-blue-500 focus:outline-none"
                         type="number"
                         id={item.id}
                         name="qty"
@@ -695,28 +695,32 @@ const InvoiceForm = () => {
                         onChange={editItemHandler}
                       />
                     </td>
-                    <td className="px-1 md:px-4 py-1 md:py-2">
+                    <td className="px-1 py-1 md:px-4 md:py-2">
                       <input
-                        className="w-full px-1 md:px-3 py-2 text-gray-700 border rounded focus:border-blue-500 focus:outline-none"
+                        className="w-full px-1 py-2 text-gray-700 border rounded md:px-3 focus:border-blue-500 focus:outline-none"
                         type="number"
                         name="price"
-                        min="0.00"
-                        step="0.01"
+                        id={item.price}
+
+                        // min="0.00"
+                        // step="0.01"
                         value={item.price}
                         // onChange={editItemHandler}
-                        readOnly
+                        onChange={editItemHandler}
+
+                        // readOnly
                       />
                     </td>
-                    <td className="px-2 md:px-4 py-1 md:py-2 text-center">
+                    <td className="px-2 py-1 text-center md:px-4 md:py-2">
                       <button
-                        className="rounded-md bg-red-500 px-2 py-1 text-white shadow-sm hover:bg-red-600"
+                        className="px-2 py-1 text-white bg-red-500 rounded-md shadow-sm hover:bg-red-600"
                         type="button"
                         onClick={() => deleteItemHandler(item.id)}
                       >
                         {/* Delete */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
+                          className="w-5 h-5"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -737,18 +741,18 @@ const InvoiceForm = () => {
             <button
               type="button"
               onClick={addItemHandler}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Add Item
             </button>
           </div>
 
           {/* Totals */}
-          <div className="bg-gray-50 rounded p-6 space-y-4">
+          <div className="p-6 space-y-4 rounded bg-gray-50">
             <h2 className="text-xl font-semibold text-gray-900">
               Invoice Summary
             </h2>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">
                 Subtotal:
               </span>
@@ -756,7 +760,7 @@ const InvoiceForm = () => {
                 ₹{subtotal.toFixed(2)}
               </span>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">
                 Discount ({invoiceData.discount || "0"}%):
               </span>
@@ -764,7 +768,7 @@ const InvoiceForm = () => {
                 ₹{discountAmount.toFixed(2)}
               </span>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-500">
                 Total Tax ({totalTaxRate || "0"}%):
               </span>
@@ -772,7 +776,7 @@ const InvoiceForm = () => {
                 ₹{taxAmount.toFixed(2)}
               </span>
             </div>
-            <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
               <span className="text-base font-semibold text-gray-900">
                 Total:
               </span>
@@ -783,7 +787,7 @@ const InvoiceForm = () => {
           </div>
 
           {/* Tax and Discount Inputs */}
-          <div className="bg-gray-50 rounded p-6 space-y-4">
+          <div className="p-6 space-y-4 rounded bg-gray-50">
             <h2 className="text-xl font-semibold text-gray-900">
               Tax and Discount
             </h2>
@@ -852,7 +856,7 @@ const InvoiceForm = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               Generate Invoice
             </button>
@@ -877,7 +881,7 @@ export default InvoiceForm;
 function InputField({ label, name, value, onChange, readOnly, required }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="block mb-1 text-sm font-medium text-gray-700">
         {label} {required && <span className="text-red-600">*</span>}
       </label>
       <input

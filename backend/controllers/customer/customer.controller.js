@@ -27,7 +27,16 @@ exports.createCustomer = async (req, res) => {
 
     const newCustomer = await Customer.create(customerData);
 
-    res.status(201).json({ newCustomer, message: "Customer details added in DB successfully", success: "true" });
+    // Convert the Mongoose document to a plain JavaScript object
+    const customerResponse = newCustomer.toObject();
+    
+    // Remove sensitive fields before sending the response
+    // delete customerResponse.password; // Remove plain password
+    delete customerResponse.encryptedPassword; // Remove hashed password
+    delete customerResponse._id; // Remove Id
+    delete customerResponse.__v; // Remove version
+
+    res.status(201).json({ newCustomer: customerResponse, message: "Customer details added in DB successfully", success: "true" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

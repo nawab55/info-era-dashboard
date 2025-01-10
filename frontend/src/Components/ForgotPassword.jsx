@@ -26,33 +26,33 @@ const ForgotPassword = () => {
 
   return (
     <div
-      className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-contain bg-center px-4 lg:px-0 lg:gap-16"
-      style={{
-        backgroundImage: `url('/forgotbg-image.webp')`,
-      }}
+      className="flex flex-col items-center justify-center min-h-screen px-4 bg-center bg-contain lg:flex-row bg-gradient-to-r from-sky-200 via-slate-200 to-blue-200 lg:px-0 lg:gap-16"
+      // style={{
+      //   backgroundImage: `url('/forgotbg-image.webp')`,
+      // }}
     >
       {/* Image Section */}
-      <div className="lg:w-[35%] mb-8 lg:mb-0">
+      <div className="lg:w-[35%] mb-8 lg:mb-0 bg-inherit">
         <img
           src="/forgot-password.png"
           alt="Forgot Password Illustration"
-          className="w-full max-w-md mx-auto lg:max-w-full rounded-lg"
+          className="w-full max-w-md mx-auto rounded-lg lg:max-w-full"
         />
       </div>
 
       {/* Form Section */}
-      <div className="lg:w-1/2 bg-white p-8 rounded-lg border w-full max-w-md shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 text-center mb-4">
+      <div className="w-full max-w-md p-8 bg-white border rounded-lg shadow-lg lg:w-1/2">
+        <h2 className="mb-4 text-2xl font-bold text-center text-gray-800">
           Forgot Password
         </h2>
-        <p className="text-gray-600 mb-6 text-justify">
+        <p className="mb-6 text-justify text-gray-600">
           Enter your email address below and we will send you a link to reset
           your password.
         </p>
         <form onSubmit={handleSubmit} className="space-y-8">
           <div className="relative">
             <FiMail
-              className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"
+              className="absolute text-gray-400 transform -translate-y-1/2 top-1/2 left-3"
               size={20}
             />
             <input
@@ -61,7 +61,7 @@ const ForgotPassword = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+              className="w-full py-2 pl-10 pr-4 text-gray-700 border rounded-md focus:outline-none focus:ring focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <button

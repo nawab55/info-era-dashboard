@@ -33,6 +33,7 @@ const notificationRoutes = require("./routes/notification/notification.routes");
 const queryRoutes = require("./routes/contactQuery/query.routes");
 const contactRoutes = require("./routes/contactQuery/contact.routes");
 const consultingRoutes = require("./routes/consulting/consulting.routes");
+const excelRoutes = require("./routes/worksheet/excelRoutes");
 
 dotenv.config();
 
@@ -94,6 +95,7 @@ app.use("/api/message", notificationRoutes);
 app.use("/api/query", queryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/consulting", consultingRoutes);
+app.use("/api/excel", excelRoutes);
 
 // file Uploading Routes
 

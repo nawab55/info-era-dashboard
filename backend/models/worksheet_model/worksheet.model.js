@@ -2,33 +2,24 @@
 const mongoose = require('mongoose');
 
 // actual schema for excel data file for uploading work for telecaller
-// const excelDataSchema = new mongoose.Schema({
-//   sNo: String,
-//   domainName: String,
-//   CreationDate: String,
-//   expiryDate: String,
-//   clientName: String,
-//   clientMobNo: String,
-//   emailId: String,
-//   state: String,
-//   district: String,
-//   remark: String,
-//   gender: String,
-//   age: Number,
-//   country: String
-// })
-
-// dummy schema for testing purpose
 const excelDataSchema = new mongoose.Schema({
-  sNo: Number,
-  firstName: String,
-  lastName: String,
-  gender: String,
-  country: String,
-  age: Number,
-  date: String,
-  id: Number,
-});
+  sNo: String,
+  domainName: String,
+  creationDate: String,
+  expiryDate: String,
+  domainRegistrarName: String,
+  registrantName: String,
+  registrantCompany: String,
+  registrantCity: String,
+  registrantState: String, 
+  registrantZip: String,
+  registrantCountry: String,
+  registrantEmail: String,
+  registrantPhone: String,
+  response: String,
+  remark: String,
+  action: String,
+})
 
 const worksheetSchema = new mongoose.Schema({
   empId: {
@@ -54,8 +45,9 @@ const worksheetSchema = new mongoose.Schema({
   },
   workDone: {
     type: String,
+    immutable: true,
   },
-  excelData: [excelDataSchema],  // Add this field for Excel data
+  excelData: [excelDataSchema],    // Array of objects to store sheet data
 });
 
 const Worksheet = mongoose.model('Worksheet', worksheetSchema);
