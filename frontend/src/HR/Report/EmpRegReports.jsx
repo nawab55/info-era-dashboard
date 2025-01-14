@@ -36,16 +36,16 @@ const EmpRegReports = () => {
   };
 
   return (
-    <section className="flex-1 bg-gray-50 p-4">
-      <div className="bg-blue-700 p-4 text-center text-white text-2xl font-bold border-b-2 border-gray-700 shadow-md">
+    <section className="flex-1 min-h-screen p-4 bg-gray-50">
+      <div className="p-4 text-2xl font-bold text-center text-white bg-blue-700 border-b-2 border-gray-700 shadow-md">
         View All Employee Registration Reports
       </div>
 
       <div className="p-4">
-        <div className="overflow-x-auto pb-10">
-          <table className="min-w-full text-center text-sm bg-white shadow-lg rounded-lg">
-            <thead className="border-b border-gray-300 font-medium bg-gray-200 ">
-              <tr className="text-gray-900 border font-bold text-lg  top-0">
+        <div className="pb-10 overflow-x-auto">
+          <table className="min-w-full text-sm text-center bg-white rounded-lg shadow-lg">
+            <thead className="font-medium bg-gray-200 border-b border-gray-300 ">
+              <tr className="top-0 text-lg font-bold text-gray-900 border">
                 <th className="px-2 py-3 border border-gray-300">Sl. No</th>
                 <th className="px-2 py-3 border border-gray-300">Name</th>
                 <th className="px-2 py-3 border border-gray-300">
@@ -62,21 +62,21 @@ const EmpRegReports = () => {
                 employees.map((employee, index) => (
                   <tr
                     key={employee._id}
-                    className="bg-white text-sm font-medium border border-gray-300 hover:bg-gray-100 transition duration-150"
+                    className="text-sm font-medium transition duration-150 bg-white border border-gray-300 hover:bg-gray-100"
                   >
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {index + 1}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {employee.name}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {new Date(employee.dateOfJoining).toLocaleDateString()}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {employee.designation}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300 text-center">
+                    <td className="px-2 py-2 text-center border border-gray-300 whitespace-nowrap">
                       <button
                         onClick={() => handlePrintClick(employee._id)}
                         className="text-indigo-600 hover:text-indigo-900"
@@ -88,7 +88,7 @@ const EmpRegReports = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5" className="text-center py-6 text-gray-500">
+                  <td colSpan="5" className="py-6 text-center text-gray-500">
                     No employees found.
                   </td>
                 </tr>

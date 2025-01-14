@@ -360,44 +360,6 @@ const Worksheet = () => {
         </form>
 
         {/* Excel Table Modal */}
-        {/* {showExcelTable && (
-        <div className="p-6 mt-6 bg-white rounded-lg shadow-lg">
-          <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-semibold text-gray-800">Excel Data</h3>
-            <button
-              className="p-2 text-white transition transform bg-red-500 rounded-full hover:bg-red-700 hover:scale-105"
-              onClick={handleCloseTable}
-            >
-              <HiX className="w-5 h-5" />
-            </button>
-          </div>
-          <table className="w-full mt-4 table-auto">
-            <thead className="text-white bg-gradient-to-r from-teal-400 to-green-500">
-              <tr>
-                {Object.keys(excelData[0] || {}).map((key) => (
-                  <th key={key} className="px-4 py-2 font-semibold text-left">
-                    {key}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {excelData.map((row, idx) => (
-                <tr
-                  key={idx}
-                  className="border-b border-gray-200 hover:bg-teal-50"
-                >
-                  {Object.values(row).map((value, cellIdx) => (
-                    <td key={cellIdx} className="px-4 py-2">
-                      {value}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )} */}
         {showExcelTable && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-auto">

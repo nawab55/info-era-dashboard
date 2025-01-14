@@ -7,17 +7,45 @@ function Layout() {
   const [sidebarToggle, setSidebarToggle] = useState(false);
 
   return (
-    <div className="">
+    <div className="max-w-full">
       <HRNavbar
         sidebarToggle={sidebarToggle}
         setSidebarToggle={setSidebarToggle}
       />
-      <div className="flex min-w-full">
-        <HRSidebar sidebarToggle={sidebarToggle} setSidebarToggle={setSidebarToggle} />
-        <Outlet />
-      </div>
+      <main className="flex ">
+        <div>
+          <HRSidebar
+            sidebarToggle={sidebarToggle}
+            setSidebarToggle={setSidebarToggle}
+          />
+        </div>
+        <div className="flex-1 max-w-full overflow-auto">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 }
 
 export default Layout;
+
+{
+  /* <div className="max-w-full">
+      <AdminNavbar
+        sidebarToggle={sidebarToggle}
+        setSidebarToggle={setSidebarToggle}
+      />
+
+      <main className="flex">
+        <div className="">
+          <AdminSidebar
+            sidebarToggle={sidebarToggle}
+            setSidebarToggle={setSidebarToggle}
+          />
+        </div>
+        <div className="flex-1 max-w-full overflow-auto">
+          <Outlet />
+        </div>
+      </main>
+    </div> */
+}

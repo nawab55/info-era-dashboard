@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const path = require("path");
 const mongodb = require("mongodb");
 const multer = require("multer");
+const cookieParser = require("cookie-parser");
 const fs = require("fs");
 // const { CORS, CORS1, CORS2, CORS3, CORS4 } = process.env;
 
@@ -34,6 +35,12 @@ const queryRoutes = require("./routes/contactQuery/query.routes");
 const contactRoutes = require("./routes/contactQuery/contact.routes");
 const consultingRoutes = require("./routes/consulting/consulting.routes");
 const excelRoutes = require("./routes/worksheet/excelRoutes");
+const questionTypeRoutes = require("./routes/assessmentTest/questionType.routes");
+const questionRoutes = require("./routes/assessmentTest/question.routes");
+const courseRoutes = require("./routes/assessmentTest/course.routes");
+const studentDetailsRoutes = require("./routes/assessmentTest/studentDetails.routes");
+const studentAssessmentRoutes = require("./routes/assessmentTest/studentAssessment.routes");
+
 
 dotenv.config();
 
@@ -53,14 +60,20 @@ const corsOptions = {
     process.env.CORS3,
     process.env.CORS4,
   ],
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  // methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  // allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true, // Allow cookies and other credentials
 };
 
 // Middleware
 app.use(cors(corsOptions));
-// app.options("*", cors(corsOptions));
+
+// app.use(cors({
+//   origin: true,  // Allows all origins
+//   credentials: true,
+// }));
+
+app.use(cookieParser()); // Middleware to parse cookies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads")); // Serve static files from the 'uploads' directory
@@ -96,6 +109,11 @@ app.use("/api/query", queryRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/consulting", consultingRoutes);
 app.use("/api/excel", excelRoutes);
+app.use("/api/assessment/question-type", questionTypeRoutes);
+app.use("/api/assessment/question", questionRoutes);
+app.use("/api/assessment/course", courseRoutes);
+app.use("/api/assessment/student-details", studentDetailsRoutes);
+app.use("/api/assessment-test", studentAssessmentRoutes);
 
 // file Uploading Routes
 

@@ -43,7 +43,11 @@ import DomainReports from "./Account/AccountSidebarComponent/DomainReports";
 import EmpRegReports from "./HR/Report/EmpRegReports";
 import WorksheetReports from "./HR/Report/WorksheetReports";
 import EmployeeType from "./HR/Employee/EmployeeType";
-import ExcelForm from "./HR/worksheet/ExcelForm";
+import AssessmentTest from "./HR/Assessment/AssessmentTest";
+import AddQuestionType from "./HR/Assessment/AddQuestionType";
+import AddQuestion from "./HR/Assessment/AddQuestion";
+import AddCourse from "./HR/Assessment/AddCourse";
+import QuestionListReports from "./HR/Assessment/QuestionListReports";
 
 
 // Admin Dashboard
@@ -80,8 +84,6 @@ import AuthLogin from "./Components/AuthLogin";
 import NotFound from "./NotFound";
 import ForgotPassword from "./Components/ForgotPassword";
 import UpdatePassword from "./Components/ResetPassword";
-import UploadFile from "./HR/worksheet/UploadFile";
-import ViewAndEditFile from "./HR/worksheet/ViewAndEditFile";
 
 function App() {
   return (
@@ -130,9 +132,6 @@ function App() {
             <Route index element={<HRHome />} />
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
-            <Route path="worksheet/excel" element={<ExcelForm />} />
-            <Route path="worksheet/upload" element={<UploadFile />} />
-            <Route path="worksheet/view-edit" element={<ViewAndEditFile />} />
             <Route path="attendance" element={<HRAttendance />} />
             <Route path="leaves" element={<ViewLeaveApplication />} />
             <Route path="alerts" element={<Alerts />} />
@@ -147,6 +146,14 @@ function App() {
               element={<WorksheetReports />}
             />
             <Route path="employee/type" element={<EmployeeType />} />
+            <Route path="add/question-type" element={<AddQuestionType />} />
+            <Route path="add/question" element={<AddQuestion />} />
+            <Route
+              path="add-course"
+              element={<AddCourse />}
+            />
+            <Route path="question-list/reports" element={<QuestionListReports />} />
+            <Route path="add/test-details" element={<AssessmentTest />} />
           </Route>
         </Route>
 

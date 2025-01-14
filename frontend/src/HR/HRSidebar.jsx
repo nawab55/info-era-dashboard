@@ -3,16 +3,21 @@ import {
   FaChartLine, 
   FaUsers, 
 } from "react-icons/fa";
-import { FaSheetPlastic as SheetPlasticIcon } from "react-icons/fa6";
+import { FaClipboardQuestion, FaSheetPlastic as SheetPlasticIcon } from "react-icons/fa6";
 import { GiCalendar } from "react-icons/gi";
 import { SiGoogleforms } from "react-icons/si";
+import { PiExamFill } from "react-icons/pi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { 
   MdKeyboardArrowDown, 
-  MdDashboard 
+  MdDashboard, 
+  MdOutlineAddModerator,
+  MdAddCard
 } from "react-icons/md";
 import { FcLeave } from "react-icons/fc";
 import { BiErrorCircle, BiCommentError } from "react-icons/bi";
+import { LucideShieldQuestion } from "lucide-react";
+import { RiFileListLine } from "react-icons/ri";
 
 // eslint-disable-next-line react/prop-types
 const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
@@ -104,12 +109,57 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
       icon: FaUsers, 
       color: "text-indigo-500" 
     },
+    {
+      name: "Assessment",
+      icon: PiExamFill,
+      color: "text-cyan-500",
+      dropdown: true,
+      subMenus: [
+        { 
+          name: "Add Question Type",
+          link: "/hr/add/question-type", 
+          icon: LucideShieldQuestion, 
+          color: "text-green-500" 
+        },
+        { 
+          name: "Add Question",
+          link: "/hr/add/question", 
+          icon: FaClipboardQuestion, 
+          color: "text-green-500" 
+        },
+        { 
+          name: "Add Course",
+          link: "/hr/add-course",  
+          icon: MdAddCard, 
+          color: "text-orange-500" 
+        },
+        { 
+          name: "QuestionList Reports",
+          link: "/hr/question-list/reports",  
+          icon: RiFileListLine, 
+          color: "text-yellow-500" 
+        },
+        
+        { 
+          name: "Assessment Details",
+          link: "/hr/add/test-details", 
+          icon: MdOutlineAddModerator, 
+          color: "text-green-500" 
+        },
+        // { 
+        //   name: "Work Sheet", 
+        //   link: "/hr/report/view_worksheet", 
+        //   icon: SheetPlasticIcon, 
+        //   color: "text-yellow-500" 
+        // },
+      ]
+    },
   ];
 
   return (
     <aside
       onClick={(e) => e.stopPropagation()}
-      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] min-h-screen bg-custom-dark-blue transition-transform duration-300 ${
+      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] min-h-full bg-custom-dark-blue transition-transform duration-300 ${
         sidebarToggle ? "translate-x-0" : "-translate-x-full"
       } lg:translate-x-0`}
       aria-label="Sidebar"
@@ -140,7 +190,7 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
                     openDropdown === menu.name ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="pl-4 space-y-1 mt-1">
+                  <div className="pl-4 mt-1 space-y-1">
                     {menu.subMenus.map((submenu, subIndex) => (
                       <button
                         key={subIndex}

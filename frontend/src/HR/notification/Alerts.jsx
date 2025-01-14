@@ -59,16 +59,16 @@ const Alerts = () => {
     switch (type) {
       case "Success":
         return (
-          <MdCheckCircle className="bg-green-700 text-white rounded-full" />
+          <MdCheckCircle className="text-white bg-green-700 rounded-full" />
         );
       case "Info":
         return (
-          <BiErrorCircle className="bg-blue-700 text-white rounded-full" />
+          <BiErrorCircle className="text-white bg-blue-700 rounded-full" />
         );
       case "Warning":
         return <MdWarning className="text-yellow-600 rounded-full" />;
       case "Danger":
-        return <MdError className="bg-red-600 text-white rounded-full" />;
+        return <MdError className="text-white bg-red-600 rounded-full" />;
       default:
         return null;
     }
@@ -104,17 +104,17 @@ const Alerts = () => {
   }
 
   return (
-    <section className="flex-1 bg-gray-50 p-4">
+    <section className="flex-1 min-h-screen p-4 bg-gray-50">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
+      <div className="flex items-center justify-between p-4 rounded-lg shadow-md bg-blue-50">
         <div className="flex items-center my-auto">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <div className="w-2 h-8 mr-3 bg-purple-600 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-900">Alerts</h1>
         </div>
 
         <button
           onClick={handleModal}
-          className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+          className="flex items-center px-4 py-2 text-white transition duration-300 bg-purple-600 rounded-lg hover:bg-purple-700"
         >
           <BiErrorCircle className="mr-2" />
           Add Alert
@@ -131,14 +131,14 @@ const Alerts = () => {
             )} bg-blue-50 p-3 rounded-lg shadow-md flex justify-between items-start space-x-4`}
           >
             <div className="flex items-center space-x-4">
-              <div className="text-3xl my-auto">{getIcon(alert.alertType)}</div>
+              <div className="my-auto text-3xl">{getIcon(alert.alertType)}</div>
               <div className="">
                 <h3 className="text-lg font-semibold">{alert.title}</h3>
                 <p className="text-gray-700">{alert.message}</p>
               </div>
             </div>
             {/* Display the created date on the right side */}
-            <div className="text-gray-700 text-sm my-auto">
+            <div className="my-auto text-sm text-gray-700">
               {moment(alert.createdAt, "Do MMMM YYYY, h:mm:ss a").format(
                 "D MMMM, YYYY"
               )}
@@ -149,7 +149,7 @@ const Alerts = () => {
       </div>
 
       {/* Pagination */}
-      <div className="mt-6 flex justify-center space-x-2">
+      <div className="flex justify-center mt-6 space-x-2">
         {pageNumber.map((number) => (
           <button
             key={number}
@@ -167,11 +167,11 @@ const Alerts = () => {
 
       {/* Custom Modal Section */}
       <CustomModal isOpen={openModal} onClose={handleModal}>
-        <div className="bg-blue-50 w-full p-6 rounded-lg shadow-lg">
+        <div className="w-full p-6 rounded-lg shadow-lg bg-blue-50">
           {/* Modal Header */}
-          <div className="flex justify-between items-center bg-white rounded-lg px-2 py-2 mb-2">
+          <div className="flex items-center justify-between px-2 py-2 mb-2 bg-white rounded-lg">
             <div className="flex items-center my-auto">
-              <div className="w-2 bg-purple-600 h-7 mr-3 rounded-full"></div>
+              <div className="w-2 mr-3 bg-purple-600 rounded-full h-7"></div>
               <h2 className="text-xl font-semibold">Add Alert</h2>
             </div>
             <button onClick={handleModal} className="text-2xl">
@@ -229,7 +229,7 @@ const Alerts = () => {
             <div className="flex justify-end">
               <button
                 type="submit"
-                className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300"
+                className="px-4 py-2 text-white transition duration-300 bg-purple-600 rounded-lg hover:bg-purple-700"
               >
                 Add Alert
               </button>

@@ -58,14 +58,14 @@ const Issues = () => {
   };
 
   return (
-    <section className="flex-1 bg-gray-50 p-4">
+    <section className="flex-1 min-h-screen p-4 bg-gray-50">
       {/* Top Card Section */}
-      <div className="flex justify-between items-center bg-blue-50 p-4 shadow-md rounded-lg">
+      <div className="flex items-center justify-between p-4 rounded-lg shadow-md bg-blue-50">
         <div className="flex items-center my-auto">
-          <div className="w-2 bg-purple-600 h-8 mr-3 rounded-full"></div>
+          <div className="w-2 h-8 mr-3 bg-purple-600 rounded-full"></div>
           <h1 className="text-2xl font-bold text-gray-900">Issues</h1>
         </div>
-        <div className="flex items-center bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition duration-300">
+        <div className="flex items-center px-4 py-2 text-white transition duration-300 bg-purple-600 rounded-lg hover:bg-purple-700">
           <BiErrorCircle className="mr-2" />
           Issues
         </div>
@@ -96,7 +96,7 @@ const Issues = () => {
               ) : (
                 <MdCheck className="text-3xl p-1.5 mr-2 rounded-full bg-green-600 text-white" />
               )}
-              <p className="mr-2 font-bold text-sm">{issue.empname}:</p>
+              <p className="mr-2 text-sm font-bold">{issue.empname}:</p>
               <p
                 className={`${
                   issue.status === "Unresolved"

@@ -27,33 +27,33 @@ const WorksheetReports = () => {
   };
 
   return (
-    <section className="flex-1 bg-white p-4">
-      <div className="bg-violet-700 p-4 text-center text-white text-2xl font-bold border-b-2 border-gray-700 shadow-md">
+    <section className="flex-1 min-h-screen p-4 bg-white">
+      <div className="p-4 text-2xl font-bold text-center text-white border-b-2 border-gray-700 shadow-md bg-violet-700">
         View All Worksheets
       </div>
       {/* Date picker for filtering reports */}
       <div className="p-4">
-        <label className="block text-lg font-medium text-gray-900 mb-2">
+        <label className="block mb-2 text-lg font-medium text-gray-900">
           Select Date:
         </label>
         <input
           type="date"
           value={selectedDate}
           onChange={handleDateChange}
-          className="bg-blue-50 p-2 border border-gray-300 shadow-lg shadow-blue-400 rounded-md focus:border-blue-500 focus:outline-none mb-4"
+          className="p-2 mb-4 border border-gray-300 rounded-md shadow-lg bg-blue-50 shadow-blue-400 focus:border-blue-500 focus:outline-none"
         />
       </div>
       <div className="p-4">
-        <div className="overflow-x-auto pb-10">
-          <table className="min-w-full text-center text-sm bg-gray-50 shadow-lg rounded-lg">
-            <thead className="border-b border-gray-300 font-medium bg-gray-200 top-0">
-              <tr className="text-gray-900 border font-bold text-lg">
-                <th className="px-2 py-3 bprder border-gray-300">Name</th>
-                <th className="px-2 py-3 bprder border-gray-300">Project</th>
-                <th className="px-2 py-3 bprder border-gray-300">
+        <div className="pb-10 overflow-x-auto">
+          <table className="min-w-full text-sm text-center rounded-lg shadow-lg bg-gray-50">
+            <thead className="top-0 font-medium bg-gray-200 border-b border-gray-300">
+              <tr className="text-lg font-bold text-gray-900 border">
+                <th className="px-2 py-3 border-gray-300 bprder">Name</th>
+                <th className="px-2 py-3 border-gray-300 bprder">Project</th>
+                <th className="px-2 py-3 border-gray-300 bprder">
                   Description
                 </th>
-                <th className="px-2 py-3 bprder border-gray-300">Remarks</th>
+                <th className="px-2 py-3 border-gray-300 bprder">Remarks</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -61,25 +61,25 @@ const WorksheetReports = () => {
                 reports.map((report, index) => (
                   <tr
                     key={index}
-                    className="bg-white text-sm font-medium border border-gray-300 hover:bg-gray-100 transition duration-150"
+                    className="text-sm font-medium transition duration-150 bg-white border border-gray-300 hover:bg-gray-100"
                   >
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {report.empName}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {report.projectName}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {report.work}
                     </td>
-                    <td className="whitespace-nowrap px-2 py-2 border border-gray-300">
+                    <td className="px-2 py-2 border border-gray-300 whitespace-nowrap">
                       {report.workDone || "No remarks"}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center py-6 text-gray-500">
+                  <td colSpan="4" className="py-6 text-center text-gray-500">
                     No data available
                   </td>
                 </tr>
