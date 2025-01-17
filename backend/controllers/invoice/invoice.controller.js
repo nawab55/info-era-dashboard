@@ -116,8 +116,8 @@ const getInvoices = async (req, res) => {
       { $limit: 1 },
     ]);
 
-    console.log("Latest Invoice[0]:", latestInvoice[0]);
-    console.log("Latest Invoice:", latestInvoice);
+    // console.log("Latest Invoice[0]:", latestInvoice[0]);
+    // console.log("Latest Invoice:", latestInvoice);
 
     // Calculate the next invoice number
     let count;

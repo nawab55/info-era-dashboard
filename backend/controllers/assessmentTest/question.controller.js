@@ -22,23 +22,6 @@ exports.getQuestionList = async (req, res) => {
   }
 };
 
-// // Fetch questions by background
-// exports.getQuestionsByBackground = async (req, res) => {
-//   try {
-//     const { background } = req.query;
-
-//     if (!background) {
-//       return res.status(400).json({ message: "Background is required" });
-//     }
-
-//     const questions = await Question.find({ background });
-//     console.log(`get question which has background is ${background}`, questions);
-//     res.status(200).json({ questions });
-//   } catch (error) {
-//     res.status(500).json({ message: "Server error", error: error.message });
-//   }
-// };
-
 // Fetch questions by background
 exports.getQuestionsByBackground = async (req, res) => {
   try {
@@ -60,7 +43,7 @@ exports.getQuestionsByBackground = async (req, res) => {
         correctAnswer: q.correctAnswer,
       })),
     }));
-    console.log("structure question data ",structuredQuestions);
+    // console.log("structure question data ", structuredQuestions);
 
     res.status(200).json({
       background,
@@ -70,3 +53,20 @@ exports.getQuestionsByBackground = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// // Fetch questions by background
+// exports.getQuestionsByBackground = async (req, res) => {
+//   try {
+//     const { background } = req.query;
+
+//     if (!background) {
+//       return res.status(400).json({ message: "Background is required" });
+//     }
+
+//     const questions = await Question.find({ background });
+//     console.log(`get question which has background is ${background}`, questions);
+//     res.status(200).json({ questions });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error", error: error.message });
+//   }
+// };

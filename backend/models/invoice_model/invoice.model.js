@@ -61,6 +61,12 @@ const buyerDetailsSchema = new mongoose.Schema(
     email: {
       type: String,
     },
+    gstNo: {
+      type: String,
+    },
+    gstName: {
+      type: String,
+    },
   },
   { _id: false }
 );

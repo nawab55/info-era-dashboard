@@ -8,7 +8,7 @@ function AccountLayout() {
   return (
     <div>
       <AccountNavbar setSidebarToggle={setSidebarToggle} />
-      <main className=" flex flex-1 ">
+      <main className="flex flex-1 ">
         <AccountSidebar
           sidebarToggle={sidebarToggle}
           setSidebarToggle={setSidebarToggle}

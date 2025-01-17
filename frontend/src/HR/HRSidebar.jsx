@@ -139,19 +139,12 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
           icon: RiFileListLine, 
           color: "text-yellow-500" 
         },
-        
         { 
-          name: "Assessment Details",
-          link: "/hr/add/test-details", 
+          name: "Assessment Results",
+          link: "/hr/assessment-reports", 
           icon: MdOutlineAddModerator, 
           color: "text-green-500" 
         },
-        // { 
-        //   name: "Work Sheet", 
-        //   link: "/hr/report/view_worksheet", 
-        //   icon: SheetPlasticIcon, 
-        //   color: "text-yellow-500" 
-        // },
       ]
     },
   ];

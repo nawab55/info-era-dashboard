@@ -31,30 +31,47 @@ exports.submitTest = async (req, res) => {
   }
 };
 
-// Get report for a specific student
-exports.getStudentReport = async (req, res) => {
+// Get saved answers for a specific student
+exports.getStudentAnswers = async (req, res) => {
   try {
     const { mobile } = req.params;
+    console.log (mobile);
 
-    const report = await AssessmentResponse.find({ "student.mobile": mobile })
-      .populate("responses.questionId", "question options")
+    // Fetch the student response by mobile number
+    const response = await AssessmentResponse.findOne({ "student.mobile": mobile })
+      .populate("responses.questionId", "question options correctAnswer")
       .lean();
 
-    if (!report.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No reports found for the given student.",
-      });
-    }
+      if (!response) {
+        return res.status(404).json({
+          success: false,
+          message: "No answers found for the given student.",
+        });
+      }
 
+      // Calculate stats
+    const totalQuestions = response.responses.length;
+    let correctAnswers = 0;
+
+    response.responses.forEach((resp) => {
+      if (resp.answer === resp.questionId.correctAnswer) {
+        correctAnswers++;
+      }
+    });
     res.status(200).json({
       success: true,
-      report,
+      student: response.student,
+      answers: response.responses,
+      stats: {
+        totalQuestions,
+        correctAnswers,
+        incorrectAnswers: totalQuestions - correctAnswers,
+      },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to fetch student report.",
+      message: "Failed to fetch student answers.",
       error: error.message,
     });
   }

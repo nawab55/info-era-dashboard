@@ -144,7 +144,7 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
                       : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="pl-4 space-y-1 mt-1">
+                  <div className="pl-4 mt-1 space-y-1">
                     {menu.subMenus.map((submenu, subIndex) => (
                       <button
                         key={subIndex}

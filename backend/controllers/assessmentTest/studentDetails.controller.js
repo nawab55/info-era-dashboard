@@ -4,11 +4,18 @@ const StudentDetails = require("../../models/assessmentTest_model/studentDetails
 exports.addStudent = async (req, res) => {
   try {
     const { name, email, mobile, course } = req.body;
-
+    // Validate that all fields are provided
     if (!name || !email || !mobile || !course) {
       return res.status(400).json({ success: false, message: "All fields are required" });
     }
-
+     // Check if the student is already registered (by email or mobile)
+    const existingStudent = await StudentDetails.findOne({
+      $or: [{ email }, { mobile }] // Check if either email or mobile already exists
+    });
+    if (existingStudent) {
+      return res.status(400).json({ success: false, message: "Student is already registered with this email or mobile number." });
+    }
+    // Save new student to the database
     const savedStudent = await StudentDetails.create({ name, email, mobile, course });
 
     // Set cookies securely
@@ -58,3 +65,18 @@ exports.getStudentCookies = (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error." });
   }
 };
+
+// Fetch all students
+exports.getAllStudentsData = async (req, res) => {
+  try {
+    const students = await StudentDetails.find();
+    if (!students) {
+      return res.status(404).json({ success: false, message: "No students found." });
+    }
+    res.status(200).json({ success: true, data: students, message: "All students found." });
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+

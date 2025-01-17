@@ -43,11 +43,12 @@ import DomainReports from "./Account/AccountSidebarComponent/DomainReports";
 import EmpRegReports from "./HR/Report/EmpRegReports";
 import WorksheetReports from "./HR/Report/WorksheetReports";
 import EmployeeType from "./HR/Employee/EmployeeType";
-import AssessmentTest from "./HR/Assessment/AssessmentTest";
 import AddQuestionType from "./HR/Assessment/AddQuestionType";
 import AddQuestion from "./HR/Assessment/AddQuestion";
 import AddCourse from "./HR/Assessment/AddCourse";
 import QuestionListReports from "./HR/Assessment/QuestionListReports";
+import AssessmentResult from "./HR/Assessment/AssessmentResult";
+import StudentResponseDetails from "./HR/Assessment/StudentResponseDetails";
 
 
 // Admin Dashboard
@@ -153,7 +154,8 @@ function App() {
               element={<AddCourse />}
             />
             <Route path="question-list/reports" element={<QuestionListReports />} />
-            <Route path="add/test-details" element={<AssessmentTest />} />
+            <Route path="assessment-reports" element={<AssessmentResult />} />
+            <Route path="student-details/:mobile" element={<StudentResponseDetails />} />
           </Route>
         </Route>
 

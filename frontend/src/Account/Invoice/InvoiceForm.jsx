@@ -24,6 +24,7 @@ const InvoiceForm = () => {
       customerName: "",
       mobile: "",
       email: "",
+      gstNo: "",
       gstName: "",
       address: "",
     },
@@ -207,6 +208,7 @@ const InvoiceForm = () => {
         customerName: customer.name,
         mobile: customer.mobile,
         email: customer.email,
+        gstNo: customer.gstNo,
         gstName: customer.gstName,
         address: customer.address,
       },
@@ -313,6 +315,8 @@ const InvoiceForm = () => {
           customerName: "",
           mobile: "",
           email: "",
+          gstNo: "",
+          gstName: "",
           address: "",
         },
         customerId: "",
@@ -560,6 +564,24 @@ const InvoiceForm = () => {
               </div>
               <div>
                 <label
+                  htmlFor="buyerDetails.gstNo"
+                  className="block mb-1 text-sm font-medium text-gray-700"
+                >
+                  GST No <span className="text-red-600">*</span>
+                </label>
+                <input
+                  required
+                  type="text"
+                  name="buyerDetails.gstNo"
+                  id="buyerDetails.gstNo"
+                  value={invoiceData.buyerDetails.gstNo}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 text-gray-700 border rounded resize-none focus:border-blue-500 focus:outline-none"
+                  placeholder="Enter GST Number"
+                />
+              </div>
+              <div>
+                <label
                   htmlFor="buyerDetails.gstName"
                   className="block mb-1 text-sm font-medium text-gray-700"
                 >
@@ -576,6 +598,7 @@ const InvoiceForm = () => {
                   placeholder="Enter GST name"
                 />
               </div>
+             
               <div className="md:col-span-2">
                 <label
                   htmlFor="buyerDetails.address"
@@ -700,14 +723,11 @@ const InvoiceForm = () => {
                         className="w-full px-1 py-2 text-gray-700 border rounded md:px-3 focus:border-blue-500 focus:outline-none"
                         type="number"
                         name="price"
-                        id={item.price}
-
+                        id={item.id}
                         // min="0.00"
                         // step="0.01"
                         value={item.price}
-                        // onChange={editItemHandler}
                         onChange={editItemHandler}
-
                         // readOnly
                       />
                     </td>
