@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  submitTest,
+  submitAssessment,
   getStudentAnswers,
   getDashboardSummary,
 } = require("../../controllers/assessmentTest/studentAssessment.controller");
@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 // Route to submit a test
-router.post("/submit-test", submitTest);
+router.post("/submit-test", submitAssessment);
 
 // Route to get a specific student's report
 router.get("/student-answers/:mobile", getStudentAnswers);
