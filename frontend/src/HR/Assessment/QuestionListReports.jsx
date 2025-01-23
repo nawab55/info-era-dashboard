@@ -59,7 +59,7 @@ const QuestionListReports = () => {
   }, [selectedQuestionType, background]);
 
   return (
-    <div className="flex-1 min-h-screen p-6 bg-gray-100 ">
+    <div className="flex-1 max-h-screen p-6 overflow-y-auto bg-gray-100 ">
       <div className="p-8 mx-auto bg-white rounded-lg shadow max-w-7xl">
         <h1 className="mb-6 text-2xl font-bold">Question List Reports</h1>
 

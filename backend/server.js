@@ -40,6 +40,7 @@ const questionRoutes = require("./routes/assessmentTest/question.routes");
 const courseRoutes = require("./routes/assessmentTest/course.routes");
 const studentDetailsRoutes = require("./routes/assessmentTest/studentDetails.routes");
 const studentAssessmentRoutes = require("./routes/assessmentTest/studentAssessment.routes");
+const assessmentStatusRoutes = require("./routes/assessmentTest/assessmentStatus.routes");
 
 
 dotenv.config();
@@ -114,6 +115,7 @@ app.use("/api/assessment/question", questionRoutes);
 app.use("/api/assessment/course", courseRoutes);
 app.use("/api/assessment/student-details", studentDetailsRoutes);
 app.use("/api/assessment-test", studentAssessmentRoutes);
+app.use("/api/assessment-status", assessmentStatusRoutes);
 
 // file Uploading Routes
 

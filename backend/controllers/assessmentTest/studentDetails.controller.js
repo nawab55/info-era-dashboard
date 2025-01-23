@@ -1,4 +1,6 @@
 const StudentDetails = require("../../models/assessmentTest_model/studentDetails.model");
+const AssessmentResponse = require("../../models/assessmentTest_model/AssessmentResponse.model"); // Import AssessmentResponse model
+// const Question = require("../../models/assessmentTest_model/question.model"); // Import Question model
 
 // Add a new student and set cookies
 exports.addStudent = async (req, res) => {
@@ -62,21 +64,165 @@ exports.getStudentCookies = (req, res) => {
     });
   } catch (error) {
     console.error("Error retrieving student cookies:", error);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    res.status(500).json({ success: false, message: "something went wrong.", error: error.message });
   }
 };
 
 // Fetch all students
-exports.getAllStudentsData = async (req, res) => {
+// exports.getAllStudentsData = async (req, res) => {
+//   try {
+//     const students = await StudentDetails.find();
+//     if (!students) {
+//       return res.status(404).json({ success: false, message: "No students found." });
+//     }
+//     res.status(200).json({ success: true, data: students, message: "All students found." });
+//   } catch (error) {
+//     console.error("Error fetching students:", error);
+//     res.status(500).json({ success: false, message: "Internal server error." });
+//   }
+// };
+
+
+// Fetch all students with their assessment responses
+exports.getAllStudentsWithAssessment = async (req, res) => {
   try {
+    // Fetch all students
     const students = await StudentDetails.find();
-    if (!students) {
+
+    if (!students || students.length === 0) {
       return res.status(404).json({ success: false, message: "No students found." });
     }
-    res.status(200).json({ success: true, data: students, message: "All students found." });
+
+    // Process each student and their assessments
+    const studentsWithAssessment = await Promise.all(
+      students.map(async (student) => {
+        // Fetch assessment response for the student and populate questionTypeId
+        const response = await AssessmentResponse.findOne({ "student.mobile": student.mobile })
+          .populate("responses.questionTypeId");
+
+        if (!response) {
+          return {
+            ...student.toObject(),
+            totalQuestions: 0,
+            correctAnswers: 0,
+            incorrectAnswers: 0,
+            overallScore: 0, // Percentage score
+            responses: [],
+          };
+        }
+
+        // Process the responses
+        const processedResponses = response.responses.map((resp) => {
+          // Find the matched question in the `questionTypeId`'s `questions` array
+          const matchedQuestion = resp.questionTypeId.questions.find(
+            (q) => q._id.toString() === resp.questionId.toString()
+          );
+
+          // Extract the correctAnswer if a match is found
+          const correctAnswer = matchedQuestion ? matchedQuestion.correctAnswer : null;
+
+          // Check if the selectedOption matches the correctAnswer
+          const isCorrect = correctAnswer === resp.selectedOption;
+
+          // Return the enhanced response object
+          return {
+            questionId: resp.questionId,
+            questionTypeId: resp.questionTypeId._id,
+            background: resp.questionTypeId.background,
+            questionType: resp.questionTypeId.questionType,
+            selectedOption: resp.selectedOption,
+            correctAnswer,
+            isCorrect,
+            questionDetails: matchedQuestion
+              ? {
+                  question: matchedQuestion.question,
+                  options: matchedQuestion.options,
+                }
+              : null,
+          };
+        });
+
+        // Calculate assessment summary
+        const totalQuestions = processedResponses.length;
+        const correctAnswers = processedResponses.filter((resp) => resp.isCorrect).length;
+        const incorrectAnswers = totalQuestions - correctAnswers;
+
+        // Calculate the overall score as a percentage
+        const overallScore =
+          totalQuestions > 0 ? ((correctAnswers / totalQuestions) * 100).toFixed(2) : 0;
+
+        return {
+          ...student.toObject(),
+          totalQuestions,
+          correctAnswers,
+          incorrectAnswers,
+          overallScore, // Percentage score
+          responses: processedResponses,
+        };
+      })
+    );
+
+    // Send the final data
+    res.status(200).json({
+      success: true,
+      data: studentsWithAssessment,
+      message: "Students with assessment data found.",
+    });
   } catch (error) {
-    console.error("Error fetching students:", error);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    console.error("Error fetching students with assessments:", error);
+    res.status(500).json({ success: false, message: "Internal server error.", error: error.message });
   }
 };
 
+
+
+// Fetch all students and join with assessment responses based on mobile number
+// exports.getAllStudentsData = async (req, res) => {
+//   try {
+//     // Aggregation query to join students, assessment responses, and question details
+//     const studentsWithResponses = await StudentDetails.aggregate([
+//       {
+//         $lookup: {
+//           from: 'assessmentresponses', // The collection to join
+//           localField: 'mobile', // Field from the students collection
+//           foreignField: 'student.mobile', // Field from the assessmentresponses collection
+//           as: 'responses' // The alias for the joined data
+//         }
+//       },
+//       {
+//         $unwind: {
+//           path: '$responses',
+//           preserveNullAndEmptyArrays: true // Allow students without responses to be included
+//         }
+//       },
+//       {
+//         $lookup: {
+//           from: 'questions', // The collection to join for the question details
+//           localField: 'responses.responses.questionTypeId', // Field from the responses to match questionTypeId
+//           foreignField: '_id', // Field from the questions collection
+//           as: 'responses.responses.questionDetails' // The alias for the populated question details
+//         }
+//       },
+//       {
+//         $project: {
+//           _id: 1,
+//           name: 1,
+//           email: 1,
+//           mobile: 1,
+//           course: 1,
+//           "responses.responses.selectedOption": 1, // Include selectedOption of the response
+//           "responses.responses.questionDetails": { questionText: 1, options: 1 }, // Include question text and options
+//         }
+//       }
+//     ]);
+
+//     if (!studentsWithResponses || studentsWithResponses.length === 0) {
+//       return res.status(404).json({ success: false, message: "No students found." });
+//     }
+    
+//     res.status(200).json({ success: true, data: studentsWithResponses, message: "All students found." });
+//   } catch (error) {
+//     console.error("Error fetching students with responses:", error);
+//     res.status(500).json({ success: false, message: "Internal server error." });
+//   }
+// };

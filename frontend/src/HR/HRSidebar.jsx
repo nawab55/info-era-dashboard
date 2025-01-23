@@ -18,6 +18,7 @@ import { FcLeave } from "react-icons/fc";
 import { BiErrorCircle, BiCommentError } from "react-icons/bi";
 import { LucideShieldQuestion } from "lucide-react";
 import { RiFileListLine } from "react-icons/ri";
+import { TbStatusChange } from "react-icons/tb";
 
 // eslint-disable-next-line react/prop-types
 const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
@@ -145,6 +146,12 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
           icon: MdOutlineAddModerator, 
           color: "text-green-500" 
         },
+        { 
+          name: "Assessment Status",
+          link: "/hr/assessment-status", 
+          icon: TbStatusChange, 
+          color: "text-purple-500" 
+        },
       ]
     },
   ];
@@ -157,6 +164,13 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
       } lg:translate-x-0`}
       aria-label="Sidebar"
     >
+    {/* <aside
+      onClick={(e) => e.stopPropagation()}
+      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] bg-custom-dark-blue transition-transform duration-300 ${
+        sidebarToggle ? "translate-x-0" : "-translate-x-full"
+      } lg:translate-x-0 max-h-screen overflow-y-auto`}
+      aria-label="Sidebar"
+    > */}
       <div className="px-3 py-4 space-y-1">
         {menus.map((menu, index) => (
           <div key={index} className="py-1">

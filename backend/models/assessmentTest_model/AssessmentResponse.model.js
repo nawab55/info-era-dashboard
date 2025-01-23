@@ -9,9 +9,9 @@ const AssessmentResponseSchema = new mongoose.Schema(
     },
     responses: [
       {
-        questionTypeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question', required: true },
+        questionTypeId: { type: mongoose.Schema.Types.ObjectId, ref: 'Question',  },
         questionId: { type: mongoose.Schema.Types.ObjectId,  },
-        selectedOption: { type: String, required: true },  // Store as "A", "B", "C", "D"
+        selectedOption: { type: String },  // Store as "A", "B", "C", "D"
       },
     ],
     submittedAt: { type: Date, default: Date.now },

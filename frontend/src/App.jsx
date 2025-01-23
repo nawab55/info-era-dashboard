@@ -48,7 +48,9 @@ import AddQuestion from "./HR/Assessment/AddQuestion";
 import AddCourse from "./HR/Assessment/AddCourse";
 import QuestionListReports from "./HR/Assessment/QuestionListReports";
 import AssessmentResult from "./HR/Assessment/AssessmentResult";
+import AssessmentStatus from "./HR/Assessment/AssessmentStatus";
 import StudentResponseDetails from "./HR/Assessment/StudentResponseDetails";
+import StudentResultsDetails from "./HR/Assessment/StudentResultsDetails";
 
 
 // Admin Dashboard
@@ -138,24 +140,18 @@ function App() {
             <Route path="alerts" element={<Alerts />} />
             <Route path="issues" element={<Issues />} />
             <Route path="client/complain" element={<ClientComplain />} />
-            <Route
-              path="report/view_emp-registration"
-              element={<EmpRegReports />}
-            />
-            <Route
-              path="report/view_worksheet"
-              element={<WorksheetReports />}
-            />
+            <Route path="report/view_emp-registration" element={<EmpRegReports />} />
+            <Route path="report/view_worksheet" element={<WorksheetReports />} />
             <Route path="employee/type" element={<EmployeeType />} />
             <Route path="add/question-type" element={<AddQuestionType />} />
             <Route path="add/question" element={<AddQuestion />} />
-            <Route
-              path="add-course"
-              element={<AddCourse />}
-            />
+            <Route path="add-course" element={<AddCourse />} />
             <Route path="question-list/reports" element={<QuestionListReports />} />
             <Route path="assessment-reports" element={<AssessmentResult />} />
+            <Route path="assessment-status" element={<AssessmentStatus />} />
             <Route path="student-details/:mobile" element={<StudentResponseDetails />} />
+            <Route path="student-results/:mobile" element={<StudentResultsDetails />} />
+
           </Route>
         </Route>
 

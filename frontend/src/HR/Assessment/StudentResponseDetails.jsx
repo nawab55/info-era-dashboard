@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 import api from "../../config/api";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const StudentResponseDetails = () => {
   const { mobile } = useParams();
@@ -14,10 +14,12 @@ const StudentResponseDetails = () => {
       try {
         setLoading(true);
         const response = await api.get(`/api/assessment-test/student-answers/${mobile}`);
-        if (response.data) {
-          console.log(response.data);
-          setStudentData(response.data);
-          toast.success("Student data loaded successfully!");
+        console.log(response.data.data);
+        if (response.data.success) {
+          setStudentData(response.data.data);
+          // toast.success("Student data loaded successfully!");
+        } else {
+          toast.error("No data found for the given student.");
         }
       } catch (error) {
         toast.error("Failed to fetch student details.");
@@ -55,84 +57,85 @@ const StudentResponseDetails = () => {
     );
   }
 
-  const { student, stats, answers } = studentData;
+  const { student, responses } = studentData;
+
+  const totalQuestions = responses.length;
+  const correctAnswersCount = responses.filter((resp) => resp.isCorrect).length;
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
       <h1 className="mb-6 text-3xl font-bold text-center text-gray-800">
-        {student.name}&apos;s Assessment Details
+        {student.name}&apos;s Assessment Responses
       </h1>
-      <div className="mb-6 text-center">
-        <p className="text-lg text-gray-600">
-          Mobile: <span className="font-semibold">{student.mobile}</span>
+
+      <div className="max-w-4xl p-6 mx-auto bg-white rounded-lg shadow-md">
+        <h2 className="text-xl font-semibold text-gray-700">Student Details</h2>
+        <p className="text-gray-600">
+          <strong>Name:</strong> {student.name}
         </p>
+        <p className="text-gray-600">
+          <strong>Mobile:</strong> {student.mobile}
+        </p>
+        
       </div>
 
-      <div className="mb-6">
-        <h2 className="mb-4 text-2xl font-semibold text-gray-700">Summary</h2>
-        <ul className="p-4 bg-white rounded-md shadow-md">
-          <li className="mb-2 text-gray-700">
-            Total Questions Attempted: <span className="font-bold">{stats.totalQuestions}</span>
-          </li>
-          <li className="mb-2 text-gray-700">
-            Correct Answers:{" "}
-            <span className="font-bold text-green-600">{stats.correctAnswers}</span>
-          </li>
-          <li className="text-gray-700">
-            Incorrect Answers:{" "}
-            <span className="font-bold text-red-600">{stats.incorrectAnswers}</span>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h2 className="mb-4 text-2xl font-semibold text-gray-700">Answers</h2>
-        <table className="w-full text-sm border border-collapse border-gray-200">
+      <div className="mt-8">
+        <table className="w-full bg-white rounded-lg shadow-md">
           <thead>
-            <tr className="bg-gray-100">
-              <th className="px-4 py-2 border">#</th>
-              <th className="px-4 py-2 border">Question Type</th>
-              <th className="px-4 py-2 border">Question</th>
-              <th className="px-4 py-2 border">Options</th>
-              <th className="px-4 py-2 border">Your Answer</th>
-              <th className="px-4 py-2 border">Correct Answer</th>
-              <th className="px-4 py-2 border">Status</th>
+            <tr className="text-white bg-blue-500">
+              <th className="px-4 py-2">#</th>
+              <th className="px-4 py-2">Question</th>
+              <th className="px-4 py-2">Options</th>
+              <th className="px-4 py-2">Selected Option</th>
+              <th className="px-4 py-2">Correct Answer</th>
+              <th className="px-4 py-2">Background</th>
+              <th className="px-4 py-2">Question Type</th>
+              <th className="px-4 py-2">Result</th>
             </tr>
           </thead>
           <tbody>
-            {answers.map((answer, index) => (
+            {responses.map((response, index) => (
               <tr
-                key={index}
-                className={`${
-                  answer.status === "correct" ? "bg-green-50" : "bg-red-50"
-                }`}
+                key={response.questionId}
+                className={`border-b ${response.isCorrect ? "bg-green-100" : "bg-red-100"}`}
               >
-                <td className="px-4 py-2 border">{index + 1}</td>
-                <td className="px-4 py-2 border">{answer.questionType}</td>
-                <td className="px-4 py-2 border">{answer.question}</td>
-                <td className="px-4 py-2 border">
-                  <ul className="list-disc">
-                    {Object.entries(answer.options).map(([key, value]) => (
-                      <li key={key}>
-                        <span className="font-bold">{key}: </span>
-                        {value}
-                      </li>
-                    ))}
+                <td className="px-4 py-2 text-center">{index + 1}</td>
+                <td className="px-4 py-2">{response.questionDetails?.question || "N/A"}</td>
+                <td className="px-4 py-2">
+                  <ul>
+                    {response.questionDetails?.options &&
+                      Object.entries(response.questionDetails.options).map(([key, value]) => (
+                        <li key={key}>
+                          {key}: {value}
+                        </li>
+                      ))}
                   </ul>
                 </td>
-                <td className="px-4 py-2 border">{answer.selectedAnswer}</td>
-                <td className="px-4 py-2 border">{answer.correctAnswer}</td>
-                <td className="px-4 py-2 text-center border">
-                  {answer.status === "correct" ? (
-                    <FaCheckCircle className="text-green-600" />
+                <td className="px-4 py-2">{response.selectedOption || "N/A"}</td>
+                <td className="px-4 py-2">{response.correctAnswer || "N/A"}</td>
+                <td className="px-4 py-2">{response.background || "N/A"}</td>
+                <td className="px-4 py-2">{response.questionType || "N/A"}</td>
+                <td className="px-4 py-2 text-center">
+                  {response.isCorrect ? (
+                    <FaCheckCircle className="text-green-500" />
                   ) : (
-                    <FaTimesCircle className="text-red-600" />
+                    <FaTimesCircle className="text-red-500" />
                   )}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="max-w-4xl p-6 mx-auto mt-6 bg-white rounded-lg shadow-md">
+        <h2 className="text-lg font-semibold text-gray-700">Summary</h2>
+        <p className="text-gray-600">
+          <strong>Total Questions Submitted:</strong> {totalQuestions}
+        </p>
+        <p className="text-gray-600">
+          <strong>Correct Answers:</strong> {correctAnswersCount}
+        </p>
       </div>
     </div>
   );

@@ -23,41 +23,60 @@ exports.getStudentAnswers = async (req, res) => {
   try {
     const { mobile } = req.params;
     // Fetch the student's responses
-    const response = await AssessmentResponse.findOne({ "student.mobile": mobile }).populate("responses.questionId");
+    // const response = await AssessmentResponse.findOne({ "student.mobile": mobile }).populate("responses.questionId");
+    const response = await AssessmentResponse.findOne({ "student.mobile": mobile }).populate("responses.questionTypeId");
     if (!response) {
       return res.status(404).json({
         success: false,
         message: "No answers found for the given student.",
       });
     }
-    console.log("response data with populate question with questionId ",response);
+    // console.log("response data with populate question with questionId ",response);
+    const processedResponses = response.responses.map((resp) => {
+      // console.log("responses array data ",resp.questionTypeId);
+      // console.log("responses array questionId ",resp.questionId);
+      // Find the question in the `questions` array of the `questionTypeId`
+      const matchedQuestion = resp.questionTypeId.questions.find(
+        (q) => q._id.toString() === resp.questionId.toString()
+      );
+      // console.log("question which is match in questions array ",matchedQuestion);
 
-    // Structure the data for easier frontend rendering
-    // const data = {
-    //   student: response.student,
-    //   stats: {
-    //     totalQuestions: response.responses.length,
-    //     correctAnswers: response.responses.filter(
-    //       (r) => r.selectedOption === r.questionId.correctAnswer
-    //     ).length,
-    //     incorrectAnswers: response.responses.filter(
-    //       (r) => r.selectedOption !== r.questionId.correctAnswer
-    //     ).length,
-    //   },
-    //   answers: response.responses.map((r) => ({
-    //     questionType: r.questionId.questionType,
-    //     question: r.questionId.question,
-    //     options: r.questionId.options,
-    //     correctAnswer: r.questionId.correctAnswer,
-    //     selectedAnswer: r.selectedOption,
-    //     status: r.selectedOption === r.questionId.correctAnswer ? "correct" : "incorrect",
-    //   })),
-    // };
+      // Extract the correctAnswer if a match is found
+      const correctAnswer = matchedQuestion ? matchedQuestion.correctAnswer : null;
 
-    res.status(200).json({
-      data: data, 
-      message: "Student answers have been retrieved successfully.",
+      // Check if the selectedOption matches the correctAnswer
+      const isCorrect = correctAnswer === resp.selectedOption;
+
+      // Return the enhanced response object
+      return {
+        questionId: resp.questionId,
+        questionTypeId: resp.questionTypeId._id,
+        background: resp.questionTypeId.background,
+        questionType: resp.questionTypeId.questionType,
+        selectedOption: resp.selectedOption,
+        correctAnswer,
+        isCorrect,
+        questionDetails: matchedQuestion ? {
+          question: matchedQuestion.question,
+          options: matchedQuestion.options,
+        } : null,
+      };
     });
+
+    // Prepare the final response
+    const result = {
+      student: response.student,
+      responses: processedResponses,
+      createdAt: response.createdAt,
+      submittedAt: response.submittedAt,
+    };
+
+    // Send the processed data to the frontend
+    res.json({
+      success: true,
+      data: result,
+    });
+
   } catch (error) {
     console.error("Error fetching student answers:", error);
     res.status(500).json({
@@ -164,3 +183,31 @@ exports.getDashboardSummary = async (req, res) => {
 //     });
 //   }
 // };
+
+
+// Structure the data for easier frontend rendering
+    // const data = {
+    //   student: response.student,
+    //   stats: {
+    //     totalQuestions: response.responses.length,
+    //     correctAnswers: response.responses.filter(
+    //       (r) => r.selectedOption === r.questionId.correctAnswer
+    //     ).length,
+    //     incorrectAnswers: response.responses.filter(
+    //       (r) => r.selectedOption !== r.questionId.correctAnswer
+    //     ).length,
+    //   },
+    //   answers: response.responses.map((r) => ({
+    //     questionType: r.questionId.questionType,
+    //     question: r.questionId.question,
+    //     options: r.questionId.options,
+    //     correctAnswer: r.questionId.correctAnswer,
+    //     selectedAnswer: r.selectedOption,
+    //     status: r.selectedOption === r.questionId.correctAnswer ? "correct" : "incorrect",
+    //   })),
+    // };
+
+    // res.status(200).json({
+    //   data: data, 
+    //   message: "Student answers have been retrieved successfully.",
+    // });
