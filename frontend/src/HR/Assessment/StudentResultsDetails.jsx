@@ -62,7 +62,8 @@ const StudentResultsDetails = () => {
     );
   }
 
-  const { student, responses } = studentData;
+  // const { student, responses } = studentData;
+  const { student, responses, attemptedQuestions, incorrectAnswers, totalCorrectAnswers, totalQuestions } = studentData;
 
   // Calculate topic-wise scores
   const topicScores = {};
@@ -77,8 +78,10 @@ const StudentResultsDetails = () => {
     }
   });
 
-  const totalCorrect = responses.filter((resp) => resp.isCorrect).length;
-  const overallPercentage = ((totalCorrect / responses.length) * 100).toFixed(1);
+  // const totalCorrect = responses.filter((resp) => resp.isCorrect).length;
+  // const overallPercentage = ((totalCorrect / responses.length) * 100).toFixed(1);
+
+  const overallPercentage = ((totalCorrectAnswers / totalQuestions) * 100).toFixed(1);
 
   return (
     <div className="min-h-screen p-4 bg-gradient-to-br from-gray-50 to-gray-100 sm:p-6 lg:p-8">
@@ -105,7 +108,7 @@ const StudentResultsDetails = () => {
           </div>
           <div className="p-6 bg-white shadow-lg rounded-2xl">
             <div className="text-sm text-gray-500">Total Questions</div>
-            <div className="text-lg font-semibold text-gray-800">{responses?.length || 0}</div>
+            <div className="text-lg font-semibold text-gray-800">{totalQuestions || 0}</div>
           </div>
           <div className="p-6 bg-white shadow-lg rounded-2xl">
             <div className="text-sm text-gray-500">Overall Score</div>
@@ -184,22 +187,26 @@ const StudentResultsDetails = () => {
         {/* Summary Section */}
         <div className="p-6 bg-white shadow-lg rounded-2xl">
           <h2 className="mb-4 text-xl font-bold text-gray-800">Overall Summary</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             <div className="p-4 bg-gray-50 rounded-xl">
               <div className="text-sm text-gray-500">Total Topics</div>
               <div className="text-2xl font-bold text-gray-800">{Object.keys(topicScores).length}</div>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl">
               <div className="text-sm text-gray-500">Questions Attempted</div>
-              <div className="text-2xl font-bold text-gray-800">{responses.length}</div>
+              <div className="text-2xl font-bold text-gray-800">{attemptedQuestions}</div>
+            </div>
+            <div className="p-4 bg-gray-50 rounded-xl">
+              <div className="text-sm text-gray-500">Questions Not Attempted</div>
+              <div className="text-2xl font-bold text-gray-800">{totalQuestions - attemptedQuestions}</div>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl">
               <div className="text-sm text-gray-500">Correct Answers</div>
-              <div className="text-2xl font-bold text-green-600">{totalCorrect}</div>
+              <div className="text-2xl font-bold text-green-600">{totalCorrectAnswers}</div>
             </div>
             <div className="p-4 bg-gray-50 rounded-xl">
               <div className="text-sm text-gray-500">Incorrect Answers</div>
-              <div className="text-2xl font-bold text-red-600">{responses.length - totalCorrect}</div>
+              <div className="text-2xl font-bold text-red-600">{incorrectAnswers}</div>
             </div>
           </div>
         </div>

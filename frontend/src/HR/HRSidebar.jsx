@@ -159,19 +159,19 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
   return (
     <aside
       onClick={(e) => e.stopPropagation()}
-      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] min-h-full bg-custom-dark-blue transition-transform duration-300 ${
+      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] scroll-auto min-h-full bg-custom-dark-blue transition-transform duration-300 ${
         sidebarToggle ? "translate-x-0" : "-translate-x-full"
       } lg:translate-x-0`}
       aria-label="Sidebar"
     >
-    {/* <aside
-      onClick={(e) => e.stopPropagation()}
-      className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] bg-custom-dark-blue transition-transform duration-300 ${
-        sidebarToggle ? "translate-x-0" : "-translate-x-full"
-      } lg:translate-x-0 max-h-screen overflow-y-auto`}
-      aria-label="Sidebar"
-    > */}
-      <div className="px-3 py-4 space-y-1">
+    {/* //  <aside
+    //   onClick={(e) => e.stopPropagation()}
+    //   className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] bg-custom-dark-blue transition-transform duration-300 ${
+    //     sidebarToggle ? "translate-x-0" : "-translate-x-full"
+    //   } lg:translate-x-0 max-h-full overflow-y-auto`}
+    //   aria-label="Sidebar"
+    // >  */}
+      <div className="px-3 py-4 space-y-1 ">
         {menus.map((menu, index) => (
           <div key={index} className="py-1">
             {menu.dropdown ? (

@@ -63,13 +63,29 @@ exports.getStudentAnswers = async (req, res) => {
       };
     });
 
-    // Prepare the final response
+    // Prepare the result with additional calculation for attempted and incorrect answers
+    const attemptedQuestions = processedResponses.filter((resp) => resp.selectedOption).length;
+    const incorrectAnswers = processedResponses.filter((resp) => resp.selectedOption && !resp.isCorrect).length;
+    const totalCorrectAnswers = processedResponses.filter((resp) => resp.isCorrect).length;
+
     const result = {
       student: response.student,
       responses: processedResponses,
+      attemptedQuestions,
+      incorrectAnswers,
+      totalCorrectAnswers,
+      totalQuestions: processedResponses.length,
       createdAt: response.createdAt,
       submittedAt: response.submittedAt,
     };
+
+    // Prepare the final response
+    // const result = {
+    //   student: response.student,
+    //   responses: processedResponses,
+    //   createdAt: response.createdAt,
+    //   submittedAt: response.submittedAt,
+    // };
 
     // Send the processed data to the frontend
     res.json({
@@ -87,56 +103,6 @@ exports.getStudentAnswers = async (req, res) => {
   }
 };
 
-// Get dashboard summary
-exports.getDashboardSummary = async (req, res) => {
-  try {
-    const summary = await AssessmentResponse.aggregate([
-      {
-        $group: {
-          _id: "$student.mobile",
-          name: { $first: "$student.name" },
-          totalQuestionsAnswered: { $sum: { $size: "$responses" } },
-        },
-      },
-    ]);
-    res.status(200).json({
-      success: true,
-      summary,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch dashboard summary.",
-      error: error.message,
-    });
-  }
-};
-
-
-
-// exports.submitAssessment = async (req, res) => {
-//   try {
-//     const { studentDetails, questionTypeId, answers } = req.body;
-//     console.log(studentDetails + ": " + answers + ":" + questionTypeId);
-
-//     const responses = Object.entries(answers).map(([questionId, selectedOption]) => ({
-//       questionId,
-//       selectedOption, // Directly store "A", "B", "C", "D"
-//     }));
-//     const assessmentResponse = new AssessmentResponse({
-//       student: studentDetails,
-//       questionTypeId,
-//       responses,
-//     });
-
-//     await assessmentResponse.save();
-//     res.status(201).json({ success: true, message: "Assessment submitted successfully!" });
-
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ success: false, message: "Failed to submit assessment." });
-//   }
-// };
 
 // // Get saved answers for a specific student
 // exports.getStudentAnswers = async (req, res) => {

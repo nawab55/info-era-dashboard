@@ -22,6 +22,30 @@ exports.getQuestionList = async (req, res) => {
   }
 };
 
+// Delete a specific question
+exports.deleteQuestion = async (req, res) => {
+  const { questionSetId, questionId } = req.params;
+
+  try {
+    // Step 1: Find the Question document by its ID
+    const questionSet = await Question.findById(questionSetId);
+    if (!questionSet) {
+      return res.status(404).json({ message: 'Question set not found.' });
+    }
+
+    // Step 2: Filter the `questions` array to exclude the question with the specified ID
+    questionSet.questions = questionSet.questions.filter(
+      (q) => q._id.toString() !== questionId
+    );
+
+    // Step 3: Save the updated Question document
+    await questionSet.save(); // Persist changes to the database
+
+    res.status(200).json({ message: 'Question deleted successfully.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting question.', error });
+  }
+};
 // Fetch questions by background
 exports.getQuestionsByBackground = async (req, res) => {
   try {

@@ -68,21 +68,6 @@ exports.getStudentCookies = (req, res) => {
   }
 };
 
-// Fetch all students
-// exports.getAllStudentsData = async (req, res) => {
-//   try {
-//     const students = await StudentDetails.find();
-//     if (!students) {
-//       return res.status(404).json({ success: false, message: "No students found." });
-//     }
-//     res.status(200).json({ success: true, data: students, message: "All students found." });
-//   } catch (error) {
-//     console.error("Error fetching students:", error);
-//     res.status(500).json({ success: false, message: "Internal server error." });
-//   }
-// };
-
-
 // Fetch all students with their assessment responses
 exports.getAllStudentsWithAssessment = async (req, res) => {
   try {
@@ -104,6 +89,7 @@ exports.getAllStudentsWithAssessment = async (req, res) => {
           return {
             ...student.toObject(),
             totalQuestions: 0,
+            attemptedQuestions: 0,
             correctAnswers: 0,
             incorrectAnswers: 0,
             overallScore: 0, // Percentage score
@@ -144,8 +130,10 @@ exports.getAllStudentsWithAssessment = async (req, res) => {
 
         // Calculate assessment summary
         const totalQuestions = processedResponses.length;
+        const attemptedQuestions = processedResponses.filter((resp) => resp.selectedOption).length;
         const correctAnswers = processedResponses.filter((resp) => resp.isCorrect).length;
-        const incorrectAnswers = totalQuestions - correctAnswers;
+        // const incorrectAnswers = totalQuestions - correctAnswers;
+        const incorrectAnswers = processedResponses.filter((resp) => resp.selectedOption && !resp.isCorrect).length;
 
         // Calculate the overall score as a percentage
         const overallScore =
@@ -154,6 +142,7 @@ exports.getAllStudentsWithAssessment = async (req, res) => {
         return {
           ...student.toObject(),
           totalQuestions,
+          attemptedQuestions,
           correctAnswers,
           incorrectAnswers,
           overallScore, // Percentage score

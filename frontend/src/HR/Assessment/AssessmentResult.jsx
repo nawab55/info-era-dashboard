@@ -77,6 +77,22 @@ const AssessmentResult = () => {
       ),
     },
     {
+      name: "Questions",
+      sortable: true,
+      cell: (row) => (
+        <div className="flex gap-3">
+          <div className="text-center">
+            <p className="text-sm font-medium text-blue-600">{row.totalQuestions || 0}</p>
+            <p className="text-xs text-gray-500">Total</p>
+          </div>
+          <div className="text-center">
+            <p className="text-sm font-medium text-fuchsia-600">{row.attemptedQuestions || 0}</p>
+            <p className="text-xs text-gray-500">Attempted</p>
+          </div>
+        </div>
+      ),
+    },
+    {
       name: "Performance",
       sortable: true,
       cell: (row) => (
