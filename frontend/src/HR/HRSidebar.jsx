@@ -161,7 +161,7 @@ const HRSidebar = ({ sidebarToggle, setSidebarToggle }) => {
       onClick={(e) => e.stopPropagation()}
       className={`lg:w-64 md:w-1/3 w-[60%] lg:static fixed z-[2] scroll-auto min-h-full bg-custom-dark-blue transition-transform duration-300 ${
         sidebarToggle ? "translate-x-0" : "-translate-x-full"
-      } lg:translate-x-0`}
+      } lg:translate-x-0 overflow-y-auto`}
       aria-label="Sidebar"
     >
     {/* //  <aside

@@ -122,9 +122,10 @@ const updateWorksheet = async (req, res) => {
   try {
     const { empId } = req.params;
     const { date, projectName, work, workDone } = req.body;
+    // console.log(`updateWorksheet ${ date }  ${ workDone }`);
 
     // Find the worksheet by employee ID and date
-    const worksheet = await Worksheet.findOne({ empId, date });
+    const worksheet = await Worksheet.findOne({ empId, work, date });
 
     if (!worksheet) {
       return res.status(404).json({ message: "Worksheet not found" });
@@ -144,22 +145,84 @@ const updateWorksheet = async (req, res) => {
 };
 
 // Get all worksheet reports
+// const getAllWorksheets = async (req, res) => {
+//   try {
+//     const { date } = req.query;
+//     let worksheets;
+
+//     if (date) {
+//       worksheets = await Worksheet.find({ date: date });
+//     } else {
+//       worksheets = await Worksheet.find({});
+//     }
+
+//     res.status(200).json(worksheets);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching worksheets", error });
+//   }
+// };
+
+
+// const getAllWorksheets = async (req, res) => {
+//   try {
+//     const { date, fromDate, toDate, searchQuery, searchType } = req.query;
+//     let worksheets;
+
+//     // Filter by date range if provided
+//     let query = {};
+//     if (date) {
+//       query.date = date;
+//     }
+//     if (fromDate && toDate) {
+//       query.date = { $gte: fromDate, $lte: toDate };
+//     }
+
+//     // Search by field if provided
+//     if (searchQuery && searchType) {
+//       query[searchType] = { $regex: searchQuery, $options: "i" }; // Case-insensitive search
+//     }
+
+//     worksheets = await Worksheet.find(query);
+
+//     res.status(200).json(worksheets);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error fetching worksheets", error });
+//   }
+// };
+
+
+// Updated getAllWorksheets function
 const getAllWorksheets = async (req, res) => {
   try {
-    const { date } = req.query;
-    let worksheets;
+    const { fromDate, toDate, searchQuery } = req.query;
+    let query = {};
 
-    if (date) {
-      worksheets = await Worksheet.find({ date: date });
-    } else {
-      worksheets = await Worksheet.find({});
+    // Handle date range filtering
+    if (fromDate || toDate) {
+      query.date = {};
+      if (fromDate) query.date.$gte = fromDate;
+      if (toDate) query.date.$lte = toDate;
     }
+
+    // Handle search by employee name
+    if (searchQuery) {
+      query.empName = { $regex: searchQuery, $options: "i" };
+    }
+
+    const worksheets = await Worksheet.find(query)
+      .sort({ date: -1, empName: 1 }) // Sort by date descending and then by name
+      .lean(); // Use lean() for better performance
 
     res.status(200).json(worksheets);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching worksheets", error });
+    console.error("Error in getAllWorksheets:", error);
+    res.status(500).json({ 
+      message: "Error fetching worksheets", 
+      error: error.message 
+    });
   }
 };
+
 
 module.exports = {
   getEmployees,

@@ -6,6 +6,7 @@ map.set("account", "/account/dashboard");
 map.set("hr", "/hr");
 map.set("admin", "/admin/dashboard");
 map.set("employee", "/employee");
+map.set("project-manager", "/project-manager/dashboard"); // Added project manager route
 
 const AuthLogin = () => {
   const token = sessionStorage.getItem("token");
@@ -14,7 +15,7 @@ const AuthLogin = () => {
   const url = role ? map.get(role) : "/not-found";
 
   if (token) {
-    console.log("No token, redirecting to login");
+    console.log("Token found, redirecting to dashboard");
     return <Navigate to={url} />;
   }
 

@@ -362,7 +362,7 @@ const EmpRegistrationForm = () => {
     <>
       <div className="flex-1 p-4">
         <div className="flex justify-center">
-          <h1 className="text-xl py-2 border-b-4 border-blue-600 px-4 text-center font-bold  ">
+          <h1 className="px-4 py-2 text-xl font-bold text-center border-b-4 border-blue-600 ">
             Employee Registration Form
           </h1>
         </div>
@@ -373,15 +373,15 @@ const EmpRegistrationForm = () => {
         >
           <div className="">
             {currentPage === 1 && (
-              <div className="lg:p-6 p-2 border">
-                <div className="flex items-center  h-9 ">
-                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+              <div className="p-2 border lg:p-6">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                     Personal Details
                   </h2>
                 </div>
 
                 <div className="mt-4">
-                  <div className="flex gap-2 min-w-full">
+                  <div className="flex min-w-full gap-2">
                     <CustomInput
                       label={"Name"}
                       placeholder="Enter Name..."
@@ -407,7 +407,7 @@ const EmpRegistrationForm = () => {
                       error={errors.mothersName}
                     />
                   </div>
-                  <div className="flex gap-2 min-w-full">
+                  <div className="flex min-w-full gap-2">
                     <CustomTextArea
                       name={"correspondenceAddress"}
                       error={errors.correspondenceAddress}
@@ -601,7 +601,7 @@ const EmpRegistrationForm = () => {
 
                     <CustomSelect
                       label={"Role"}
-                      options={["Employee", "HR", "Admin", "Account"]}
+                      options={["Employee", "HR", "Admin", "Account", "Project-Manager", ]}
                       selectedOption={formData.role}
                       onChange={(option) =>
                         setFormData((prev) => ({
@@ -614,8 +614,8 @@ const EmpRegistrationForm = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center  h-9 ">
-                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                     Emergency Contact Details
                   </h2>
                 </div>
@@ -662,28 +662,28 @@ const EmpRegistrationForm = () => {
             {/* Family Details */}
             {currentPage === 2 && (
               <div className="p-4 mt-8 border">
-                <div className="flex items-center  h-9 ">
-                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                     Family Details
                   </h2>
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full mt-4 border-collapse border border-gray-200 shadow-md rounded-lg">
-                    <thead className="bg-gray-100 text-gray-800">
+                  <table className="w-full mt-4 border border-collapse border-gray-200 rounded-lg shadow-md">
+                    <thead className="text-gray-800 bg-gray-100">
                       <tr>
-                        <th className="text-sm font-medium text-gray-900 py-3 px-4 border-b">
+                        <th className="px-4 py-3 text-sm font-medium text-gray-900 border-b">
                           S.No
                         </th>
-                        <th className="text-sm font-medium text-gray-900 py-3 px-4 border-b">
+                        <th className="px-4 py-3 text-sm font-medium text-gray-900 border-b">
                           Name <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-900 py-3 px-4 border-b">
+                        <th className="px-4 py-3 text-sm font-medium text-gray-900 border-b">
                           Relation <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-900 py-3 px-4 border-b">
+                        <th className="px-4 py-3 text-sm font-medium text-gray-900 border-b">
                           Occupation
                         </th>
-                        <th className="text-sm font-medium text-gray-900 py-3 px-4 border-b">
+                        <th className="px-4 py-3 text-sm font-medium text-gray-900 border-b">
                           Date of Birth
                         </th>
                       </tr>
@@ -692,12 +692,12 @@ const EmpRegistrationForm = () => {
                       {formData.familyDetails.map((familyMember, index) => (
                         <tr
                           key={index}
-                          className="hover:bg-gray-50 bg-white border odd:bg-gray-50"
+                          className="bg-white border hover:bg-gray-50 odd:bg-gray-50"
                         >
-                          <td className="py-3 px-4 border-b text-center">
+                          <td className="px-4 py-3 text-center border-b">
                             {index + 1}
                           </td>
-                          <td className="py-3 px-4 border-b">
+                          <td className="px-4 py-3 border-b">
                             <CustomInput
                               label=""
                               name={`familyDetails[${index}].fname`}
@@ -713,7 +713,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4 border-b">
+                          <td className="px-4 py-3 border-b">
                             <CustomInput
                               label=""
                               name={`familyDetails[${index}].frelation`}
@@ -731,7 +731,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4 border-b">
+                          <td className="px-4 py-3 border-b">
                             <CustomInput
                               label=""
                               name={`familyDetails[${index}].foccupation`}
@@ -749,7 +749,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4 border-b">
+                          <td className="px-4 py-3 border-b">
                             <CustomInput
                               label=""
                               type="date"
@@ -777,8 +777,8 @@ const EmpRegistrationForm = () => {
             {/* Educational Details Form */}
             {currentPage === 3 && (
               <div className="p-4 mt-8 border">
-                <div className="flex items-center  h-9 ">
-                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                     Educational Details
                   </h2>
                 </div>
@@ -786,23 +786,23 @@ const EmpRegistrationForm = () => {
                   <table className="w-full mt-4 border border-collapse border-spacing-0">
                     <thead className="bg-gray-50">
                       <tr className="bg-gray-100 border">
-                        <th className="text-sm font-medium text-gray-700 py-3 px-4 text-left">
+                        <th className="px-4 py-3 text-sm font-medium text-left text-gray-700">
                           Degree <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-700 py-3 px-4 text-left">
+                        <th className="px-4 py-3 text-sm font-medium text-left text-gray-700">
                           University/Institute{" "}
                           <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-700 py-3 px-4 text-left">
+                        <th className="px-4 py-3 text-sm font-medium text-left text-gray-700">
                           Specialization <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-700 py-3 px-4 text-left">
+                        <th className="px-4 py-3 text-sm font-medium text-left text-gray-700">
                           From <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-700 py-3 px-4 text-left">
+                        <th className="px-4 py-3 text-sm font-medium text-left text-gray-700">
                           To <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-medium text-gray-700 py-3 px-4 text-left">
+                        <th className="px-4 py-3 text-sm font-medium text-left text-gray-700">
                           Percentage <span className="text-red-600">*</span>
                         </th>
                       </tr>
@@ -813,7 +813,7 @@ const EmpRegistrationForm = () => {
                           key={index}
                           className="bg-white border odd:bg-gray-50"
                         >
-                          <td className="py-3 px-4">
+                          <td className="px-4 py-3">
                             <CustomInput
                               label=""
                               type="text"
@@ -832,7 +832,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="px-4 py-3">
                             <CustomInput
                               label=""
                               type="text"
@@ -853,7 +853,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="px-4 py-3">
                             <CustomInput
                               label=""
                               type="text"
@@ -874,7 +874,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="px-4 py-3">
                             <CustomInput
                               label=""
                               type="date"
@@ -894,7 +894,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="px-4 py-3">
                             <CustomInput
                               label=""
                               type="date"
@@ -912,7 +912,7 @@ const EmpRegistrationForm = () => {
                               }
                             />
                           </td>
-                          <td className="py-3 px-4">
+                          <td className="px-4 py-3">
                             <CustomInput
                               label=""
                               type="text"
@@ -944,28 +944,28 @@ const EmpRegistrationForm = () => {
             {/* Employment Details */}
             {currentPage === 4 && (
               <div className="p-4 mt-8 border">
-                <div className="flex items-center  h-9 ">
-                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                     Employment Details
                   </h2>
                 </div>
                 <div className="overflow-x-auto bg-gray-50 rounded-b-md">
-                  <table className="w-full mt-4 border-collapse border border-gray-300">
+                  <table className="w-full mt-4 border border-collapse border-gray-300">
                     <thead className="bg-gray-50">
                       <tr className="bg-gray-100 border">
-                        <th className="text-sm font-semibold text-gray-800 py-3 px-4 text-left border border-gray-300">
+                        <th className="px-4 py-3 text-sm font-semibold text-left text-gray-800 border border-gray-300">
                           Company Name <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-semibold text-gray-800 py-3 px-4 text-left border border-gray-300">
+                        <th className="px-4 py-3 text-sm font-semibold text-left text-gray-800 border border-gray-300">
                           Designation <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-semibold text-gray-800 py-3 px-4 text-left border border-gray-300">
+                        <th className="px-4 py-3 text-sm font-semibold text-left text-gray-800 border border-gray-300">
                           From <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-semibold text-gray-800 py-3 px-4 text-left border border-gray-300">
+                        <th className="px-4 py-3 text-sm font-semibold text-left text-gray-800 border border-gray-300">
                           To <span className="text-red-600">*</span>
                         </th>
-                        <th className="text-sm font-semibold text-gray-800 py-3 px-4 text-left border border-gray-300">
+                        <th className="px-4 py-3 text-sm font-semibold text-left text-gray-800 border border-gray-300">
                           Annual CTC <span className="text-red-600">*</span>
                         </th>
                       </tr>
@@ -976,7 +976,7 @@ const EmpRegistrationForm = () => {
                           key={index}
                           className="bg-white border odd:bg-gray-50"
                         >
-                          <td className="py-3 px-4 border border-gray-300">
+                          <td className="px-4 py-3 border border-gray-300">
                             <CustomInput
                               label="Company Name"
                               name={`employmentDetails[${index}][companyName]`}
@@ -996,7 +996,7 @@ const EmpRegistrationForm = () => {
                               required
                             />
                           </td>
-                          <td className="py-3 px-4 border border-gray-300">
+                          <td className="px-4 py-3 border border-gray-300">
                             <CustomInput
                               label="Designation"
                               name={`employmentDetails[${index}][designation]`}
@@ -1016,7 +1016,7 @@ const EmpRegistrationForm = () => {
                               required
                             />
                           </td>
-                          <td className="py-3 px-4 border border-gray-300">
+                          <td className="px-4 py-3 border border-gray-300">
                             <CustomInput
                               label="From"
                               type="date"
@@ -1037,7 +1037,7 @@ const EmpRegistrationForm = () => {
                               required
                             />
                           </td>
-                          <td className="py-3 px-4 border border-gray-300">
+                          <td className="px-4 py-3 border border-gray-300">
                             <CustomInput
                               label="To"
                               type="date"
@@ -1056,7 +1056,7 @@ const EmpRegistrationForm = () => {
                               required
                             />
                           </td>
-                          <td className="py-3 px-4 border border-gray-300">
+                          <td className="px-4 py-3 border border-gray-300">
                             <CustomInput
                               type="text"
                               label="Annual CTC"
@@ -1085,12 +1085,12 @@ const EmpRegistrationForm = () => {
 
             {currentPage === 5 && (
               <div className="p-4 mt-8 border">
-                <div className="flex items-center  h-9 ">
-                  <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                     Bank Details
                   </h2>
                 </div>
-                <div className="mt-4 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                <div className="grid grid-cols-1 mt-4 gap-x-6 gap-y-8 sm:grid-cols-6">
                   {/* Name */}
                   <div className="sm:col-span-3">
                     <CustomInput
@@ -1146,14 +1146,14 @@ const EmpRegistrationForm = () => {
 
               {currentPage === 6 && (
                <div className="p-4 mt-8 border">
-               <div className="flex items-center  h-9 ">
-                 <h2 className="text-base md:text-2xl ml-2 font-semibold leading-7 text-blue-950">
+               <div className="flex items-center h-9 ">
+                 <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
                       Declaration
                     </h2>
                   </div>
               
                   {/* Declaration Text */}
-                  <p className="text-base font-medium text-gray-800 leading-relaxed mt-4">
+                  <p className="mt-4 text-base font-medium leading-relaxed text-gray-800">
                     I hereby declare that the statements made in my application form are
                     true, complete, and correct to the best of my knowledge and belief. In the
                     event of any information being found fraudulent, false, or incorrect at any
@@ -1167,7 +1167,7 @@ const EmpRegistrationForm = () => {
                       id="declaration"
                       checked={isDeclarationChecked}
                       onChange={(e) => setIsDeclarationChecked(e.target.checked)}
-                      className="h-5 w-5 text-indigo-600 focus:ring-indigo-500 rounded border-gray-300"
+                      className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
                       required
                     />
                     <label
@@ -1179,7 +1179,7 @@ const EmpRegistrationForm = () => {
                   </div>
               
                   {/* Form Inputs */}
-                  <div className="mt-8 flex gap-2">
+                  <div className="flex gap-2 mt-8">
                     {/* Name */}
                     <CustomInput
                       label="Name"
@@ -1216,7 +1216,7 @@ const EmpRegistrationForm = () => {
               )}
 
             {/* Navigation Buttons */}
-            <div className="mt-6 flex items-center justify-center gap-x-6">
+            <div className="flex items-center justify-center mt-6 gap-x-6">
               <button
                 type="button"
                 className={`text-base font-semibold leading-6 ${
@@ -1250,7 +1250,7 @@ const EmpRegistrationForm = () => {
             </div>
             {/* Save Button - only visible on the last page */}
             {currentPage === totalPages && (
-              <div className="mt-6 flex items-center justify-end gap-x-6">
+              <div className="flex items-center justify-end mt-6 gap-x-6">
                 <button
                   type="button"
                   className="text-base font-semibold leading-6 text-gray-900"
@@ -1260,7 +1260,7 @@ const EmpRegistrationForm = () => {
                 </button>
                 <button
                   type="submit"
-                  className="rounded-md bg-indigo-600 px-6 py-2 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="px-6 py-2 font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   Save
                 </button>
@@ -1302,7 +1302,7 @@ function CustomInput({
     <div className="flex-1 mb-4">
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-gray-700 mb-1"
+        className="block mb-1 text-sm font-medium text-gray-700"
       >
         {label}
       </label>
@@ -1323,12 +1323,12 @@ function CustomInput({
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+            className="absolute inset-y-0 flex items-center text-gray-500 right-3"
           >
             {isPasswordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
           </button>
         )}
-        {error && <span className=" text-red-500 text-sm">{error}</span>}
+        {error && <span className="text-sm text-red-500 ">{error}</span>}
       </div>
     </div>
   );
@@ -1346,7 +1346,7 @@ function CustomTextArea({
     <div className="w-full mb-4">
       <label
         htmlFor={name}
-        className="block text-sm font-medium text-gray-700 mb-1"
+        className="block mb-1 text-sm font-medium text-gray-700"
       >
         {label}
       </label>
@@ -1450,10 +1450,10 @@ function CustomSelect({ label, options, selectedOption, onChange, error }) {
   const id = label + Math.random().toString;
 
   return (
-    <div className="w-auto flex-1 mb-4">
+    <div className="flex-1 w-auto mb-4">
       <label
         htmlFor={id}
-        className="block text-sm font-medium text-gray-700 mb-1"
+        className="block mb-1 text-sm font-medium text-gray-700"
       >
         {label}
       </label>
@@ -1489,7 +1489,7 @@ function CustomSelect({ label, options, selectedOption, onChange, error }) {
             }
           }}
         >
-          <span className="text-gray-700 select-none text-left">
+          <span className="text-left text-gray-700 select-none">
             {selectedOption || "Select an option"}
           </span>
           <FiChevronDown

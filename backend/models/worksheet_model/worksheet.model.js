@@ -45,7 +45,7 @@ const worksheetSchema = new mongoose.Schema({
   },
   workDone: {
     type: String,
-    immutable: true,
+    // immutable: true,
   },
   excelData: [excelDataSchema],    // Array of objects to store sheet data
 });

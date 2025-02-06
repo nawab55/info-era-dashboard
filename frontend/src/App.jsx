@@ -1,9 +1,12 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import "./App.css";
 import Login from "./Components/Login";
 // import Register from "./Components/Register";
 import AuthGuard from "./Components/AuthGuard";
 // import Home from "./Home";
+import AuthLogin from "./Components/AuthLogin";
+import NotFound from "./NotFound";
+import ForgotPassword from "./Components/ForgotPassword";
+import UpdatePassword from "./Components/ResetPassword";
 
 // Employee Dashboard
 import Layout from "./Employee/Layout";
@@ -30,7 +33,9 @@ import CustomerReports from "./Account/Invoice/CustomerReports";
 
 // HR Dashboard
 import HRLayout from "./HR/HRLayout";
-import HRHome from "./HR/HRHome";
+// import HRHome from "./HR/HRHome";
+import DashboardOverview from "./HR/DashboardOverview";
+
 import EmpRegistrationForm from "./HR/Employee/EmpRegistrationForm";
 import Worksheet from "./HR/worksheet/Worksheet";
 import HRAttendance from "./HR/HRAttendance";
@@ -51,7 +56,6 @@ import AssessmentResult from "./HR/Assessment/AssessmentResult";
 import AssessmentStatus from "./HR/Assessment/AssessmentStatus";
 import StudentResponseDetails from "./HR/Assessment/StudentResponseDetails";
 import StudentResultsDetails from "./HR/Assessment/StudentResultsDetails";
-
 
 // Admin Dashboard
 import AdminLayout from "./Admin/AdminLayout";
@@ -74,6 +78,14 @@ import Bbc from "./Admin/adminComponents/co-partners/Bbc";
 import Consultant from "./Admin/adminComponents/consultant/Consultant";
 import Contact from "./Admin/adminComponents/contact/Contact";
 
+// Project Manager Dashboard
+import PMLayout from "./project-manager/layout/Layout";
+import PMDashboard from "./project-manager/pages/Dashboard";
+import AddWorksheet from "./project-manager/pages/AddWorksheet";
+import ManagerAttendance from "./project-manager/pages/Attendance";
+import ManagerViewAttendance from "./project-manager/pages/ViewAttendance";
+import EmpWorksheetReports from "./project-manager/pages/EmpWorksheetReports";
+
 // Client Dashboard
 import ClientLayout from "./client/ClientLayout";
 import ClientHome from "./client/ClientHome";
@@ -83,30 +95,26 @@ import CustomerProfile from "./client/clientComponent/profile/CustomerProfile";
 import ResetPassword from "./client/clientComponent/reset_password/ResetPassword";
 import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetails";
 import Complain from "./client/clientComponent/service/Complain";
-import AuthLogin from "./Components/AuthLogin";
-import NotFound from "./NotFound";
-import ForgotPassword from "./Components/ForgotPassword";
-import UpdatePassword from "./Components/ResetPassword";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Routes */}
-
         <Route element={<AuthLogin />}>
           <Route path="/" element={<Login />} />
         </Route>
         <Route path="/client_login" element={<ClientLogin />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:userId/:token" element={<UpdatePassword />} />
+        <Route
+          path="/reset-password/:userId/:token"
+          element={<UpdatePassword />}
+        />
         {/* <Route path="/register" element={<Register />} /> */}
         {/* <Route path="/" element={<Home />} /> */}
-
-        {/* Protected Routes */}
-        <Route element={<AuthGuard />}>
-          {/* Admin Dashboard */}
-          <Route path="/admin" element={<AdminLayout />}>
+        {/* Admin Dashboard */} {/* Protected Routes */}
+        <Route element={<AuthGuard allowedRoles={["admin"]} />}>
+          <Route path="/admin/*" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminHome />} />
             <Route path="add-college" element={<AddCollege />} />
             <Route path="add-student" element={<AddStudent />} />
@@ -129,10 +137,11 @@ function App() {
             <Route path="consultant" element={<Consultant />} />
             <Route path="contact" element={<Contact />} />
           </Route>
-
-          {/* HR Dashboard */}
+        </Route>
+        {/* HR Dashboard */}
+        <Route element={<AuthGuard allowedRoles={["hr"]} />}>
           <Route path="/hr" element={<HRLayout />}>
-            <Route index element={<HRHome />} />
+            <Route index element={<DashboardOverview />} />
             <Route path="register" element={<EmpRegistrationForm />} />
             <Route path="worksheet" element={<Worksheet />} />
             <Route path="attendance" element={<HRAttendance />} />
@@ -140,23 +149,52 @@ function App() {
             <Route path="alerts" element={<Alerts />} />
             <Route path="issues" element={<Issues />} />
             <Route path="client/complain" element={<ClientComplain />} />
-            <Route path="report/view_emp-registration" element={<EmpRegReports />} />
-            <Route path="report/view_worksheet" element={<WorksheetReports />} />
+            <Route
+              path="report/view_emp-registration"
+              element={<EmpRegReports />}
+            />
+            <Route
+              path="report/view_worksheet"
+              element={<WorksheetReports />}
+            />
             <Route path="employee/type" element={<EmployeeType />} />
             <Route path="add/question-type" element={<AddQuestionType />} />
             <Route path="add/question" element={<AddQuestion />} />
             <Route path="add-course" element={<AddCourse />} />
-            <Route path="question-list/reports" element={<QuestionListReports />} />
+            <Route
+              path="question-list/reports"
+              element={<QuestionListReports />}
+            />
             <Route path="assessment-reports" element={<AssessmentResult />} />
             <Route path="assessment-status" element={<AssessmentStatus />} />
-            <Route path="student-details/:mobile" element={<StudentResponseDetails />} />
-            <Route path="student-results/:mobile" element={<StudentResultsDetails />} />
-
+            <Route
+              path="student-details/:mobile"
+              element={<StudentResponseDetails />}
+            />
+            <Route
+              path="student-results/:mobile"
+              element={<StudentResultsDetails />}
+            />
           </Route>
         </Route>
-
-        <Route element={<AuthGuard />}>
-          {/* Account Dashboard */}
+        {/* Project Manager Dashboard */}
+        <Route element={<AuthGuard allowedRoles={["project-manager"]} />}>
+          <Route path="/project-manager" element={<PMLayout />}>
+            <Route path="dashboard" element={<PMDashboard />} />
+            <Route path="add-worksheet" element={<AddWorksheet />} />
+            <Route path="attendance" element={<ManagerAttendance />} />
+            <Route
+              path="report/view_worksheet"
+              element={<EmpWorksheetReports />}
+            />
+            <Route
+              path="report/view-attendance"
+              element={<ManagerViewAttendance />}
+            />
+          </Route>
+        </Route>
+        {/* Account Dashboard */}
+        <Route element={<AuthGuard allowedRoles={["account"]} />}>
           <Route path="/account" element={<AccountLayout />}>
             {/* <Route path="" element={<Dashboard />} /> */}
             <Route path="dashboard" element={<Dashboard />} />
@@ -174,20 +212,20 @@ function App() {
             <Route path="domain" element={<Domain />} />
             <Route path="domain/report" element={<DomainReports />} />
           </Route>
-
-          {/* Employee Dashboard  */}
-            <Route path="/employee" element={<Layout />}>
-              <Route index element={<EmpHome />} />
-              <Route path="worklist" element={<WorkList />} />
-              <Route path="dailysheet" element={<DailySheet />} />
-              <Route path="attendance/add" element={<Attendance />} />
-              <Route path="attendance/view" element={<ViewAttendance />} />
-              <Route path="leaves" element={<LeaveApplication />} />
-              <Route path="alerts" element={<Notification />} />
-              <Route path="report-problem" element={<ReportAProblem />} />
-            </Route>
         </Route>
-
+        {/* Employee Dashboard  */}
+        <Route element={<AuthGuard allowedRoles={["employee"]} />}>
+          <Route path="/employee" element={<Layout />}>
+            <Route index element={<EmpHome />} />
+            <Route path="worklist" element={<WorkList />} />
+            <Route path="dailysheet" element={<DailySheet />} />
+            <Route path="attendance/add" element={<Attendance />} />
+            <Route path="attendance/view" element={<ViewAttendance />} />
+            <Route path="leaves" element={<LeaveApplication />} />
+            <Route path="alerts" element={<Notification />} />
+            <Route path="report-problem" element={<ReportAProblem />} />
+          </Route>
+        </Route>
         {/* Client Dashboard */}
         <Route element={<ClientAuth />}>
           <Route path="/client" element={<ClientLayout />}>
@@ -198,7 +236,6 @@ function App() {
             <Route path="request-complain" element={<Complain />} />
           </Route>
         </Route>
-
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
