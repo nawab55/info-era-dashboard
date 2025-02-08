@@ -5,18 +5,26 @@ import { v4 as uuidv4 } from "uuid";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import InvoiceModal from "./InvoiceModal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const date = new Date();
 const today = date.toLocaleDateString("en-GB"); // 'en-GB' for dd/mm/yyyy format
-// const count = 1;
 
 const InvoiceForm = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [customerData, setCustomerData] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [isCustomerListOpen, setIsCustomerListOpen] = useState(false);
   const [selectedCustomerId, setSelectedCustomerId] = useState(""); // state to store customerId
+  const [showModal, setShowModal] = useState(false); //state to controll modal visibility
+  const [savedInvoiceData, setSavedInvoiceData] = useState(null); // state to store the saved invoice data
+  const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]); // Filtered services for dropdown
+  const [isEditMode, setIsEditMode] = useState(false); // Track if the form is in edit mode
+  const [activeDropdownId, setActiveDropdownId] = useState(null); // Add new state to track which item's dropdown is visible
+  // Initial invoice data state
   const [invoiceData, setInvoiceData] = useState({
-    // invoiceNo: `IE/${count}`,
     invoiceNo: "",
     date: today,
     cashierName: "",
@@ -26,7 +34,7 @@ const InvoiceForm = () => {
       email: "",
       gstNo: "",
       gstName: "",
-      address: "",
+      address: ""
     },
     customerId: "",
     cgst: "",
@@ -48,7 +56,8 @@ const InvoiceForm = () => {
         hsn: "",
         qty: 1,
         price: "1.00",
-      },
+        unit: "PAGES" // Add unit field with default value
+      }
     ],
     // Default company information filled in invoiceData
     companyInfo: {
@@ -57,37 +66,66 @@ const InvoiceForm = () => {
         "FLAT NO-604, 6TH FLOOR, NARAIN PLAZA EXHIBITION ROAD, PATNA-800001",
       gstin: "10AADCI6770K1ZK",
       cin: "U72300BR2014PTC022956",
-      email: "infoerapvtltd@gmail.com",
+      email: "infoerapvtltd@gmail.com"
     },
-    totalAmount: 0, // Adding totalAmount to the state
+    totalAmount: 0 // Adding totalAmount to the state
   });
 
-  const [showModal, setShowModal] = useState(false); //state to controll modal visibility
-  const [savedInvoiceData, setSavedInvoiceData] = useState(null); // state to store the saved invoice data
-  const [services, setServices] = useState([]);
-  const [filteredServices, setFilteredServices] = useState([]); // Filtered services for dropdown
-
+  // Check if editing an existing invoice
   useEffect(() => {
-    const fetchInvoices = async () => {
-      try {
-        const response = await api.get("/api/invoices/get-invoices");
-        // console.log("invoiceNumber: ", response.data.latestInvoiceNo);
-        // console.log("invoiceDetails: ", response.data.invoices);
+    if (location.state?.invoiceReportData) {
+      const editInvoiceData = location.state.invoiceReportData;
+      setIsEditMode(true); // Set edit mode to true
+      //   setInvoiceData(location.state.invoiceReportData); // Set the entire invoice data from location.state
+      setInvoiceData({
+        ...editInvoiceData,
+        // Ensure we keep the original invoice number during edit
+        invoiceNo: editInvoiceData.invoiceNo
+        // Regenerate orderId to prevent duplicate
+        // orderId: uuidv4()
+      });
+      // Set selected customer ID if available
+      //   setSelectedCustomerId(location.state.invoiceReportData.customerId);
+      setSelectedCustomerId(editInvoiceData.customerId);
+    } else {
+      // Fetch latest invoice number only if creating a new invoice
+      const fetchInvoices = async () => {
+        try {
+          const response = await api.get("/api/invoices/get-invoices");
+          setInvoiceData((prevData) => ({
+            ...prevData,
+            invoiceNo: response.data.latestInvoiceNo
+          }));
+        } catch (error) {
+          console.error("Error fetching invoices:", error);
+          toast.error("Failed to fetch latest invoice number");
+        }
+      };
+      fetchInvoices();
+    }
+  }, [location.state]);
 
-        setInvoiceData((prevData) => ({
-          ...prevData,
-          invoiceNo: response.data.latestInvoiceNo,
-        }));
-      } catch (error) {
-        console.error(
-          "Error fetching invoices and latest invoice number:",
-          error
-        );
-        toast.error("Failed to fetch latest invoice number");
-      }
-    };
-    fetchInvoices();
-  }, []);
+  // Fetch latest invoice number only if not in edit mode
+  //   useEffect(() => {
+  //     if (!isEditMode) {
+  //       const fetchInvoices = async () => {
+  //         try {
+  //           const response = await api.get("/api/invoices/get-invoices");
+  //           console.log("invoiceNumber: ", response.data.latestInvoiceNo);
+  //           // console.log("invoiceDetails: ", response.data.invoices);
+
+  //           setInvoiceData((prevData) => ({
+  //             ...prevData,
+  //             invoiceNo: response.data.latestInvoiceNo // Update only the invoiceNo
+  //           }));
+  //         } catch (error) {
+  //           console.error("Error fetching invoices:", error);
+  //           toast.error("Failed to fetch latest invoice number");
+  //         }
+  //       };
+  //       fetchInvoices();
+  //     }
+  //   }, [isEditMode]);
 
   useEffect(() => {
     const fetchCustomer = async () => {
@@ -116,7 +154,7 @@ const InvoiceForm = () => {
   useEffect(() => {
     fetchServices();
   }, []);
-
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInvoiceData((prevData) => {
@@ -126,21 +164,21 @@ const InvoiceForm = () => {
           ...prevData,
           buyerDetails: {
             ...prevData.buyerDetails,
-            [key]: value,
-          },
+            [key]: value
+          }
         };
       }
       return { ...prevData, [name]: value };
     });
   };
-
+  // Handle service input changes
   const handleServiceInputChange = (e, itemId) => {
     const { value } = e.target;
     setInvoiceData((prevData) => ({
       ...prevData,
       items: prevData.items.map((item) =>
         item.id === itemId ? { ...item, name: value } : item
-      ),
+      )
     }));
 
     if (value) {
@@ -148,11 +186,13 @@ const InvoiceForm = () => {
         service.categoryName.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredServices(filtered);
+      setActiveDropdownId(itemId); // Set the active dropdown id to track which item's dropdown is visible
     } else {
       setFilteredServices([]);
+      setActiveDropdownId(null);
     }
   };
-
+  // Handle service selection
   const handleServiceSelect = (selectedService, itemId) => {
     setInvoiceData((prevData) => ({
       ...prevData,
@@ -162,22 +202,31 @@ const InvoiceForm = () => {
               ...item,
               name: selectedService.categoryName,
               hsn: selectedService.hsnCode,
-              price: selectedService.amount,
+              price: selectedService.amount
             }
           : item
-      ),
+      )
     }));
     setFilteredServices([]); // Clear the dropdown after selection
+    setActiveDropdownId(null); // Clear the active dropdown
   };
 
+  // Add handler for input blur
+  const handleInputBlur = () => {
+    // Use setTimeout to allow click events on dropdown to fire first
+    setTimeout(() => {
+      setActiveDropdownId(null);
+    }, 200);
+  };
+  // Handle customer input changes
   const handleCustomerInputChange = (e) => {
     const { value } = e.target;
     setInvoiceData((prevData) => ({
       ...prevData,
       buyerDetails: {
         ...prevData.buyerDetails,
-        customerName: value,
-      },
+        customerName: value
+      }
     }));
     if (value) {
       const filtered = customerData.filter((customer) =>
@@ -200,7 +249,7 @@ const InvoiceForm = () => {
     //   },
     // }));
   };
-
+  // Handle customer selection
   const handleCustomerSelect = (customer) => {
     setInvoiceData((prevData) => ({
       ...prevData,
@@ -210,27 +259,14 @@ const InvoiceForm = () => {
         email: customer.email,
         gstNo: customer.gstNo,
         gstName: customer.gstName,
-        address: customer.address,
+        address: customer.address
       },
-      customerId: customer._id, // Set the customerId in the state
+      customerId: customer._id // Set the customerId in the state
     }));
     setFilteredCustomers([]);
     setSelectedCustomerId(customer._id); // Set selectedCustomerId state
   };
-
-  // const handleCustomerSelect = (e) => {
-  //   const selectedCustomer = customerData.find(customer => customer.name === e.target.value);
-  //   setInvoiceData((prevData) => ({
-  //     ...prevData,
-  //     buyerDetails: {
-  //       customerName: selectedCustomer.name,
-  //       mobile: selectedCustomer.mobile,
-  //       email: selectedCustomer.email,
-  //       address: selectedCustomer.address,
-  //     },
-  //   }));
-  // };
-
+  // Add a new item to the invoice
   const addItemHandler = () => {
     const id = uid();
     setInvoiceData((prevData) => ({
@@ -243,28 +279,29 @@ const InvoiceForm = () => {
           hsn: "",
           qty: 1,
           price: "1.00",
-        },
-      ],
+          unit: "PAGES" // Add unit field with default value
+        }
+      ]
     }));
   };
-
+  // Delete an item from the invoice
   const deleteItemHandler = (id) => {
     setInvoiceData((prevData) => ({
       ...prevData,
-      items: prevData.items.filter((item) => item.id !== id),
+      items: prevData.items.filter((item) => item.id !== id)
     }));
   };
-
+  // Edit an item in the invoice
   const editItemHandler = (event) => {
     const { id, name, value } = event.target;
     setInvoiceData((prevData) => ({
       ...prevData,
       items: prevData.items.map((item) =>
         item.id === id ? { ...item, [name]: value } : item
-      ),
+      )
     }));
   };
-
+  // Calculate subtotal, tax, discount, and total
   const subtotal = invoiceData.items.reduce((prev, curr) => {
     if (curr.name.trim().length > 0) {
       return prev + Number(curr.price) * curr.qty;
@@ -281,72 +318,83 @@ const InvoiceForm = () => {
   useEffect(() => {
     setInvoiceData((prevData) => ({
       ...prevData,
-      totalAmount: total,
+      totalAmount: total
     }));
   }, [total]);
 
+  // Handle form submission (create or update)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const invoicePayload = {
         ...invoiceData,
-        customerId: selectedCustomerId, //  Include the customerId in the payload
+        customerId: selectedCustomerId //  Include the customerId in the payload
       };
 
-      const response = await api.post(
-        "/api/invoices/create-invoice",
-        invoicePayload
-      );
-      toast.success("Invoice data submitted successfully");
-      setSavedInvoiceData(response.data.invoiceData);
-      setShowModal(true);
-
-      // Properly increment the invoice number
-      // const currentInvoiceNo = invoiceData.invoiceNo.split("/")[1]; // Extract the numeric part
-      // const incrementedNumber = parseInt(currentInvoiceNo, 10) + 1; // Increment
-      // const newInvoiceNo = `IE/${incrementedNumber}`; // Concatenate back
-
-      setInvoiceData((prevData) => ({
-        ...prevData,
-        // invoiceNo: newInvoiceNo,
-        invoiceNo: prevData.invoiceNo,
-        cashierName: "",
-        buyerDetails: {
-          customerName: "",
-          mobile: "",
-          email: "",
-          gstNo: "",
-          gstName: "",
-          address: "",
-        },
-        customerId: "",
-        cgst: "",
-        sgst: "",
-        discount: "",
-        deliveryNote: "",
-        modeOfPayment: "",
-        referenceNo: "",
-        buyersOrderNo: "",
-        dispatchedDocNo: "",
-        dispatchedThrough: "",
-        destination: "",
-        termsOfDelivery: "",
-        orderId: uuidv4(),
-        items: [
-          {
-            id: uid(),
-            name: "",
-            hsn: "",
-            qty: 1,
-            price: "1.00",
+      let response;
+      if (isEditMode) {
+        // Update the invoice if in edit mode
+        const invoiceReportData = location.state.invoiceReportData;
+        response = await api.put(
+          `/api/invoices/update-invoice/${invoiceReportData._id}`,
+          invoicePayload
+        );
+        toast.success("Invoice updated successfully");
+        navigate("/account/invoiceReports");
+      } else {
+        // Create a new invoice if not in edit mode
+        response = await api.post(
+          "/api/invoices/create-invoice",
+          invoicePayload
+        );
+        toast.success("Invoice created successfully");
+        setSavedInvoiceData(response.data.invoiceData);
+        setShowModal(true);
+        // Reset form for new invoice
+        setInvoiceData((prevData) => ({
+          ...prevData,
+          //   invoiceNo: prevData.invoiceNo,
+          cashierName: "",
+          buyerDetails: {
+            customerName: "",
+            mobile: "",
+            email: "",
+            gstNo: "",
+            gstName: "",
+            address: ""
           },
-        ],
-        companyInfo: prevData.companyInfo,
-        totalAmount: 0, // Reset totalAmount
-      }));
+          customerId: "",
+          cgst: "",
+          sgst: "",
+          discount: "",
+          deliveryNote: "",
+          modeOfPayment: "",
+          referenceNo: "",
+          buyersOrderNo: "",
+          dispatchedDocNo: "",
+          dispatchedThrough: "",
+          destination: "",
+          termsOfDelivery: "",
+          orderId: uuidv4(),
+          items: [
+            {
+              id: uid(),
+              name: "",
+              hsn: "",
+              qty: 1,
+              price: "1.00",
+              unit: "PAGES"
+            }
+          ],
+          companyInfo: prevData.companyInfo,
+          totalAmount: 0
+        }));
+      }
     } catch (error) {
       console.error("Error saving invoice:", error);
-      toast.error("Failed to upload Invoice data");
+      toast.error(
+        isEditMode ? "Failed to update invoice" : "Failed to create invoice"
+      );
     }
   };
 
@@ -363,7 +411,7 @@ const InvoiceForm = () => {
               id="header"
               className="p-2 text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-l from-indigo-600 to-fuchsia-700"
             >
-              Invoice
+              {isEditMode ? "Edit Invoice" : "Create Invoice"}
             </h1>
           </div>
           <div className="p-6 mb-8 bg-white border rounded">
@@ -407,7 +455,7 @@ const InvoiceForm = () => {
                 />
               </div>
               <InputField
-                label="Current Date"
+                label={isEditMode ? "Invoice Date" : "Current Date"}
                 name="date"
                 value={invoiceData.date}
                 onChange={handleChange}
@@ -598,7 +646,7 @@ const InvoiceForm = () => {
                   placeholder="Enter GST name"
                 />
               </div>
-             
+
               <div className="md:col-span-2">
                 <label
                   htmlFor="buyerDetails.address"
@@ -649,6 +697,12 @@ const InvoiceForm = () => {
                     scope="col"
                     className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
                   >
+                    Unit
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
                     Price
                   </th>
                   <th
@@ -680,22 +734,23 @@ const InvoiceForm = () => {
                         name="name"
                         value={item.name}
                         onChange={(e) => handleServiceInputChange(e, item.id)}
+                        onBlur={handleInputBlur}
                       />
-                      {filteredServices.length > 0 && (
-                        <ul className="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 rounded max-h-48">
-                          {filteredServices.map((service) => (
-                            <li
-                              key={service._id}
-                              className="px-1 py-2 cursor-pointer md:px-4 hover:bg-gray-100"
-                              onClick={() =>
-                                handleServiceSelect(service, item.id)
-                              }
-                            >
-                              {service.categoryName}
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                      {activeDropdownId === item.id && filteredServices.length > 0 && (
+                          <ul className="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 rounded max-h-48">
+                            {filteredServices.map((service) => (
+                              <li
+                                key={service._id}
+                                className="px-1 py-2 cursor-pointer md:px-4 hover:bg-gray-100"
+                                onClick={() =>
+                                  handleServiceSelect(service, item.id)
+                                }
+                              >
+                                {service.categoryName}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
                     </td>
                     <td className="px-1 py-1 md:px-4 md:py-2">
                       <input
@@ -713,10 +768,23 @@ const InvoiceForm = () => {
                         type="number"
                         id={item.id}
                         name="qty"
-                        min="1"
+                        // min="1"
                         value={item.qty}
                         onChange={editItemHandler}
                       />
+                    </td>
+                    <td className="px-1 py-1 ">
+                      <select
+                        className="w-full py-2 text-gray-700 border rounded md:px-3 focus:border-blue-500 focus:outline-none"
+                        name="unit"
+                        id={item.id}
+                        value={item.unit || "PAGES"} // Default to "PAGES" if unit is not set
+                        onChange={editItemHandler}
+                      >
+                        <option value="PAGES">PAGES</option>
+                        <option value="PIC">PIC</option>
+                        <option value="BOX">BOX</option>
+                      </select>
                     </td>
                     <td className="px-1 py-1 md:px-4 md:py-2">
                       <input
@@ -878,13 +946,12 @@ const InvoiceForm = () => {
               type="submit"
               className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Generate Invoice
+              {isEditMode ? "Update Invoice" : "Generate Invoice"}
             </button>
           </div>
-          {/* </div> */}
         </form>
       </div>
-      {showModal && (
+      {showModal && !isEditMode && (
         <InvoiceModal
           invoiceData={savedInvoiceData}
           onClose={() => setShowModal(false)}

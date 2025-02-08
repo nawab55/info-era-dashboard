@@ -6,6 +6,9 @@ const { authenticate } = require('../../middleware/auth');
 // Route to add a new invoice inn db
 router.post('/create-invoice', invoiceController.createInvoice);
 
+// Route to update an invioce
+router.put('/update-invoice/:id', invoiceController.updateInvoice);
+
 // Route to get all Invoices
 router.get('/get-invoices', invoiceController.getInvoices);
 
@@ -15,7 +18,6 @@ router.get('/customer/:customerId', authenticate, invoiceController.getInvoicesB
 // Route to get single invoice by ID
 router.get('/invoices/:id', invoiceController.getInvoiceById);
 
-// Route to update an invioce
-router.put('/invoices/:id', invoiceController.updateInvoice);
+
 
 module.exports = router;

@@ -204,7 +204,7 @@ const Attendance = () => {
   };
 
   return (
-    <section className="flex-1 min-h-screen p-4 bg-gradient-to-br from-blue-100 via-white to-gray-100">
+    <section className="flex-1 min-h-screen p-4 rounded bg-gradient-to-br from-blue-100 via-white to-gray-100">
       {/* Header */}
       <div className="flex items-center justify-center p-4 border rounded-lg bg-blue-50">
         <h1 className="text-2xl font-bold tracking-wide text-gray-900 md:text-3xl">

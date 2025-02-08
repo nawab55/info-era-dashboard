@@ -80,7 +80,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads")); // Serve static files from the 'uploads' directory
 
 app.get("/", (req, res) => {
-  res.send("Hello World----");
+  res.send("");
 });
 
 // Routes

@@ -46,6 +46,65 @@ const createInvoice = async (req, res) => {
   }
 };
 
+// Function to update an existing invoice
+const updateInvoice = async (req, res) => {
+  try {
+    const { id } = req.params; // Get invoice ID from URL parameters
+    const { customerId, ...invoiceData } = req.body;
+
+    // Validate required fields
+    if (!id) {
+      return res.status(400).json({ 
+        message: "Invoice ID is required", 
+        success: false 
+      });
+    }
+
+    if (!customerId) {
+      return res.status(400).json({ 
+        message: "Customer ID is required", 
+        success: false 
+      });
+    }
+
+    // Find the invoice and update it
+    const updatedInvoice = await Invoice.findByIdAndUpdate(
+      id, 
+      {
+        ...invoiceData,
+        customerId: customerId
+      }, 
+      { 
+        new: true, // Return the updated document
+        runValidators: true // Run model validations on update
+      }
+    );
+
+    // Check if invoice was found and updated
+    if (!updatedInvoice) {
+      return res.status(404).json({
+        message: "Invoice not found",
+        success: false
+      });
+    }
+
+    // Respond with updated invoice
+    res.status(200).json({
+      invoiceData: updatedInvoice,
+      message: "Invoice updated successfully",
+      success: true
+    });
+
+  } catch (error) {
+    console.error("Error updating invoice:", error);
+    res.status(500).json({
+      message: "Error updating invoice",
+      error: error.message,
+      success: false
+    });
+  }
+};
+
 // Function to get all Invoices
 // const getInvoices = async (req, res) => {
 //   try {
@@ -128,7 +187,7 @@ const getInvoices = async (req, res) => {
       count = 1; // Start from 1 if no invoices exist
     }
     const latestInvoiceNo = `IE/${count}`;
-    console.log("Next Invoice Number:", latestInvoiceNo);
+    // console.log("Next Invoice Number:", latestInvoiceNo);
 
     // Respond with data
     res.status(200).json({
@@ -187,32 +246,33 @@ const getInvoicesByCustomerId = async (req, res) => {
 };
 
 // function to update an invoice by id
-const updateInvoice = async (req, res) => {
-  try {
-    const invoiceId = req.params.id;
-    const invoiceData = req.body;
-    const updatedInvoice = await Invoice.findByIdAndUpdate(
-      invoiceId,
-      invoiceData,
-      { new: true }
-    );
+// const updateInvoice = async (req, res) => {
+//   try {
+//     const invoiceId = req.params.id;
+//     const invoiceData = req.body;
+//     const updatedInvoice = await Invoice.findByIdAndUpdate(
+//       invoiceId,
+//       invoiceData,
+//       { new: true }
+//     );
 
-    if (!updatedInvoice) {
-      return res.status(404).json({ message: "Invoice not found" });
-    }
-    res
-      .status(200)
-      .json({ updatedInvoice, message: "Invoice updated successfully" });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Error updating invoice", error });
-  }
-};
+//     if (!updatedInvoice) {
+//       return res.status(404).json({ message: "Invoice not found" });
+//     }
+//     res
+//       .status(200)
+//       .json({ updatedInvoice, message: "Invoice updated successfully" });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Error updating invoice", error });
+//   }
+// };
 
 module.exports = {
   createInvoice,
+  updateInvoice,
   getInvoices,
   getInvoiceById,
   getInvoicesByCustomerId,
-  updateInvoice,
+  // updateInvoice,
 };

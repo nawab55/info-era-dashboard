@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 import { useState, useEffect } from "react";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import * as XLSX from "xlsx";
 import { HiCheckCircle, HiDocumentText, HiUpload, HiX } from "react-icons/hi";
+import { CgSpinner } from "react-icons/cg";
 
 const AddWorksheet = () => {
   const [employeeTypes, setEmployeeTypes] = useState([]);
@@ -363,7 +365,7 @@ const AddWorksheet = () => {
               type="submit"
               className={`flex items-center justify-center px-6 py-3 text-white font-bold transition-all duration-300 transform ${
                 isLoading
-                  ? "bg-gray-400 cursor-not-allowed"
+                  ? "bg-gradient-to-r from-gray-500 to-gray-600 cursor-not-allowed"
                   : isHovered
                   ? "bg-indigo-600 "
                   : "bg-indigo-500"
@@ -374,7 +376,7 @@ const AddWorksheet = () => {
             >
               {isLoading ? (
                 <span className="flex items-center">
-                  <HiDocumentText className="text-2xl animate-spin" />
+                  <CgSpinner className="text-2xl animate-spin" />
                   <span className="ml-2">Submitting...</span>
                 </span>
               ) : (

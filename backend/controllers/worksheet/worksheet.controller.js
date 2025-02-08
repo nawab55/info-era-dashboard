@@ -144,6 +144,72 @@ const updateWorksheet = async (req, res) => {
   }
 };
 
+// Updated getAllWorksheets function
+const getAllWorksheets = async (req, res) => {
+  try {
+    const { fromDate, toDate, searchQuery } = req.query;
+    let query = {};
+
+    // Handle date range filtering
+    if (fromDate || toDate) {
+      query.date = {};
+      if (fromDate) query.date.$gte = fromDate;
+      if (toDate) query.date.$lte = toDate;
+    }
+
+    // Handle search by employee name
+    if (searchQuery) {
+      query.empName = { $regex: searchQuery, $options: "i" };
+    }
+
+    const worksheets = await Worksheet.find(query)
+      .sort({ date: -1, empName: 1 }) // Sort by date descending and then by name
+      .lean(); // Use lean() for better performance
+
+    res.status(200).json(worksheets);
+  } catch (error) {
+    console.error("Error in getAllWorksheets:", error);
+    res.status(500).json({ 
+      message: "Error fetching worksheets", 
+      error: error.message 
+    });
+  }
+};
+
+// delete worksheets by id
+const deleteWorksheet = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedWorksheet = await Worksheet.findByIdAndDelete(id);
+    
+    if (!deletedWorksheet) {
+      return res.status(404).json({ message: "Worksheet not found" });
+    }
+    
+    res.status(200).json({ message: "Worksheet deleted successfully" });
+  } catch (error) {
+    console.error("Error in deleteWorksheet:", error);
+    res.status(500).json({ 
+      message: "Error deleting worksheet", 
+      error: error.message 
+    });
+  }
+};
+
+module.exports = {
+  getEmployees,
+  createWorksheet,
+  getWorksheetByDate,
+  getWorksheetData,
+  updateWorksheet,
+  getAllWorksheets,
+  deleteWorksheet,
+};
+
+
+
+
+
 // Get all worksheet reports
 // const getAllWorksheets = async (req, res) => {
 //   try {
@@ -189,46 +255,3 @@ const updateWorksheet = async (req, res) => {
 //     res.status(500).json({ message: "Error fetching worksheets", error });
 //   }
 // };
-
-
-// Updated getAllWorksheets function
-const getAllWorksheets = async (req, res) => {
-  try {
-    const { fromDate, toDate, searchQuery } = req.query;
-    let query = {};
-
-    // Handle date range filtering
-    if (fromDate || toDate) {
-      query.date = {};
-      if (fromDate) query.date.$gte = fromDate;
-      if (toDate) query.date.$lte = toDate;
-    }
-
-    // Handle search by employee name
-    if (searchQuery) {
-      query.empName = { $regex: searchQuery, $options: "i" };
-    }
-
-    const worksheets = await Worksheet.find(query)
-      .sort({ date: -1, empName: 1 }) // Sort by date descending and then by name
-      .lean(); // Use lean() for better performance
-
-    res.status(200).json(worksheets);
-  } catch (error) {
-    console.error("Error in getAllWorksheets:", error);
-    res.status(500).json({ 
-      message: "Error fetching worksheets", 
-      error: error.message 
-    });
-  }
-};
-
-
-module.exports = {
-  getEmployees,
-  createWorksheet,
-  getWorksheetByDate,
-  getWorksheetData,
-  updateWorksheet,
-  getAllWorksheets,
-};

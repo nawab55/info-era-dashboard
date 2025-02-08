@@ -5,7 +5,8 @@ const {
     getWorksheetByDate,
     updateWorksheet,
     getWorksheetData,
-    getAllWorksheets
+    getAllWorksheets,
+    deleteWorksheet
 } = require("../../controllers/worksheet/worksheet.controller.js");
 const { uploadSingleExcel } = require('../../middleware/upload.js'); // Update path to your multer config
 const { authenticate } = require("../../middleware/auth.js");
@@ -27,6 +28,9 @@ router.get("/view/:empId", getWorksheetByDate);
 router.put("/update/:empId", uploadSingleExcel, updateWorksheet);
 
 // Route to get all worksheet reports
-router.get("/reports", getAllWorksheets)
+router.get("/reports", getAllWorksheets);
+
+// Route to delete a worksheet by ID
+router.delete("/delete/:id", deleteWorksheet);
 
 module.exports = router;

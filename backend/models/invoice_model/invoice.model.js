@@ -20,6 +20,7 @@ const itemSchema = new mongoose.Schema(
       type: String,
       default: "1.00",
     },
+    unit: { type: String, enum: ["PAGES", "PIC", "BOX"], default: "PAGES" }, // Add unit field
   },
   { _id: false }
 );
