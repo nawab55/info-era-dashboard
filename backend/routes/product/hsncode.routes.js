@@ -8,4 +8,10 @@ router.post('/hsncode', hsnCodeController.addHsnCode);
 // Get all HSN codes
 router.get('/hsncodes', hsnCodeController.getHsnCodes);
 
+// Update an existing HSN code
+router.put('/hsncode/:id', hsnCodeController.updateHsnCode);
+
+// Delete a HSN code by ID
+router.delete('/hsncode/:id', hsnCodeController.deleteHsnCode);
+
 module.exports = router;
