@@ -125,6 +125,9 @@ const invoiceSchema = new mongoose.Schema({
   totalAmount: {
     type: String
   },
+  paymentStatus: {
+    type: String,
+  },
   companyInfo: companyInfoSchema,
   customerId: {
     type: mongoose.Schema.Types.ObjectId,

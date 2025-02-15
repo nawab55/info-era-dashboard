@@ -18,6 +18,9 @@ router.get('/customer/:customerId', authenticate, invoiceController.getInvoicesB
 // Route to get single invoice by ID
 router.get('/invoices/:id', invoiceController.getInvoiceById);
 
+// Route to delete an invoice
+router.delete('/delete-invoice/:id', invoiceController.deleteInvoice);
+
 
 
 module.exports = router;

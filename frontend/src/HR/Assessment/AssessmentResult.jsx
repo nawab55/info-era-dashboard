@@ -1,29 +1,40 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, Users, Award, Brain } from "lucide-react";
+import { Eye, Users, Award, Brain, Trash2 } from "lucide-react";
 import DataTable from "react-data-table-component";
 import { toast } from "react-toastify";
 import api from "../../config/api";
+import DeleteModal from "../../Components/Modal/DeleteModal";
 
 const AssessmentResult = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await api.get("/api/assessment/student-details/all-students");
-        if (response.status === 200 && response.data?.success && Array.isArray(response.data.data)) {
+        const response = await api.get(
+          "/api/assessment/student-details/all-students"
+        );
+        if (
+          response.status === 200 &&
+          response.data?.success &&
+          Array.isArray(response.data.data)
+        ) {
           setStudents(response.data.data);
         } else {
-          throw new Error("Unexpected response structure or no students found.");
+          throw new Error(
+            "Unexpected response structure or no students found."
+          );
         }
       } catch (error) {
         console.error("Error fetching student data:", error);
         toast.error(
           error.response?.data?.message ||
-          "Failed to fetch student data. Please try again later."
+            "Failed to fetch student data. Please try again later."
         );
       } finally {
         setLoading(false);
@@ -33,6 +44,36 @@ const AssessmentResult = () => {
     fetchStudents();
   }, []);
 
+  const handleDeleteStudent = async () => {
+    try {
+      const response = await api.delete(
+        `/api/assessment-test/delete-student/${selectedStudent.mobile}`
+      );
+      // setStudents((prev) =>
+      //   prev.filter((s) => s.mobile !== selectedStudent.mobile)
+      // );
+      // toast.success("Student data deleted successfully");
+      // setIsDeleteModalOpen(false);
+      if (response.status === 200 && response.data.success) {
+        toast.success("Student and assessment data deleted successfully.");
+        setStudents((prev) =>
+          prev.filter((student) => student.mobile !== selectedStudent.mobile)
+        );
+        setIsDeleteModalOpen(false);
+      } else {
+        toast.error(
+          response.data.message || "Failed to delete student data."
+        );
+        setIsDeleteModalOpen(false);
+      }
+    } catch (error) {
+      console.error("Delete error:", error);
+      toast.error(
+        error.response?.data?.message || "Failed to delete student data"
+      );
+    }
+  };
+
   const handleViewDetails = (student) => {
     navigate(`/hr/student-results/${student.mobile}`);
   };
@@ -40,7 +81,9 @@ const AssessmentResult = () => {
   // eslint-disable-next-line react/prop-types
   const StatCard = ({ icon: Icon, title, value, color }) => (
     <div className="p-6 transition-transform bg-white shadow-lg rounded-xl hover:scale-105">
-      <div className={`inline-flex items-center justify-center p-3 rounded-lg ${color}`}>
+      <div
+        className={`inline-flex items-center justify-center p-3 rounded-lg ${color}`}
+      >
         <Icon className="w-6 h-6 text-white" />
       </div>
       <h3 className="mt-4 text-lg font-semibold text-gray-700">{title}</h3>
@@ -53,7 +96,7 @@ const AssessmentResult = () => {
       name: "#",
       selector: (_, index) => index + 1,
       sortable: true,
-      width: "60px",
+      width: "60px"
     },
     {
       name: "Name",
@@ -64,7 +107,7 @@ const AssessmentResult = () => {
           <p className="font-medium text-gray-900">{row.name}</p>
           <p className="text-sm text-gray-500">{row.email}</p>
         </div>
-      ),
+      )
     },
     {
       name: "Course",
@@ -74,7 +117,7 @@ const AssessmentResult = () => {
         <span className="px-3 py-1 text-sm font-medium text-blue-700 bg-blue-100 rounded-full">
           {row.course}
         </span>
-      ),
+      )
     },
     {
       name: "Questions",
@@ -82,15 +125,19 @@ const AssessmentResult = () => {
       cell: (row) => (
         <div className="flex gap-3">
           <div className="text-center">
-            <p className="text-sm font-medium text-blue-600">{row.totalQuestions || 0}</p>
+            <p className="text-sm font-medium text-blue-600">
+              {row.totalQuestions || 0}
+            </p>
             <p className="text-xs text-gray-500">Total</p>
           </div>
           <div className="text-center">
-            <p className="text-sm font-medium text-fuchsia-600">{row.attemptedQuestions || 0}</p>
+            <p className="text-sm font-medium text-fuchsia-600">
+              {row.attemptedQuestions || 0}
+            </p>
             <p className="text-xs text-gray-500">Attempted</p>
           </div>
         </div>
-      ),
+      )
     },
     {
       name: "Performance",
@@ -115,44 +162,58 @@ const AssessmentResult = () => {
               : `${Number(row.overallScore).toFixed(1)}%`}
           </span>
         </div>
-      ),
+      )
     },
     {
       name: "Answers",
       cell: (row) => (
         <div className="flex gap-3">
           <div className="text-center">
-            <p className="text-sm font-medium text-green-600">{row.correctAnswers}</p>
+            <p className="text-sm font-medium text-green-600">
+              {row.correctAnswers}
+            </p>
             <p className="text-xs text-gray-500">Correct</p>
           </div>
           <div className="text-center">
-            <p className="text-sm font-medium text-red-600">{row.incorrectAnswers}</p>
+            <p className="text-sm font-medium text-red-600">
+              {row.incorrectAnswers}
+            </p>
             <p className="text-xs text-gray-500">Incorrect</p>
           </div>
         </div>
-      ),
+      )
     },
     {
       name: "Action",
       center: true,
       cell: (row) => (
-        <button
-          onClick={() => handleViewDetails(row)}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          <Eye className="w-4 h-4" />
-          View Details
-        </button>
-      ),
-    },
+        <div className="flex gap-3">
+          <button
+            onClick={() => handleViewDetails(row)}
+            className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 transition-colors "
+          >
+            <Eye className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => {
+              setSelectedStudent(row);
+              setIsDeleteModalOpen(true);
+            }}
+            className="inline-flex items-center gap-2 text-sm font-medium text-red-600 transition-colors "
+          >
+            <Trash2 className="w-5 h-5" />
+          </button>
+        </div>
+      )
+    }
   ];
 
   const customStyles = {
     headRow: {
       style: {
         backgroundColor: "#f8fafc",
-        borderBottom: "2px solid #e2e8f0",
-      },
+        borderBottom: "2px solid #e2e8f0"
+      }
     },
     headCells: {
       style: {
@@ -160,23 +221,23 @@ const AssessmentResult = () => {
         fontSize: "0.875rem",
         fontWeight: "600",
         paddingTop: "1rem",
-        paddingBottom: "1rem",
-      },
+        paddingBottom: "1rem"
+      }
     },
     rows: {
       style: {
         fontSize: "0.875rem",
         backgroundColor: "#ffffff",
         "&:not(:last-of-type)": {
-          borderBottom: "1px solid #f1f5f9",
+          borderBottom: "1px solid #f1f5f9"
         },
         "&:hover": {
-          backgroundColor: "#f8fafc",
+          backgroundColor: "#f8fafc"
         },
         transition: "background-color 0.2s ease",
-        minHeight: "60px",
-      },
-    },
+        minHeight: "60px"
+      }
+    }
   };
 
   const stats = [
@@ -184,27 +245,46 @@ const AssessmentResult = () => {
       icon: Users,
       title: "Total Students",
       value: students.length,
-      color: "bg-blue-500",
+      color: "bg-blue-500"
     },
     {
       icon: Award,
       title: "Avg. Score",
-      value: `${(students.reduce((acc, curr) => acc + Number(curr.overallScore || 0), 0) / students.length || 0).toFixed(1)}%`,
-      color: "bg-green-500",
+      value: `${(
+        students.reduce(
+          (acc, curr) => acc + Number(curr.overallScore || 0),
+          0
+        ) / students.length || 0
+      ).toFixed(1)}%`,
+      color: "bg-green-500"
     },
     {
       icon: Brain,
       title: "Total Assessments",
       value: students.length,
-      color: "bg-purple-500",
-    },
+      color: "bg-purple-500"
+    }
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Delete Confirmation Modal */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false)
+          setSelectedStudent(null);
+        }}
+        onConfirm={handleDeleteStudent}
+        title="Confirm Student Deletion"
+        message={`Are you sure you want to delete this student ${selectedStudent?.name}? This action cannot be undone.`}
+      />
+
       <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Assessment Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900">
+            Assessment Dashboard
+          </h1>
           <p className="mt-2 text-sm text-gray-600">
             Comprehensive overview of student performance and assessment results
           </p>
@@ -218,7 +298,9 @@ const AssessmentResult = () => {
 
         <div className="overflow-hidden bg-white shadow-lg rounded-xl">
           <div className="p-6">
-            <h2 className="text-xl font-semibold text-gray-900">Student Results</h2>
+            <h2 className="text-xl font-semibold text-gray-900">
+              Student Results
+            </h2>
             <p className="mt-1 text-sm text-gray-500">
               Detailed breakdown of individual student performance
             </p>

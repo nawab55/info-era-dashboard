@@ -5,7 +5,7 @@ const AssessmentResponseSchema = new mongoose.Schema(
     // studentId: { type: mongoose.Schema.Types.ObjectId, ref: 'StudentDetails', required: true },
     student: {
       name: { type: String, required: true },
-      mobile: { type: String, required: true },
+      mobile: { type: String, required: true, unique: true },
     },
     responses: [
       {

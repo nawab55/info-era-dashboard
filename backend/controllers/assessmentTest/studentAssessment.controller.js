@@ -1,4 +1,5 @@
 const AssessmentResponse = require("../../models/assessmentTest_model/AssessmentResponse.model");
+const StudentDetails = require("../../models/assessmentTest_model/studentDetails.model");
 // Add a new assessment response
 exports.submitAssessment = async (req, res) => {
   try {
@@ -99,6 +100,34 @@ exports.getStudentAnswers = async (req, res) => {
       success: false,
       message: "Error fetching student answers.",
       error: error.message,
+    });
+  }
+};
+
+// delete student answers and studentDetails
+ exports.deleteStudentAnswers = async (req, res) => {
+  try {
+    const { mobile } = req.params;
+
+    // Delete the assessment response
+    const assessmentDeletion = await AssessmentResponse.deleteOne({ "student.mobile": mobile });
+
+    // Delete the student details
+    const studentDeletion = await StudentDetails.deleteOne({ mobile });
+    if (assessmentDeletion.deletedCount === 0 && studentDeletion.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No assessment response or student details found for the given student or mobile.",
+      });
+    }
+
+    res.status(200).json({ success: true, message: "Student assessment response and details deleted successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to delete student data.", 
+      error: error.message 
     });
   }
 };

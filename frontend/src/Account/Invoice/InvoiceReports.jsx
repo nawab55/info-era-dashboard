@@ -6,12 +6,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { parse, isWithinInterval, startOfDay, endOfDay } from "date-fns";
 import { FaCalendarAlt } from "react-icons/fa";
-import { Eye, Edit2, FileText } from "lucide-react";
+import { Eye, Edit2, FileText, Trash2 } from "lucide-react";
 import Modal from "react-modal";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import InvoicePrint from "./InvoicePrint";
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "../../Components/Modal/DeleteModal";
 
 const InvoiceReports = () => {
   // // CSS variables for animations
@@ -30,6 +31,7 @@ const InvoiceReports = () => {
     styleTag.textContent = slidingLineStyle["--sliding-line"];
     document.head.appendChild(styleTag);
     return () => styleTag.remove();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const navigate = useNavigate();
@@ -40,6 +42,8 @@ const InvoiceReports = () => {
   const [selectedInvoice, setSelectedInvoice] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [invoiceToDelete, setInvoiceToDelete] = useState(null);
 
   useEffect(() => {
     const fetchInvoices = async () => {
@@ -72,6 +76,35 @@ const InvoiceReports = () => {
       setFilteredReports(reports);
     }
   }, [startDate, endDate, reports]);
+
+  // Add delete handler
+  const handleDeleteClick = (report) => {
+    setInvoiceToDelete(report);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    try {
+      await api.delete(`/api/invoices/delete-invoice/${invoiceToDelete._id}`);
+
+      // Filter out the deleted invoice from the reports
+      const updatedReports = reports.filter(
+        (report) => report._id !== invoiceToDelete._id
+      );
+      setReports(updatedReports);
+      setFilteredReports(updatedReports);
+
+      toast.success("Invoice deleted successfully");
+      // setIsDeleteModalOpen(false);
+      // setInvoiceToDelete(null);
+    } catch (error) {
+      console.error("Error deleting invoice:", error);
+      toast.error("Failed to delete invoice");
+    } finally {
+      setIsDeleteModalOpen(false);
+      setInvoiceToDelete(null);
+    }
+  };
 
   const CustomInput = forwardRef(({ value, onClick }, ref) => (
     <button
@@ -220,20 +253,24 @@ const InvoiceReports = () => {
                         ₹{report.totalAmount.toLocaleString("en-IN")}
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex items-center justify-center space-x-3">
+                        <div className="flex items-center justify-center space-x-4">
                           <button
                             onClick={() => handleViewClick(report)}
-                            className="flex items-center px-3 py-2 text-sm text-white transition-colors duration-200 bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                            className="text-blue-600 transition duration-200 hover:text-blue-800"
                           >
-                            <Eye className="w-4 h-4 mr-2" />
-                            View
+                            <Eye className="w-5 h-5" />
                           </button>
                           <button
                             onClick={() => handleEditClick(report)}
-                            className="flex items-center px-3 py-2 text-sm text-white transition-colors duration-200 bg-green-600 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                            className="text-green-600 transition duration-200 hover:text-green-800"
                           >
-                            <Edit2 className="w-4 h-4 mr-2" />
-                            Edit
+                            <Edit2 className="w-5 h-5" />
+                          </button>
+                          <button
+                            onClick={() => handleDeleteClick(report)}
+                            className="text-red-600 transition duration-200 hover:text-red-800"
+                          >
+                            <Trash2 className="w-5 h-5" />
                           </button>
                         </div>
                       </td>
@@ -245,6 +282,18 @@ const InvoiceReports = () => {
           </div>
         </div>
       </div>
+
+      {/* Add the DeleteModal component */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => {
+          setIsDeleteModalOpen(false);
+          setInvoiceToDelete(null);
+        }}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Invoice"
+        message="Are you sure you want to delete this invoice? This action cannot be undone."
+      />
 
       {/* Modal remains the same */}
       {selectedInvoice && (

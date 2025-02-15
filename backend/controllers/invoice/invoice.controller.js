@@ -245,6 +245,42 @@ const getInvoicesByCustomerId = async (req, res) => {
   }
 };
 
+// Function to delete an invoice by id
+const deleteInvoice = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({
+        message: "Invoice ID is required",
+        success: false
+      });
+    }
+
+    const deletedInvoice = await Invoice.findByIdAndDelete(id);
+
+    if (!deletedInvoice) {
+      return res.status(404).json({
+        message: "Invoice not found",
+        success: false
+      });
+    }
+
+    res.status(200).json({
+      message: "Invoice deleted successfully",
+      success: true
+    });
+
+  } catch (error) {
+    console.error("Error deleting invoice:", error);
+    res.status(500).json({
+      message: "Error deleting invoice",
+      error: error.message,
+      success: false
+    });
+  }
+};
+
 // function to update an invoice by id
 // const updateInvoice = async (req, res) => {
 //   try {
@@ -274,5 +310,5 @@ module.exports = {
   getInvoices,
   getInvoiceById,
   getInvoicesByCustomerId,
-  // updateInvoice,
+  deleteInvoice,
 };

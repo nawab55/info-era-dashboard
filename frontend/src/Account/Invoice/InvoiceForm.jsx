@@ -68,7 +68,8 @@ const InvoiceForm = () => {
       cin: "U72300BR2014PTC022956",
       email: "infoerapvtltd@gmail.com"
     },
-    totalAmount: 0 // Adding totalAmount to the state
+    totalAmount: 0, // Adding totalAmount to the state
+    paymentStatus: "",
   });
 
   // Check if editing an existing invoice
@@ -387,7 +388,8 @@ const InvoiceForm = () => {
             }
           ],
           companyInfo: prevData.companyInfo,
-          totalAmount: 0
+          totalAmount: 0,
+          paymentStatus: ""
         }));
       }
     } catch (error) {
@@ -736,7 +738,8 @@ const InvoiceForm = () => {
                         onChange={(e) => handleServiceInputChange(e, item.id)}
                         onBlur={handleInputBlur}
                       />
-                      {activeDropdownId === item.id && filteredServices.length > 0 && (
+                      {activeDropdownId === item.id &&
+                        filteredServices.length > 0 && (
                           <ul className="absolute z-10 w-full mt-1 overflow-y-auto bg-white border border-gray-300 rounded max-h-48">
                             {filteredServices.map((service) => (
                               <li
@@ -941,7 +944,35 @@ const InvoiceForm = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
+            <div></div>
+            <button
+              type="submit"
+              className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              {isEditMode ? "Update Invoice" : "Generate Invoice"}
+            </button>
+          </div> */}
+          <div className="flex items-center justify-between gap-4 px-5 my-5">
+            {/* Payment Status Dropdown and Input Field */}
+            <div className="flex items-center gap-2">
+              <label className="font-medium text-gray-700">
+                Payment Status:
+              </label>
+              <select
+                name="paymentStatus"
+                value={invoiceData.paymentStatus}
+                onChange={handleChange}
+                className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Select</option>
+                <option value="Success">Success</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancel">Cancel</option>
+              </select>
+            </div>
+
+            {/* Submit Button */}
             <button
               type="submit"
               className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-indigo-600 border border-transparent rounded shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

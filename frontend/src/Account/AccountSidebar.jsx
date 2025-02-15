@@ -7,10 +7,8 @@ import {
   FaPlus,
   FaUserAlt,
   FaChartBar,
-  FaGlobe,
-  FaFileAlt,
 } from "react-icons/fa";
-import { MdDashboard, MdKeyboardArrowDown } from "react-icons/md";
+import { MdDashboard, MdKeyboardArrowDown, MdOutlineDomainAdd, MdOutlineReceiptLong, MdWeb } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import { GiMoneyStack } from "react-icons/gi";
 
@@ -34,7 +32,7 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
       name: "Dashboard",
       link: "/account/dashboard",
       icon: MdDashboard,
-      color: "text-yellow-500",
+      color: "text-yellow-500"
     },
     {
       name: "Product",
@@ -46,21 +44,21 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
           name: "Add Category",
           link: "/account/product/addCategory",
           icon: FaPlus,
-          color: "text-green-500",
+          color: "text-green-500"
         },
         {
           name: "Add HSN Code",
           link: "/account/product/addHsnCode",
           icon: FaTags,
-          color: "text-purple-500",
+          color: "text-purple-500"
         },
         {
           name: "Add Services",
           link: "/account/product/services",
           icon: FaTools,
-          color: "text-blue-500",
-        },
-      ],
+          color: "text-blue-500"
+        }
+      ]
     },
     {
       name: "Customer",
@@ -72,40 +70,50 @@ const AccountSidebar = ({ sidebarToggle, setSidebarToggle }) => {
           name: "New Customer",
           link: "/account/customer/addCustomer",
           icon: FiUserPlus,
-          color: "text-orange-500",
+          color: "text-orange-500"
         },
         {
           name: "Customer Report",
           link: "/account/customer/customerReport",
           icon: FaChartBar,
-          color: "text-pink-500",
-        },
-      ],
+          color: "text-pink-500"
+        }
+      ]
     },
     {
       name: "Domain",
-      link: "/account/domain",
-      icon: FaGlobe,
+      // link: "/account/domain",
+      icon: MdWeb,
       color: "text-blue-600",
+      dropdown: true,
+      subMenus: [
+        {
+          name: "Generate Domain",
+          link: "/account/domain",
+          icon: MdOutlineDomainAdd,
+          color: "text-green-500"
+        },
+        {
+          name: "Domain Report",
+          link: "/account/domain/report",
+          icon: MdOutlineReceiptLong,
+          color: "text-indigo-500"
+        }
+      ]
     },
-    {
-      name: "Domain Report",
-      link: "/account/domain/report",
-      icon: FaFileAlt,
-      color: "text-indigo-500",
-    },
+
     {
       name: "Generate Bill",
       link: "/account/invoiceForm",
       icon: GiMoneyStack,
-      color: "text-green-600",
+      color: "text-green-600"
     },
     {
       name: "Invoice Report",
       link: "/account/invoiceReports",
       icon: FaChartBar,
-      color: "text-pink-600",
-    },
+      color: "text-pink-600"
+    }
   ];
 
   return (
