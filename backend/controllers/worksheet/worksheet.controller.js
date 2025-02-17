@@ -103,7 +103,7 @@ const getWorksheetByDate = async (req, res) => {
 const getWorksheetData = async (req, res) => {
   try {
     const { empId } = req.params;
-    const worksheetData = await Worksheet.find({ empId });
+    const worksheetData = await Worksheet.find({ empId }).sort({ date: -1 });
     if (!worksheetData || worksheetData.length === 0) {
       return res.status(404).json({ message: "No worksheet data found" });
     }

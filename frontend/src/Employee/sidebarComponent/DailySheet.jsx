@@ -115,16 +115,16 @@ const DailySheet = () => {
   };
 
   return (
-    <section className="bg-gradient-to-b from-blue-50 min-h-screen to-slate-100 h-full flex-1">
+    <section className="flex-1 h-full min-h-screen p-4 rounded-lg bg-gradient-to-b from-blue-50 to-slate-100">
       <form
-        className="p-6 rounded-lg bg-white border m-4 space-y-6"
+        className="p-6 m-2 space-y-6 bg-white border rounded-lg"
         onSubmit={handleSubmit}
       >
-        <div className="text-center text-3xl font-bold text-blue-700">
+        <div className="text-3xl font-bold text-center text-blue-700">
           Worksheet
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {/* Date Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -135,7 +135,7 @@ const DailySheet = () => {
               name="date"
               value={formData.date}
               onChange={handleDateChange}
-              className="mt-2 block w-full px-4 py-2 text-sm border border-gray-300  rounded outline-none shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-300"
+              className="block w-full px-4 py-2 mt-2 text-sm border border-gray-300 rounded shadow-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-300"
             />
           </div>
 
@@ -186,7 +186,7 @@ const DailySheet = () => {
               name="workDone"
               value={formData.workDone}
               onChange={handleInputChange}
-              className="mt-2 block w-full px-4 py-2 text-sm border rounded border-gray-300  outline-none  focus:ring-1 focus:ring-blue-500"
+              className="block w-full px-4 py-2 mt-2 text-sm border border-gray-300 rounded outline-none focus:ring-1 focus:ring-blue-500"
               rows="4"
             />
           </div>
@@ -196,7 +196,7 @@ const DailySheet = () => {
         <div className="flex justify-center">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-700 text-white font-semibold rounded  hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
+              className="px-6 py-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
             >
               Submit
             </button>
@@ -205,7 +205,7 @@ const DailySheet = () => {
           <div className="flex justify-center">
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-700 text-white font-semibold rounded  hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
+              className="px-6 py-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
             >
               Submit
             </button>
@@ -339,16 +339,16 @@ export default DailySheet;
 //   };
 
 //   return (
-//     <section className="bg-gradient-to-b from-blue-50 min-h-screen to-slate-100 h-full flex-1">
+//     <section className="flex-1 h-full min-h-screen bg-gradient-to-b from-blue-50 to-slate-100">
 //       <form
-//         className="p-6 rounded-lg bg-white border m-4 space-y-6"
+//         className="p-6 m-4 space-y-6 bg-white border rounded-lg"
 //         onSubmit={handleSubmit}
 //       >
-//         <div className="text-center text-3xl font-bold text-blue-700">
+//         <div className="text-3xl font-bold text-center text-blue-700">
 //           Worksheet
 //         </div>
 
-//         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 //           {/* Date Input */}
 //           <div>
 //             <label className="block text-sm font-medium text-gray-700">
@@ -359,7 +359,7 @@ export default DailySheet;
 //               name="date"
 //               value={formData.date}
 //               onChange={handleDateChange}
-//               className="mt-2 block w-full px-4 py-2 text-sm border border-gray-300  rounded outline-none shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-300"
+//               className="block w-full px-4 py-2 mt-2 text-sm border border-gray-300 rounded shadow-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-300"
 //             />
 //           </div>
 
@@ -410,7 +410,7 @@ export default DailySheet;
 //               name="workDone"
 //               value={formData.workDone}
 //               onChange={handleInputChange}
-//               className="mt-2 block w-full px-4 py-2 text-sm border rounded border-gray-300  outline-none  focus:ring-1 focus:ring-blue-500"
+//               className="block w-full px-4 py-2 mt-2 text-sm border border-gray-300 rounded outline-none focus:ring-1 focus:ring-blue-500"
 //               rows="4"
 //             />
 //           </div>
@@ -420,7 +420,7 @@ export default DailySheet;
 //         <div className="flex justify-center">
 //             <button
 //               type="submit"
-//               className="px-6 py-2 bg-blue-700 text-white font-semibold rounded  hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
+//               className="px-6 py-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
 //             >
 //               Submit
 //             </button>
@@ -429,7 +429,7 @@ export default DailySheet;
 //           <div className="flex justify-center">
 //             <button
 //               type="submit"
-//               className="px-6 py-2 bg-blue-700 text-white font-semibold rounded  hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
+//               className="px-6 py-2 font-semibold text-white bg-blue-700 rounded hover:bg-blue-800 focus:outline-none focus:ring-1 focus:ring-blue-300"
 //             >
 //               Submit
 //             </button>
