@@ -16,7 +16,7 @@ const createJobForm = async (req, res) => {
     resume,
   } = req.body;
 
-  console.log(name,email,fatherName,country,gender,mobile,state,district,address,pinCode,qualification,resume,)
+  // console.log(name,email,fatherName,country,gender,mobile,state,district,address,pinCode,qualification,resume,)
 
   if (
     !name ||

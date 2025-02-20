@@ -81,3 +81,17 @@
     --border-angle: 1turn;
   }
 }
+
+@page {
+  margin: 5mm;
+  size: A4 portrait;
+}
+
+@media print {
+  .print\:break-inside-avoid {
+    break-inside: avoid;
+  }
+  .print\:break-before-auto {
+    break-before: auto;
+  }
+}

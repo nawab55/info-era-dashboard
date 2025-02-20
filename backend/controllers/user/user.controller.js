@@ -4,6 +4,8 @@ const User = require("../../models/user_model/User");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
+const fs = require("fs");
+const path = require("path");
 
 dotenv.config();
 const { LINK_URL, LINK_URL1, EMAIL, PASSWORD } = process.env;
@@ -184,42 +186,122 @@ const updateEmployeeDetails = async (req, res) => {
     const formData = req.body;
     const baseUrl = `${req.protocol}://${req.get("host")}/uploads/`;
 
-    // Process file uploads
-    formData.signature =
-      req.files && req.files.signature
-        ? `${baseUrl}${req.files.signature[0].filename}`
-        : formData.signature;
-    formData.aadhaarFrontImage =
-      req.files && req.files.aadhaarFrontImage
-        ? `${baseUrl}${req.files.aadhaarFrontImage[0].filename}`
-        : formData.aadhaarFrontImage;
-    formData.aadhaarBackImage =
-      req.files && req.files.aadhaarBackImage
-        ? `${baseUrl}${req.files.aadhaarBackImage[0].filename}`
-        : formData.aadhaarBackImage;
-    formData.panImage =
-      req.files && req.files.panImage
-        ? `${baseUrl}${req.files.panImage[0].filename}`
-        : formData.panImage;
-
-    const updatedEmployee = await User.findByIdAndUpdate(employeeId, formData, {
-      new: true
-    });
-
-    if (!updatedEmployee) {
+    // Get existing employee data
+    const existingEmployee = await User.findById(employeeId);
+    if (!existingEmployee) {
       return res.status(404).json({ message: "Employee not found" });
     }
+
+    // Helper function to extract filename from URL
+    const getFilenameFromUrl = (url) => {
+      if (!url) return null;
+      return url.split('/').pop();
+    };
+
+    // Helper function to delete file if it exists
+    const deleteFile = (filepath) => {
+      if (!filepath) return;
+      // console.log('deleteFile filepath',filepath);
+      if (filepath && fs.existsSync(filepath)) {
+        fs.unlinkSync(filepath);
+        // console.log("Deleted file: ", filepath);
+      }
+    };
+
+    // Handle file updates
+    const fileFields = ['signature', 'aadhaarFrontImage', 'aadhaarBackImage', 'panImage'];
+    
+    fileFields.forEach(field => {
+      if (req.files && req.files[field]) {
+        // New file uploaded - update the URL and delete old file
+        // console.log('Uploading : existingEmployee[field]',existingEmployee[field]);
+        const oldFilename = getFilenameFromUrl(existingEmployee[field]);
+        // console.log("oldefilename ",oldFilename);
+        if (oldFilename) {
+          const oldFilePath = path.join(__dirname, "../../uploads", oldFilename);
+          // console.log("oldfilepath ", oldFilePath);
+          deleteFile(oldFilePath);
+        }
+        formData[field] = `${baseUrl}${req.files[field][0].filename}`;
+        // console.log('new employee[field]',formData[field]);
+      } else if (!formData[field]) {
+        // No new file uploaded and no URL in formData - keep existing file
+        formData[field] = existingEmployee[field];
+      }
+      // If formData[field] contains a URL but no new file, keep the URL (client sent existing URL)
+    });
+
+    // Handle password update
+    // if (formData.password) {
+    //   const salt = await bcrypt.genSalt(10);
+    //   formData.password = await bcrypt.hash(formData.password, salt);
+    // } else {
+    //   delete formData.password; // Don't update password if not provided
+    // }
+
+    // Update nested arrays
+    ['familyDetails', 'educationalDetails', 'employmentDetails'].forEach(field => {
+      if (formData[field]) {
+        // Ensure the field is properly formatted as an array
+        try {
+          if (typeof formData[field] === 'string') {
+            formData[field] = JSON.parse(formData[field]);
+          }
+        } catch (error) {
+          console.error(`Error parsing ${field}:`, error);
+        }
+      }
+    });
+
+    // Update employee record
+    const updatedEmployee = await User.findByIdAndUpdate(
+      employeeId,
+      { $set: formData },
+      { new: true, runValidators: true }
+    );
 
     return res.status(200).json({
       message: "Employee details updated successfully",
       success: true,
       employee: updatedEmployee
     });
+
   } catch (error) {
-    console.error("Error updating employee details", error);
-    res
-      .status(500)
-      .json({ message: "Failed to update employee details", error });
+    console.error("Error updating employee details:", error);
+    
+    // Handle specific error cases
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        message: "Validation error",
+        errors: Object.values(error.errors).map(err => err.message)
+      });
+    }
+    
+    return res.status(500).json({
+      message: "Failed to update employee details",
+      error: error.message
+    });
+  }
+};
+
+// Utility function to delete file if it exists
+const deleteFileIfExists = (fileUrl) => {
+  if (!fileUrl) return;
+//  console.log("fileUrl",fileUrl);
+  try {
+    // Extract filename from the full URL
+    const filename = fileUrl.split('/').pop();
+    // console.log("extracted filename",filename);
+    const filePath = path.join(__dirname, "../../uploads", filename);
+    // console.log("filePath",filePath);
+
+    // Check if file exists before attempting to delete
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+      // console.log(`File deleted successfully: ${filename}`);
+    }
+  } catch (error) {
+    console.error(`Error deleting file: ${error.message}`);
   }
 };
 
@@ -227,21 +309,48 @@ const updateEmployeeDetails = async (req, res) => {
 const deleteEmployeeDetails = async (req, res) => {
   try {
     const employeeId = req.params.employeeId;
-    const deletedEmployee = await User.findByIdAndDelete(employeeId);
-
-    if (!deletedEmployee) {
-      return res.status(404).json({ message: "Employee not found" });
+    
+    // First fetch the employee to get file URLs
+    const employee = await User.findById(employeeId);
+    
+    if (!employee) {
+      return res.status(404).json({ 
+        success: false,
+        message: "Employee not found" 
+      });
     }
 
-    return res.status(200).json({
-      message: "Employee details deleted successfully",
-      success: true
+    // Delete associated files
+    const filesToDelete = [
+      employee.signature,
+      employee.aadhaarFrontImage,
+      employee.aadhaarBackImage,
+      employee.panImage
+    ];
+
+    // Delete each file from the uploads folder
+    filesToDelete.forEach(fileUrl => {
+      if (fileUrl) {
+        deleteFileIfExists(fileUrl);
+      }
     });
+
+    // Delete the employee record from database
+    const deletedEmployee = await User.findByIdAndDelete(employeeId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Employee and associated files deleted successfully",
+      deletedEmployee
+    });
+
   } catch (error) {
-    console.error("Error deleting employee details", error);
-    res
-      .status(500)
-      .json({ message: "Failed to delete employee details", error });
+    console.error("Error deleting employee details:", error);
+    res.status(500).json({ 
+      success: false,
+      message: "Failed to delete employee details", 
+      error: error.message 
+    });
   }
 };
 
@@ -432,3 +541,131 @@ module.exports = {
   forgotPassword,
   resetPassword
 };
+
+
+
+
+// const fs = require('fs');
+// const path = require('path');
+// const User = require("../../models/user_model/User");
+
+// // Delete employee details by ID
+// const deleteEmployeeDetails = async (req, res) => {
+//   try {
+//     const employeeId = req.params.employeeId;
+    
+//     // Find the employee to be deleted
+//     const deletedEmployee = await User.findById(employeeId);
+
+//     if (!deletedEmployee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     // If employee found, delete their associated files
+//     const filesToDelete = [
+//       deletedEmployee.signature,
+//       deletedEmployee.aadhaarFrontImage,
+//       deletedEmployee.aadhaarBackImage,
+//       deletedEmployee.panImage,
+//     ];
+
+//     // Loop through the files and remove them if they exist
+//     filesToDelete.forEach(filePath => {
+//       if (filePath) {
+//         const fullPath = path.join(__dirname, `../../uploads/${filePath.split('/uploads/')[1]}`);
+
+//         // Check if file exists before attempting to delete
+//         if (fs.existsSync(fullPath)) {
+//           fs.unlinkSync(fullPath);  // Delete the file
+//         }
+//       }
+//     });
+
+//     // Now, delete the employee record from the database
+//     await User.findByIdAndDelete(employeeId);
+
+//     return res.status(200).json({
+//       message: "Employee details and files deleted successfully",
+//       success: true
+//     });
+//   } catch (error) {
+//     console.error("Error deleting employee details", error);
+//     res.status(500).json({ message: "Failed to delete employee details", error });
+//   }
+// };
+
+
+
+
+// update employee details by ID
+// const updateEmployeeDetails = async (req, res) => {
+//   try {
+//     const employeeId = req.params.employeeId;
+//     const formData = req.body;
+//     const baseUrl = `${req.protocol}://${req.get("host")}/uploads/`;
+
+//     // Fetch the current employee data from the database
+//     const currentEmployee = await User.findById(employeeId);
+//     if (!currentEmployee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     // Process file uploads if provided in the form data
+//     if (req.files) {
+//       // Signature file
+//       if (req.files.signature) {
+//         formData.signature = `${baseUrl}${req.files.signature[0].filename}`;
+//         // Delete the old signature file if new one is uploaded
+//         if (currentEmployee.signature) {
+//           const oldSignaturePath = path.join(__dirname, `../uploads/${currentEmployee.signature.split('/uploads/')[1]}`);
+//           fs.unlinkSync(oldSignaturePath); // Remove old file
+//         }
+//       }
+
+//       // Aadhaar front image
+//       if (req.files.aadhaarFrontImage) {
+//         formData.aadhaarFrontImage = `${baseUrl}${req.files.aadhaarFrontImage[0].filename}`;
+//         if (currentEmployee.aadhaarFrontImage) {
+//           const oldAadhaarFrontImagePath = path.join(__dirname, `../uploads/${currentEmployee.aadhaarFrontImage.split('/uploads/')[1]}`);
+//           fs.unlinkSync(oldAadhaarFrontImagePath); // Remove old file
+//         }
+//       }
+
+//       // Aadhaar back image
+//       if (req.files.aadhaarBackImage) {
+//         formData.aadhaarBackImage = `${baseUrl}${req.files.aadhaarBackImage[0].filename}`;
+//         if (currentEmployee.aadhaarBackImage) {
+//           const oldAadhaarBackImagePath = path.join(__dirname, `../uploads/${currentEmployee.aadhaarBackImage.split('/uploads/')[1]}`);
+//           fs.unlinkSync(oldAadhaarBackImagePath); // Remove old file
+//         }
+//       }
+
+//       // PAN image
+//       if (req.files.panImage) {
+//         formData.panImage = `${baseUrl}${req.files.panImage[0].filename}`;
+//         if (currentEmployee.panImage) {
+//           const oldPanImagePath = path.join(__dirname, `../uploads/${currentEmployee.panImage.split('/uploads/')[1]}`);
+//           fs.unlinkSync(oldPanImagePath); // Remove old file
+//         }
+//       }
+//     }
+
+//     // Update other fields if present in the formData
+//     const updatedEmployee = await User.findByIdAndUpdate(employeeId, formData, {
+//       new: true, // Return the updated document
+//     });
+
+//     if (!updatedEmployee) {
+//       return res.status(404).json({ message: "Employee not found" });
+//     }
+
+//     return res.status(200).json({
+//       message: "Employee details updated successfully",
+//       success: true,
+//       employee: updatedEmployee
+//     });
+//   } catch (error) {
+//     console.error("Error updating employee details", error);
+//     res.status(500).json({ message: "Failed to update employee details", error });
+//   }
+// };

@@ -15,10 +15,10 @@ const EmployeeType = () => {
   const fetchEmployeeTypes = async () => {
     try {
       const response = await api.get("/api/type/employee-types");
-      console.log(response.data);
+      // console.log(response.data);
 
       setEmployeeTypes(response.data);
-      console.log(employeeTypes);
+      // console.log(employeeTypes);
     } catch (error) {
       console.error("Error fetching employee types:", error);
     }

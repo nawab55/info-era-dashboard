@@ -1,12 +1,17 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useRef, useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
+import { useLocation, useNavigate } from "react-router-dom";
 import api from "../../config/api";
 import { toast } from "react-toastify";
 import PreviewForm from "./PreviewForm";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const EmpRegistrationForm = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [employeeId, setEmployeeId] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     fathersName: "",
@@ -179,9 +184,9 @@ const EmpRegistrationForm = () => {
         if (!firstEducationalDetail.etoDate[0]) {
           newErrors[`educationalDetails[0][etoDate]`] = "Required";
         }
-        if (!firstEducationalDetail.epercentage[0]) {
-          newErrors[`educationalDetails[0][epercentage]`] = "Required";
-        }
+        // if (!firstEducationalDetail.epercentage[0]) {
+        //   newErrors[`educationalDetails[0][epercentage]`] = "Required";
+        // }
       }
     } else if (currentPage === 4) {
       if (formData.employmentDetails && formData.employmentDetails.length > 0) {
@@ -199,9 +204,9 @@ const EmpRegistrationForm = () => {
         if (!firstEmploymentDetail.empToDate[0]) {
           newErrors[`employmentDetails[0][empToDate]`] = "Required";
         }
-        if (!firstEmploymentDetail.annualctc[0]) {
-          newErrors[`employmentDetails[0][annualctc]`] = "Required";
-        }
+        // if (!firstEmploymentDetail.annualctc[0]) {
+        //   newErrors[`employmentDetails[0][annualctc]`] = "Required";
+        // }
       }
     }
     
@@ -247,14 +252,6 @@ const EmpRegistrationForm = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  // const handleFileChange = (e) => {
-  //   const file = e.target.files[0]; // Capture the File Input
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     signature: file,
-  //   }));
-  // };
   const handleFileChange = (e) => {
     const { name, files } = e.target;
     // console.log(files)
@@ -267,7 +264,6 @@ const EmpRegistrationForm = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     // console.log(name, ":", value);
-    
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
@@ -308,6 +304,44 @@ const EmpRegistrationForm = () => {
   };
 
   useEffect(() => {
+    if (location.state?.employee) {
+      const employee = location.state.employee;
+      setIsEditMode(true);
+      setEmployeeId(employee._id);
+
+      // Format dates
+      const formatDate = (dateString) => {
+        if (!dateString) return "";
+        return new Date(dateString).toISOString().split("T")[0];
+      };
+
+      // Prepare form data from employee data
+      const preparedData = {
+        ...employee,
+        dob: formatDate(employee.dob),
+        dateOfJoining: formatDate(employee.dateOfJoining),
+        decDate: formatDate(employee.decDate),
+        familyDetails: employee.familyDetails.map((detail) => ({
+          ...detail,
+          fdob: formatDate(detail.fdob)
+        })),
+        educationalDetails: employee.educationalDetails.map((detail) => ({
+          ...detail,
+          efromDate: formatDate(detail.efromDate),
+          etoDate: formatDate(detail.etoDate)
+        })),
+        employmentDetails: employee.employmentDetails.map((detail) => ({
+          ...detail,
+          empFromDate: formatDate(detail.empFromDate),
+          empToDate: formatDate(detail.empToDate)
+        }))
+      };
+
+      setFormData(preparedData);
+    }
+  }, [location.state]);
+
+  useEffect(() => {
     fetchEmployeeTypes();
   }, []);
 
@@ -339,23 +373,56 @@ const EmpRegistrationForm = () => {
         formDataToSend.append(key, value);
       }
     });
+      try {
+        let response;
+        if (isEditMode) {
+          response = await api.put(
+            `/api/user/employee/${employeeId}`,
+            formDataToSend,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data"
+              }
+            }
+          );
+          toast.success("Employee details updated successfully!");
+        } else {
+          response = await api.post("/api/user/register", formDataToSend, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          });
+          toast.success("Employee registered successfully!");
+        }
 
-    try {
-      const response = await api.post("/api/user/register", formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      if (response.status === 201) {
-        toast.success("Form submitted successfully!");
-      } else {
-        toast.error("Failed to submit the form.");
+        if (response.status === 200 || response.status === 201) {
+          navigate("/hr/report/view_emp-registration"); // Navigate back to the reports page
+        }
+      } catch (error) {
+        console.error("Error submitting the form:", error);
+        toast.error(
+          `Failed to ${isEditMode ? "update" : "register"} employee: ${
+            error.message
+          }`
+        );
       }
-    } catch (error) {
-      console.error("Error submitting the form:", error);
-      toast.error("Failed to submit the form.", error.message);
-    }
+
+    // try {
+    //   const response = await api.post("/api/user/register", formDataToSend, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+
+    //   if (response.status === 201) {
+    //     toast.success("Form submitted successfully!");
+    //   } else {
+    //     toast.error("Failed to submit the form.");
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting the form:", error);
+    //   toast.error("Failed to submit the form.", error.message);
+    // }
   };
 
   return (
@@ -363,7 +430,7 @@ const EmpRegistrationForm = () => {
       <div className="flex-1 p-4">
         <div className="flex justify-center">
           <h1 className="px-4 py-2 text-xl font-bold text-center border-b-4 border-blue-600 ">
-            Employee Registration Form
+            {isEditMode ? "Edit Employee" : "Employee Registration Form"}
           </h1>
         </div>
         <form
@@ -460,17 +527,17 @@ const EmpRegistrationForm = () => {
                       onChange={handleChange}
                       error={errors.email}
                     />
-
-                    <CustomInput
-                      label={"Password"}
-                      placeholder="Enter Password"
-                      name={"password"}
-                      type="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      error={errors.password}
-                    />
-
+                    {!isEditMode && (
+                      <CustomInput
+                        label={"Password"}
+                        placeholder="Enter Password"
+                        name={"password"}
+                        type="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        error={errors.password}
+                      />
+                    )}
                     <CustomSelect
                       label={"Employee Type"}
                       options={employeeTypes.map(
@@ -502,7 +569,7 @@ const EmpRegistrationForm = () => {
                       onChange={(option) =>
                         setFormData((prev) => ({
                           ...prev,
-                          maritalStatus: option,
+                          maritalStatus: option
                         }))
                       }
                       error={errors.maritalStatus}
@@ -601,12 +668,18 @@ const EmpRegistrationForm = () => {
 
                     <CustomSelect
                       label={"Role"}
-                      options={["Employee", "HR", "Admin", "Account", "Project-Manager", ]}
+                      options={[
+                        "Employee",
+                        "HR",
+                        "Admin",
+                        "Account",
+                        "Project-Manager"
+                      ]}
                       selectedOption={formData.role}
                       onChange={(option) =>
                         setFormData((prev) => ({
                           ...prev,
-                          role: option,
+                          role: option
                         }))
                       }
                       error={errors.role}
@@ -1144,76 +1217,75 @@ const EmpRegistrationForm = () => {
               </div>
             )}
 
-              {currentPage === 6 && (
-               <div className="p-4 mt-8 border">
-               <div className="flex items-center h-9 ">
-                 <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
-                      Declaration
-                    </h2>
-                  </div>
-              
-                  {/* Declaration Text */}
-                  <p className="mt-4 text-base font-medium leading-relaxed text-gray-800">
-                    I hereby declare that the statements made in my application form are
-                    true, complete, and correct to the best of my knowledge and belief. In the
-                    event of any information being found fraudulent, false, or incorrect at any
-                    stage, my services are liable to be terminated without notice.
-                  </p>
-              
-                  {/* Declaration Checkbox */}
-                  <div className="flex items-center mt-6">
-                    <input
-                      type="checkbox"
-                      id="declaration"
-                      checked={isDeclarationChecked}
-                      onChange={(e) => setIsDeclarationChecked(e.target.checked)}
-                      className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                      required
-                    />
-                    <label
-                      htmlFor="declaration"
-                      className="ml-3 text-base font-medium text-gray-900 cursor-pointer"
-                    >
-                      I agree to the declaration.
-                    </label>
-                  </div>
-              
-                  {/* Form Inputs */}
-                  <div className="flex gap-2 mt-8">
-                    {/* Name */}
-                    <CustomInput
-                      label="Name"
-                      type="text"
-                      name="name"
-                      value={formData.name || ""}
-                      placeholder="Enter your name"
-                      error={errors.name}
-                      onChange={handleChange}
-                    />
-              
-                    {/* Date */}
-                    <CustomInput
-                      label="Date"
-                      type="date"
-                      name="decDate"
-                      value={formData.decDate || ""}
-                      error={errors.decDate}
-                      onChange={handleChange}
-                    />
-                    {/* Signature */}
-                    
-                    <CustomInput
-                      label="Signature"
-                      type="file"
-                      name="signature"
-                      error={errors.signature}
-                      onChange={handleFileChange}
-                    />
-              
-             
-                  </div>
+            {currentPage === 6 && (
+              <div className="p-4 mt-8 border">
+                <div className="flex items-center h-9 ">
+                  <h2 className="ml-2 text-base font-semibold leading-7 md:text-2xl text-blue-950">
+                    Declaration
+                  </h2>
                 </div>
-              )}
+
+                {/* Declaration Text */}
+                <p className="mt-4 text-base font-medium leading-relaxed text-gray-800">
+                  I hereby declare that the statements made in my application
+                  form are true, complete, and correct to the best of my
+                  knowledge and belief. In the event of any information being
+                  found fraudulent, false, or incorrect at any stage, my
+                  services are liable to be terminated without notice.
+                </p>
+
+                {/* Declaration Checkbox */}
+                <div className="flex items-center mt-6">
+                  <input
+                    type="checkbox"
+                    id="declaration"
+                    checked={isDeclarationChecked}
+                    onChange={(e) => setIsDeclarationChecked(e.target.checked)}
+                    className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                    required
+                  />
+                  <label
+                    htmlFor="declaration"
+                    className="ml-3 text-base font-medium text-gray-900 cursor-pointer"
+                  >
+                    I agree to the declaration.
+                  </label>
+                </div>
+
+                {/* Form Inputs */}
+                <div className="flex gap-2 mt-8">
+                  {/* Name */}
+                  <CustomInput
+                    label="Name"
+                    type="text"
+                    name="name"
+                    value={formData.name || ""}
+                    placeholder="Enter your name"
+                    error={errors.name}
+                    onChange={handleChange}
+                  />
+
+                  {/* Date */}
+                  <CustomInput
+                    label="Date"
+                    type="date"
+                    name="decDate"
+                    value={formData.decDate || ""}
+                    error={errors.decDate}
+                    onChange={handleChange}
+                  />
+                  {/* Signature */}
+
+                  <CustomInput
+                    label="Signature"
+                    type="file"
+                    name="signature"
+                    error={errors.signature}
+                    onChange={handleFileChange}
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Navigation Buttons */}
             <div className="flex items-center justify-center mt-6 gap-x-6">
@@ -1262,7 +1334,7 @@ const EmpRegistrationForm = () => {
                   type="submit"
                   className="px-6 py-2 font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Save
+                  {isEditMode ? "Update" : "Submit"}
                 </button>
               </div>
             )}

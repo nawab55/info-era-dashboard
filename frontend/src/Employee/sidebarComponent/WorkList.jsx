@@ -70,7 +70,7 @@ function WorkList() {
     <div className="flex-1 min-h-screen p-2 rounded-lg bg-gradient-to-br from-blue-50 via-white to-blue-50">
       {/* Employee Info Header */}
       <div className="mx-4 bg-white rounded-lg shadow-md md:mt-6 sm:mx-6 lg:mx-8">
-        <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="px-4 py-6 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="flex items-center space-x-3">
               <User className="w-6 h-6 text-blue-600" />
@@ -97,7 +97,7 @@ function WorkList() {
         </div>
       </div>
 
-      <div className="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
+      <div className="px-4 py-8 sm:px-6 lg:px-8">
         {/* Date Filter Section */}
         <div className="p-6 mb-8 bg-white shadow-md rounded-xl">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

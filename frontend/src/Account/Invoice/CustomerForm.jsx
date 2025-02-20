@@ -51,7 +51,7 @@ const CustomerForm = () => {
 
       // Set submitted customer data to display in modal
       setSubmittedData(response.data.newCustomer);
-      console.log(response.data.newCustomer);
+      // console.log(response.data.newCustomer);
       // Open modal after successful submission
       setModalOpen(true);
 

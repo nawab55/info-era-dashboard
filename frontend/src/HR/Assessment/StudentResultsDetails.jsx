@@ -14,7 +14,7 @@ const StudentResultsDetails = () => {
       try {
         setLoading(true);
         const response = await api.get(`/api/assessment-test/student-answers/${mobile}`);
-        console.log(response.data.data);
+        // console.log(response.data.data);
         if (response.data?.success && response.data?.data) {
           setStudentData(response.data.data);
         } else {

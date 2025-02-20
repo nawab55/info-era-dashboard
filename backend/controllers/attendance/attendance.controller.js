@@ -47,7 +47,7 @@ exports.markAttendance = async (req, res) => {
 exports.checkoutAttendance = async (req, res) => {
   const { attendanceId } = req.params;
   const { logoutTime } = req.body;
-  console.log(`logoutTime -> ${logoutTime}`);
+  // console.log(`logoutTime -> ${logoutTime}`);
   
   try {
     // Parse logoutTime to Date object
@@ -83,7 +83,7 @@ exports.checkoutAttendance = async (req, res) => {
       },
       { new: true }
     );
-    console.log(`logoutTime -> ${logoutTime}. and totalHours -> ${totalHours}`);
+    // console.log(`logoutTime -> ${logoutTime}. and totalHours -> ${totalHours}`);
     // Update the attendance record with logout time and total hours
     // attendance.logoutTime = logoutTime;
     // attendance.totalHours = totalHours;

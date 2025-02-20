@@ -38,13 +38,13 @@ exports.getFile = async (req, res) => {
       const existingFile = await File.findOne();
   
       if (existingFile) {
-        console.log("Existing file:", existingFile);
+        // console.log("Existing file:", existingFile);
   
         // Delete the existing file from the filesystem
         if (fs.existsSync(existingFile.filePath)) {
           try {
             fs.unlinkSync(existingFile.filePath); // Remove the old file
-            console.log("Old file deleted successfully.");
+            // console.log("Old file deleted successfully.");
           } catch (err) {
             console.error("Error deleting the old file:", err);
           }
@@ -54,16 +54,16 @@ exports.getFile = async (req, res) => {
   
         // Remove the document from the database
         await File.deleteOne({ _id: existingFile._id }); // Use deleteOne to remove the document
-        console.log("Existing file document removed from database.");
+        // console.log("Existing file document removed from database.");
       }
   
       // Save the new file
       const { originalname, path: filePath } = req.file;
-      console.log("New file received:", { originalname, filePath });
+      // console.log("New file received:", { originalname, filePath });
       const updatedFile = new File({ originalName: originalname, filePath });
       await updatedFile.save();
   
-      console.log("New file saved successfully:", updatedFile);
+      // console.log("New file saved successfully:", updatedFile);
       res.json({ message: "File updated successfully" });
     } catch (error) {
       console.error("Error updating file:", error);

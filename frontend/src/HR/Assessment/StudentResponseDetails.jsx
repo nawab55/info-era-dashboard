@@ -14,7 +14,7 @@ const StudentResponseDetails = () => {
       try {
         setLoading(true);
         const response = await api.get(`/api/assessment-test/student-answers/${mobile}`);
-        console.log(response.data.data);
+        // console.log(response.data.data);
         if (response.data.success) {
           setStudentData(response.data.data);
           // toast.success("Student data loaded successfully!");

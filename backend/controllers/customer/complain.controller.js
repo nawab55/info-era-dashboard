@@ -67,7 +67,7 @@ const updateComplainStatus = async (req, res) => {
   try {
     const { tokenId } = req.params;
     const { status, replyMessage } = req.body;
-    console.log(status);
+    // console.log(status);
 
     // Find the complain by tokenId
     const complain = await Complain.findOne({ tokenId });
@@ -118,7 +118,7 @@ const addReplyComment = async (req, res) => {
   try {
     const { tokenId } = req.params;
     const { status, replyMessage } = req.body;
-    console.log(status);
+    // console.log(status);
     
     if (!replyMessage) {
       return res.status(400).json({ success: false, message: 'Reply message cannot be empty.' });

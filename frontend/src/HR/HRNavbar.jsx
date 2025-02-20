@@ -34,7 +34,7 @@ const HRNavbar = ({ setSidebarToggle }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.user);
+      // console.log(response.data.user);
       setEmployeeDetails(response.data.user);
     } catch (error) {
       console.error("Error fetching employee details:", error);
@@ -43,24 +43,24 @@ const HRNavbar = ({ setSidebarToggle }) => {
 
   return (
     <>
-      <nav className="sticky top-0 w-full z-20 h-16 shadow-lg flex items-center px-4 md:px-8"
+      <nav className="sticky top-0 z-20 flex items-center w-full h-16 px-4 shadow-lg md:px-8"
         style={{
           background: "linear-gradient(to right, #ebf8ff, #3182ce, #2c5282, #1a365d)",
         }}
       >
-        <div className="flex flex-1 items-center">
+        <div className="flex items-center flex-1">
           <HiMenuAlt3
             size={26}
-            className="cursor-pointer lg:hidden block text-white"
+            className="block text-white cursor-pointer lg:hidden"
             onClick={() => setSidebarToggle((prev) => !prev)}
           />
-          <span className="hidden lg:block h-full text-lg font-bold text-white ml-3">
+          <span className="hidden h-full ml-3 text-lg font-bold text-white lg:block">
             <img src="/infoera.png" alt="Logo" className="h-10" />
           </span>
         </div>
 
-        <div className="flex-1 lg:flex hidden justify-start">
-          <p className="text-white text-xl font-bold">HR Dashboard</p>
+        <div className="justify-start flex-1 hidden lg:flex">
+          <p className="text-xl font-bold text-white">HR Dashboard</p>
         </div>
 
         <div className="flex items-center gap-4">
@@ -79,7 +79,7 @@ const HRNavbar = ({ setSidebarToggle }) => {
               <ul className="py-2 text-sm text-gray-700">
                 <li>
                   <div
-                    className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
+                    className="flex items-center w-full px-4 py-2 space-x-2 text-left transition-colors hover:bg-gray-200"
                     onClick={handleProfile}
                   >
                     <User className="text-blue-500" />
@@ -88,7 +88,7 @@ const HRNavbar = ({ setSidebarToggle }) => {
                 </li>
                 <li>
                   <div
-                    className="flex items-center px-4 py-2 space-x-2 hover:bg-gray-200 w-full text-left transition-colors"
+                    className="flex items-center w-full px-4 py-2 space-x-2 text-left transition-colors hover:bg-gray-200"
                     onClick={handleLogout}
                   >
                     <FaSignOutAlt className="text-red-500" />
@@ -121,17 +121,17 @@ const ProfileModal= ({ isOpen, onClose, employeeDetails }) => {
         <div className="relative p-6 md:p-8">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600  transition-colors duration-200"
+            className="absolute text-gray-400 transition-colors duration-200 top-4 right-4 hover:text-gray-600"
             aria-label="Close modal"
           >
             <MdCancel className="w-6 h-6" />
           </button>
 
-          <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6 mb-6">
-            <div className="bg-gradient-to-br from-blue-400 to-purple-500 p-2 rounded-full">
-              <FaPencilAlt className="text-gray-800 w-16 h-16 md:w-20 md:h-20" />
+          <div className="flex flex-col items-center mb-6 space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+            <div className="p-2 rounded-full bg-gradient-to-br from-blue-400 to-purple-500">
+              <FaPencilAlt className="w-16 h-16 text-gray-800 md:w-20 md:h-20" />
             </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-800 ">
+            <h2 className="text-2xl font-bold text-gray-800 md:text-3xl ">
               Profile Details
             </h2>
           </div>

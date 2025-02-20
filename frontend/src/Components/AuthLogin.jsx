@@ -15,7 +15,7 @@ const AuthLogin = () => {
   const url = role ? map.get(role) : "/not-found";
 
   if (token) {
-    console.log("Token found, redirecting to dashboard");
+    // console.log("Token found, redirecting to dashboard");
     return <Navigate to={url} />;
   }
 

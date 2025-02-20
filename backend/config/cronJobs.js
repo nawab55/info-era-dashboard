@@ -24,16 +24,16 @@ const autoCheckout = async () => {
       date: todayDate,
       logoutTime: { $exists: false },
     });
-    console.log(pendingCheckouts);
+    // console.log(pendingCheckouts);
 
     if (pendingCheckouts.length === 0) {
-      console.log("No pending checkouts found for today.");
+      // console.log("No pending checkouts found for today.");
       return;
     }
 
-    console.log(
-      `Found ${pendingCheckouts.length} pending checkouts. Performing automatic checkout.`
-    );
+    // console.log(
+    //   `Found ${pendingCheckouts.length} pending checkouts. Performing automatic checkout.`
+    // );
 
     // const autoLogoutTime = format(new Date(now.setHours(21, 0, 0, 0)), 'hh:mm a'); // 9:00 PM
     const autoLogoutTimeStr = "09:00 PM"; // Fixed logout time at 9:00 PM
@@ -71,9 +71,9 @@ const autoCheckout = async () => {
         { new: true }
       );
 
-      console.log(
-        `Automatically checked out user ${attendance.userId} on ${todayDate}.`
-      );
+      // console.log(
+      //   `Automatically checked out user ${attendance.userId} on ${todayDate}.`
+      // );
     }
   } catch (error) {
     console.error("Error during automatic checkout:", error);
@@ -84,7 +84,7 @@ const autoCheckout = async () => {
 cron.schedule(
   "0 21 * * *",
   () => {
-    console.log("Executing automatic checkout job at 9:00 PM.");
+    // console.log("Executing automatic checkout job at 9:00 PM.");
     autoCheckout();
   },
   {

@@ -34,7 +34,7 @@ const educationalDetailsSchema = new mongoose.Schema({
     type: Date,
   },
   epercentage: {
-    type: Number,
+    type: String,
   },
 });
 
@@ -53,7 +53,7 @@ const employmentDetailsSchema = new mongoose.Schema({
     type: Date,
   },
   annualctc: {
-    type: Number,
+    type: String,
   },
 });
 

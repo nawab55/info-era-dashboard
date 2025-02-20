@@ -154,8 +154,8 @@ const bucket = new mongodb.GridFSBucket(db, { bucketName: "myCustomBucket" });
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
   const { fileType } = req.body;
-  console.log("File received:", file);
-  console.log("FileType received:", fileType);
+  // console.log("File received:", file);
+  // console.log("FileType received:", fileType);
 
   if (!fileType) {
     return res
@@ -193,7 +193,7 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
           fileId: uploadStream.id,
         });
       });
-      console.log("File Uploaded to Database", uploadStream)
+      // console.log("File Uploaded to Database", uploadStream)
   } catch (error) {
     console.error(error);
     return res
@@ -217,7 +217,7 @@ app.get("/api/file/:fileId", async (req, res) => {
     }
 
     const fileType = file.metadata?.value;
-    console.log("fileType:", fileType);
+    // console.log("fileType:", fileType);
 
     const downloadStream = bucket.openDownloadStream(objectId);
 
@@ -232,7 +232,7 @@ app.get("/api/file/:fileId", async (req, res) => {
     downloadStream.on("data", (chunk) => {
       totalSent += chunk.length;
       const percentage = (totalSent / file.length) * 100;
-      console.log(`Sent ${percentage.toFixed(2)}% of data.`);
+      // console.log(`Sent ${percentage.toFixed(2)}% of data.`);
     });
 
     downloadStream.on("error", (error) => {
@@ -252,7 +252,7 @@ app.get("/api/file/:fileId", async (req, res) => {
 
 app.listen(PORT, async () => {
   // await connectDb();
-  console.log(`Server running on port ${PORT}`);
+  // console.log(`Server running on port ${PORT}`);
 });
 
 // Update the route to accept multiple files

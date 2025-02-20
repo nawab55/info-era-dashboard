@@ -8,13 +8,13 @@ const AuthGuard = ({ allowedRoles }) => {
 
   // If no token, redirect to login
   if (!token) {
-    console.log("No token, redirecting to login");
+    // console.log("No token, redirecting to login");
     return <Navigate to="/" />;
   }
 
   // Check if the user's role is allowed for this route
   if (!allowedRoles.includes(role)) {
-    console.log("Access denied, redirecting to dashboard");
+    // console.log("Access denied, redirecting to dashboard");
     // Redirect the user to their respective dashboard
     const dashboardRoute = getDashboardRoute(role);
     return <Navigate to={dashboardRoute} />;

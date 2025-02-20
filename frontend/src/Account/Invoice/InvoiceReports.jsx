@@ -124,7 +124,7 @@ const InvoiceReports = () => {
     setIsModalOpen(true);
   };
   const handleEditClick = (report) => {
-    console.log(report);
+    // console.log(report);
     navigate("/account/invoiceForm", { state: { invoiceReportData: report } });
   };
 
