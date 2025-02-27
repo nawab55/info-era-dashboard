@@ -13,6 +13,8 @@ router.delete("/delete/:id", blogController.deleteBlog);
 
 // Route to get a single blog post by ID
 router.get("/:id", blogController.getBlogById);
+// router.get("/:id", blogController.getBlogById);
+// router.get("/:id", blogController.getBlogById);
 
 // Route to update a blog post by ID
 router.put("/update/:id", blogController.updateBlog);
