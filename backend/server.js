@@ -41,6 +41,7 @@ const courseRoutes = require("./routes/assessmentTest/course.routes");
 const studentDetailsRoutes = require("./routes/assessmentTest/studentDetails.routes");
 const studentAssessmentRoutes = require("./routes/assessmentTest/studentAssessment.routes");
 const assessmentStatusRoutes = require("./routes/assessmentTest/assessmentStatus.routes");
+const blogRoutes = require("./routes/blog/blog.routes");
 
 
 dotenv.config();
@@ -69,13 +70,9 @@ const corsOptions = {
 // Middleware
 app.use(cors(corsOptions));
 
-// app.use(cors({
-//   origin: true,  // Allows all origins
-//   credentials: true,
-// }));
 
 app.use(cookieParser()); // Middleware to parse cookies
-app.use(express.json());
+app.use(express.json({ limit: "5mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads")); // Serve static files from the 'uploads' directory
 
@@ -116,6 +113,7 @@ app.use("/api/assessment/course", courseRoutes);
 app.use("/api/assessment/student-details", studentDetailsRoutes);
 app.use("/api/assessment-test", studentAssessmentRoutes);
 app.use("/api/assessment-status", assessmentStatusRoutes);
+app.use("/api/blogs", blogRoutes);
 
 // file Uploading Routes
 
@@ -252,7 +250,7 @@ app.get("/api/file/:fileId", async (req, res) => {
 
 app.listen(PORT, async () => {
   // await connectDb();
-  // console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
 
 // Update the route to accept multiple files
@@ -313,3 +311,55 @@ app.listen(PORT, async () => {
 //       .json({ success: false, message: "Upload failed", error });
 //   }
 // });
+
+
+// server code for cors issues  
+// const corsOptions = {
+//   origin: [
+//     process.env.CORS,
+//     process.env.CORS1,
+//     process.env.CORS2,
+//     // process.env.CORS3,
+//     // process.env.CORS4,
+//   ],
+//   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true, // Allow cookies and other credentials
+// };
+
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     const allowedOrigins = [
+//       process.env.CORS,
+//       process.env.CORS1,
+//       process.env.CORS2,
+//       // Add more if needed
+//     ];
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   credentials: true, // Allow cookies and credentials
+// };
+
+
+// Middleware
+// const allowedOrigins = [
+//   "https://infoera.in",
+//   "https://dashboard.infoera.in",
+// ];
+
+// const corsOptions = {
+//   origin: (origin, callback) => {
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true); // Allow the request
+//     } else {
+//       callback(new Error("Not allowed by CORS")); // Reject the request
+//     }
+//   },
+//   credentials: true, // Allow cookies
+// };

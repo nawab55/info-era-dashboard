@@ -6,6 +6,9 @@ export const API_BASE_URL = BACKEND_API;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
 const token = sessionStorage.getItem("jwt");

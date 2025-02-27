@@ -32,3 +32,52 @@ module.exports = {
     },
   ],
 };
+
+
+
+
+// server code for ecosystem.config.js
+// module.exports = {
+//   apps: [
+//     {
+//       name: "infoera.in",
+//       script: "index.js",
+//       cwd: "/nodejsapplications/infoera.in",
+//       watch: false,
+//       env: {
+//         NODE_ENV: "production",
+//       },
+//     },
+//     // {
+//     //   name: "dashboard.infoera.in",
+//     //   script: "serve",
+//     //   args: "-s dist ", // Serve the "dist" folder on port, -l 3030
+//     //   cwd: "/nodejsapplications/dashboard.infoera.in",
+//     //   watch: false,
+//     //   env: {
+//     //     NODE_ENV: "production",
+//     //   },
+//     // },
+//     {
+//       name: "dashboard.infoera.in",
+//       script: "npm",
+//       args: "run preview", // Runs "vite preview" to serve the app
+//       cwd: "/nodejsapplications/dashboard.infoera.in",
+//       watch: false,
+//       env: {
+//         NODE_ENV: "production",
+//       },
+//     },
+    
+//     {
+//       name: "api.infoera.in",
+//       script: "server.js",
+//       cwd: "/nodejsapplications/api.infoera.in",
+//       watch: false,
+//       env: {
+//         NODE_ENV: "production",
+//       },
+//     },
+//   ],
+// };
+

@@ -56,6 +56,8 @@ import AssessmentResult from "./HR/Assessment/AssessmentResult";
 import AssessmentStatus from "./HR/Assessment/AssessmentStatus";
 import StudentResponseDetails from "./HR/Assessment/StudentResponseDetails";
 import StudentResultsDetails from "./HR/Assessment/StudentResultsDetails";
+import PostBlog from "./HR/Blog/PostBlog";
+import BlogList from "./HR/Blog/BlogList";
 
 // Admin Dashboard
 import AdminLayout from "./Admin/AdminLayout";
@@ -95,6 +97,7 @@ import CustomerProfile from "./client/clientComponent/profile/CustomerProfile";
 import ResetPassword from "./client/clientComponent/reset_password/ResetPassword";
 import InvoiceDetails from "./client/clientComponent/InvoiceDetail/InvoiceDetails";
 import Complain from "./client/clientComponent/service/Complain";
+
 
 function App() {
   return (
@@ -175,6 +178,8 @@ function App() {
               path="student-results/:mobile"
               element={<StudentResultsDetails />}
             />
+            <Route path="add-blog" element={<PostBlog />} />
+            <Route path="blog-list" element={<BlogList />} />
           </Route>
         </Route>
         {/* Project Manager Dashboard */}
