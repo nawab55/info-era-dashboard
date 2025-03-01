@@ -14,6 +14,27 @@ const blogSchema = new mongoose.Schema({
     type: String, // Base64 string
     required: true
   },
+  publisher: {
+    type: String,
+    default: 'Info Era Software Services Pvt. Ltd.'
+  },
+  author: {
+    type: String,
+    default: 'Info Era Software Services Pvt. Ltd.'
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  keywords: {
+    type: String,
+    required: true
+  },
+  metaDescription: {
+    type: String,
+    required: true
+  },
   createdAt: {
     type: Date,
     default: Date.now

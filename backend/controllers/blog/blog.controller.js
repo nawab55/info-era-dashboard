@@ -3,14 +3,14 @@ const Blog = require("../../models/blog/blog.model");
 // Create a new blog post
 const createBlog = async (req, res) => {
   try {
-    const { title, description, image } = req.body;
+    const { title, description, image, slug, keywords, metaDescription, publisher, author } = req.body;
     // console.log(title, description, image);
 
-    if (!title || !description || !image) {
+    if (!title || !description || !image || !slug || !keywords || !metaDescription) {
       return res.status(400).json({ message: "All fields are required!" });
     }
 
-    const newBlog = new Blog({ title, description, image });
+    const newBlog = new Blog({ title, description, image, slug, keywords, metaDescription, publisher, author });
     await newBlog.save();
 
     res.status(201).json({ message: "Blog created successfully!", blog: newBlog });
@@ -74,17 +74,32 @@ const getBlogById = async (req, res) => {
   }
 };
 
+// Get a single blog post by slug
+const getBlogBySlug = async (req, res) => {
+  try {
+    const blog = await Blog.findOne({ slug: req.params.slug });
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found!" });
+    }
+
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch blog", error: error.message });
+  }
+};
+
 // Update a blog post by ID
 const updateBlog = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description, image } = req.body;
-    if (!title || !description || !image) {
+    const { title, description, image, slug, keywords, metaDescription, } = req.body;
+    if (!title || !description || !image ||!slug || !keywords || !metaDescription ) {
       return res.status(400).json({ message: "All fields are required!" });
     }
     const updatedBlog = await Blog.findByIdAndUpdate(
       id,
-      { title, description, image },
+      { title, description, image, slug, keywords, metaDescription },
       { new: true, runValidators: true }
     );
     if (!updatedBlog) {
@@ -111,4 +126,4 @@ const deleteBlog = async (req, res) => {
   }
 };  
 
-module.exports = { createBlog, getAllBlogs, getBlogById, updateBlog, deleteBlog };
+module.exports = { createBlog, getAllBlogs, getBlogById, getBlogBySlug, updateBlog, deleteBlog };

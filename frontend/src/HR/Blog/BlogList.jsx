@@ -15,7 +15,7 @@ const BlogList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [deleteModal, setDeleteModal] = useState(false);
   const [blogToDelete, setBlogToDelete] = useState(null);
-  const limit = 10; // Blogs per page
+  const limit = 6; // Blogs per page
 
   const navigate = useNavigate();
 
@@ -137,11 +137,14 @@ const BlogList = () => {
                 <table className="w-full text-left border-collapse table-auto">
                   <thead className="bg-indigo-50">
                     <tr className="text-indigo-900 bg-indigo-50">
-                      <th className="px-6 py-4 font-semibold">Image</th>
-                      <th className="px-6 py-4 font-semibold">Title</th>
-                      <th className="px-6 py-4 font-semibold">Content</th>
-                      <th className="px-6 py-4 font-semibold">Date</th>
-                      <th className="px-6 py-4 font-semibold">Actions</th>
+                      <th className="px-3 py-4 font-semibold">Image</th>
+                      <th className="px-3 py-4 font-semibold">Title</th>
+                      {/* <th className="px-3 py-4 font-semibold">Content</th> */}
+                      <th className="px-3 py-4 font-semibold">Keywords</th>
+                      <th className="px-3 py-4 font-semibold text-nowrap">Meta Description</th>
+                      <th className="px-3 py-4 font-semibold">Author</th>
+                      <th className="px-3 py-4 font-semibold">Date</th>
+                      <th className="px-3 py-4 font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
@@ -150,24 +153,33 @@ const BlogList = () => {
                         key={blog._id}
                         className="transition-colors duration-200 bg-white border-b hover:bg-gray-50"
                       >
-                        <td className="px-6 py-4">
+                        <td className="px-3 py-4">
                           <img
                             src={blog.image}
                             alt={blog.title}
                             className="object-cover w-16 h-16 rounded-lg shadow-sm"
                           />
                         </td>
-                        <td className="px-6 py-4 font-medium text-gray-900">
+                        <td className="px-3 py-4 font-medium text-gray-900">
                           {blog.title}
                         </td>
-                        <td className="max-w-md px-6 py-4 text-gray-700 truncate">
+                        {/* <td className="max-w-md px-6 py-4 text-gray-700 truncate">
                           <div
                             dangerouslySetInnerHTML={{
                               __html: blog.description
                             }}
                           />
+                        </td> */}
+                        <td className="px-3 py-4 text-gray-500">
+                          {blog.keywords}
                         </td>
-                        <td className="px-6 py-4 text-gray-500 text-nowrap">
+                        <td className="px-3 py-4 text-gray-500">
+                          {blog.metaDescription}
+                        </td>
+                        <td className="px-3 py-4 text-gray-500">
+                          {blog.author}
+                        </td>
+                        <td className="px-3 py-4 text-gray-500 text-nowrap">
                           {new Date(blog.createdAt).toLocaleDateString(
                             "en-US",
                             {
@@ -177,7 +189,7 @@ const BlogList = () => {
                             }
                           )}
                         </td>
-                        <td className="px-6 py-4 text-sm text-gray-500">
+                        <td className="px-3 py-4 text-sm text-gray-500">
                           <div className="flex items-center gap-3">
                             <button
                               onClick={() => handleEdit(blog)}
